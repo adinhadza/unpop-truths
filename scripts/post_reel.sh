@@ -25,7 +25,7 @@ fail() { echo "::error::$1"; exit 1; }
 note() { echo "::notice::$1"; }
 
 download_video() {
-  curl -sSL --fail -o reel.mp4 "$VIDEO_URL" || fail "could not download the video link"
+  curl -sSL --fail --connect-timeout 20 --max-time 180 -o reel.mp4 "$VIDEO_URL" || fail "could not download the video link"
   local size; size=$(stat -c %s reel.mp4)
   [ "$size" -gt 10000 ] || fail "downloaded file is too small (${size} bytes) to be a video"
   note "Downloaded ${size} bytes"
@@ -58,7 +58,7 @@ pick_track() {
 prepare_music() {
   local track; track=$(pick_track)
   if [ -z "$track" ]; then note "No music added"; return 0; fi
-  command -v ffmpeg >/dev/null 2>&1 || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null; }
+  command -v ffmpeg >/dev/null 2>&1 || fail "ffmpeg is not installed on this machine"
   download_video
   bash "${HERE}/add_music.sh" reel.mp4 "$track" reel_music.mp4 "$MUSIC_VOLUME" || fail "could not mix the music into the video"
   local a d; a=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 reel_music.mp4 | head -1)
