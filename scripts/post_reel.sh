@@ -12,7 +12,9 @@ VER="${GRAPH_VERSION:-v23.0}"
 GRAPH="https://graph.facebook.com/${VER}"
 echo "::add-mask::${VIDEO_URL}"
 
-fail() { echo "ERROR: $1" >&2; exit 1; }
+# Errors and progress are written as annotations so they can be read without opening the log.
+fail() { echo "::error::$1"; exit 1; }
+note() { echo "::notice::$1"; }
 
 start_session() {
   local res
@@ -21,7 +23,7 @@ start_session() {
   VIDEO_ID=$(echo "$res" | jq -r '.video_id // empty')
   [ -n "$VIDEO_ID" ] || fail "could not start upload: $(echo "$res" | jq -c '.error // .')"
   UPLOAD_URL="https://rupload.facebook.com/video-upload/${VER}/${VIDEO_ID}"
-  echo "Started upload session, video id ${VIDEO_ID}"
+  note "Started upload session, video id ${VIDEO_ID}"
 }
 
 upload_hosted() {
@@ -29,7 +31,7 @@ upload_hosted() {
   res=$(curl -sS -X POST "$UPLOAD_URL" \
     -H "Authorization: OAuth ${FB_PAGE_TOKEN}" -H "file_url: ${VIDEO_URL}")
   [ "$(echo "$res" | jq -r '.success // false')" = "true" ] && return 0
-  echo "Hosted fetch was not accepted: $(echo "$res" | jq -c '.error // .' 2>/dev/null || echo "$res")"
+  note "Hosted fetch was not accepted: $(echo "$res" | jq -c '.error // .' 2>/dev/null || echo "$res" | head -c 300)"
   return 1
 }
 
@@ -38,7 +40,7 @@ upload_bytes() {
   local size res
   size=$(stat -c %s reel.mp4)
   [ "$size" -gt 10000 ] || fail "downloaded file is too small (${size} bytes) to be a video"
-  echo "Downloaded ${size} bytes"
+  note "Downloaded ${size} bytes"
   res=$(curl -sS -X POST "$UPLOAD_URL" \
     -H "Authorization: OAuth ${FB_PAGE_TOKEN}" -H "offset: 0" -H "file_size: ${size}" \
     --data-binary @reel.mp4)
@@ -53,7 +55,7 @@ case "$MODE" in
   auto)   upload_hosted || { echo "Falling back to download and upload"; start_session; upload_bytes; } ;;
   *)      fail "unknown MODE '${MODE}'" ;;
 esac
-echo "Video handed to Facebook"
+note "Video handed to Facebook"
 
 res=$(curl -sS -X POST "${GRAPH}/${FB_PAGE_ID}/video_reels" \
   -d "upload_phase=finish" -d "video_id=${VIDEO_ID}" -d "video_state=PUBLISHED" \
@@ -68,7 +70,7 @@ for i in $(seq 1 30); do
   ps=$(echo "$st" | jq -r '.status.publishing_phase.status // "unknown"')
   echo "check ${i}: video=${vs} publishing=${ps}"
   if [ "$ps" = "complete" ] || [ "$vs" = "ready" ]; then
-    echo "Reel published: https://www.facebook.com/reel/${VIDEO_ID}"
+    note "Reel published: https://www.facebook.com/reel/${VIDEO_ID}"
     echo "### Reel published: https://www.facebook.com/reel/${VIDEO_ID}" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
     exit 0
   fi
