@@ -24,4 +24,4 @@ Tracks are sorted into folders by mood. Each post asks for a mood, and the job p
 
 Only add music you are allowed to use on monetized videos, and keep a note of where each track came from.
 
-The tracks in `calm`, `warm` and `hopeful` were supplied by the page owner on 7 October 2026.
+The tracks in `calm`, `warm`, `hopeful` and `bittersweet` were supplied by the page owner on 7 October 2026.
