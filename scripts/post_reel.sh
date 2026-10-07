@@ -2,7 +2,8 @@
 # Publishes one Reel to a Facebook Page using Meta's Reels Publishing API.
 # Needs: FB_PAGE_ID, FB_PAGE_TOKEN, VIDEO_URL.
 # Optional: CAPTION, MODE (auto|hosted|upload), MUSIC (auto|none|a mood folder or file in music/),
-#           MUSIC_LEVEL (average loudness in dB, default -27), DRY_RUN (true = prepare the video but do not post), GRAPH_VERSION.
+#           MUSIC_LEVEL (average loudness in dB, default -27),
+#           PUBLISH_AT (a date and time such as 2026-10-08T01:00:00+02:00; empty = publish now), DRY_RUN (true = prepare the video but do not post), GRAPH_VERSION.
 set -euo pipefail
 
 : "${FB_PAGE_ID:?FB_PAGE_ID secret is missing}"
@@ -13,6 +14,8 @@ MODE="${MODE:-auto}"
 MUSIC="${MUSIC:-auto}"
 MUSIC_LEVEL="${MUSIC_LEVEL:--27}"
 DRY_RUN="${DRY_RUN:-false}"
+PUBLISH_AT="${PUBLISH_AT:-}"
+PUBLISH_TS=""
 HERE="$(cd "$(dirname "$0")" && pwd)"
 MUSIC_DIR="${HERE}/../music"
 LOCAL_FILE=""
@@ -108,6 +111,13 @@ upload_bytes() {
     || fail "file upload failed: $(echo "$res" | jq -c '.error // .' 2>/dev/null || echo "$res")"
 }
 
+if [ -n "$PUBLISH_AT" ]; then
+  PUBLISH_TS=$(date -u -d "$PUBLISH_AT" +%s 2>/dev/null) || fail "could not read the publish time '${PUBLISH_AT}'"
+  now=$(date -u +%s)
+  [ "$PUBLISH_TS" -ge $(( now + 900 )) ] || fail "the publish time must be at least 15 minutes from now"
+  [ "$PUBLISH_TS" -le $(( now + 28*24*3600 )) ] || fail "the publish time must be within 28 days"
+fi
+
 prepare_music
 if [ "$DRY_RUN" = "true" ]; then
   note "Dry run: video prepared, nothing was posted"
@@ -125,24 +135,37 @@ case "$MODE" in
 esac
 note "Video handed to Facebook"
 
-res=$(curl -sS -X POST "${GRAPH}/${FB_PAGE_ID}/video_reels" \
-  -d "upload_phase=finish" -d "video_id=${VIDEO_ID}" -d "video_state=PUBLISHED" \
-  --data-urlencode "description=${CAPTION}" -d "access_token=${FB_PAGE_TOKEN}")
+if [ -n "$PUBLISH_TS" ]; then
+  res=$(curl -sS -X POST "${GRAPH}/${FB_PAGE_ID}/video_reels" \
+    -d "upload_phase=finish" -d "video_id=${VIDEO_ID}" -d "video_state=SCHEDULED" \
+    -d "scheduled_publish_time=${PUBLISH_TS}" \
+    --data-urlencode "description=${CAPTION}" -d "access_token=${FB_PAGE_TOKEN}")
+else
+  res=$(curl -sS -X POST "${GRAPH}/${FB_PAGE_ID}/video_reels" \
+    -d "upload_phase=finish" -d "video_id=${VIDEO_ID}" -d "video_state=PUBLISHED" \
+    --data-urlencode "description=${CAPTION}" -d "access_token=${FB_PAGE_TOKEN}")
+fi
 [ "$(echo "$res" | jq -r '.success // false')" = "true" ] \
   || fail "publish step failed: $(echo "$res" | jq -c '.error // .')"
 
-# Facebook processes the video after publishing; wait and report the outcome.
+# Facebook processes the video after it is handed over; wait and report the outcome.
 for i in $(seq 1 30); do
   st=$(curl -sS -G "${GRAPH}/${VIDEO_ID}" -d "fields=status" -d "access_token=${FB_PAGE_TOKEN}")
   vs=$(echo "$st" | jq -r '.status.video_status // "unknown"')
+  pr=$(echo "$st" | jq -r '.status.processing_phase.status // "unknown"')
   ps=$(echo "$st" | jq -r '.status.publishing_phase.status // "unknown"')
-  echo "check ${i}: video=${vs} publishing=${ps}"
-  if [ "$ps" = "complete" ] || [ "$vs" = "ready" ]; then
+  echo "check ${i}: video=${vs} processing=${pr} publishing=${ps}"
+  [ "$vs" = "error" ] && fail "Facebook reported a processing error: $(echo "$st" | jq -c '.status')"
+  if [ -n "$PUBLISH_TS" ]; then
+    if [ "$pr" = "complete" ] || [ "$vs" = "ready" ] || [ "$vs" = "scheduled" ]; then
+      note "Reel scheduled for $(date -u -d "@${PUBLISH_TS}" '+%Y-%m-%d %H:%M UTC') (status: ${vs}, publishing: ${ps}), video id ${VIDEO_ID}"
+      exit 0
+    fi
+  elif [ "$ps" = "complete" ] || [ "$vs" = "ready" ]; then
     note "Reel published: https://www.facebook.com/reel/${VIDEO_ID}"
     echo "### Reel published: https://www.facebook.com/reel/${VIDEO_ID}" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
     exit 0
   fi
-  [ "$vs" = "error" ] && fail "Facebook reported a processing error: $(echo "$st" | jq -c '.status')"
   sleep 10
 done
 fail "timed out waiting for Facebook to finish processing video ${VIDEO_ID}"

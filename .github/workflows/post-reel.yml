@@ -28,6 +28,11 @@ on:
         required: false
         type: string
         default: "-27"
+      publish_at:
+        description: "When to publish, for example 2026-10-08T01:00:00+02:00. Leave empty to publish now"
+        required: false
+        type: string
+        default: ""
       dry_run:
         description: "Prepare the video but do not post it"
         required: false
@@ -70,5 +75,6 @@ jobs:
           MODE: ${{ inputs.mode }}
           MUSIC: ${{ inputs.music }}
           MUSIC_LEVEL: ${{ inputs.music_level }}
+          PUBLISH_AT: ${{ inputs.publish_at }}
           DRY_RUN: ${{ inputs.dry_run }}
         run: bash scripts/post_reel.sh
