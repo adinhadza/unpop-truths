@@ -1,0 +1,81 @@
+name: Build Dr. Beetroot Reel
+
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: "Script file name in drbeetroot/scripts, for example five-foods.json"
+        required: true
+        type: string
+      voice:
+        description: "Kokoro voice name"
+        required: false
+        type: string
+        default: af_heart
+  push:
+    branches: [dr-beetroot-test]
+    paths: ["drbeetroot/scripts/*.json"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-beetroot
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Pick the script
+        id: pick
+        run: |
+          if [ -n "${{ inputs.script }}" ]; then
+            f="drbeetroot/scripts/${{ inputs.script }}"
+          else
+            f=$(git diff --name-only HEAD~1 HEAD -- 'drbeetroot/scripts/*.json' | head -1)
+          fi
+          [ -f "$f" ] || { echo "::error::script file not found: $f"; exit 1; }
+          echo "file=$f" >> "$GITHUB_OUTPUT"
+          echo "name=$(basename "$f" .json)" >> "$GITHUB_OUTPUT"
+      - name: Cache voice model and fonts
+        uses: actions/cache@v4
+        with:
+          path: |
+            kokoro.onnx
+            voices.bin
+            Poppins-Bold.ttf
+            Poppins-Medium.ttf
+          key: beetroot-assets-v1
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install -q kokoro-onnx soundfile pillow numpy
+          get() { [ -s "$1" ] || curl -sfL -m 600 -o "$1" "$2" || { echo "::error::could not download $1"; exit 1; }; }
+          get kokoro.onnx https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx
+          get voices.bin https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin
+          get Poppins-Bold.ttf https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf
+          get Poppins-Medium.ttf https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Medium.ttf
+      - name: Build the video
+        env:
+          VOICE: ${{ inputs.voice || 'af_heart' }}
+        run: python3 scripts/build_beetroot.py "${{ steps.pick.outputs.file }}" "${{ steps.pick.outputs.name }}.mp4"
+      - name: Keep the video as a download
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.pick.outputs.name }}
+          path: ${{ steps.pick.outputs.name }}.mp4
+          retention-days: 14
+      - name: Publish to the output branch
+        run: |
+          # One commit only, replaced on every build, so the repository does not grow.
+          mkdir pub && cp "${{ steps.pick.outputs.name }}.mp4" pub/ && cd pub
+          git init -q -b dr-beetroot-out
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add . && git commit -q -m "Latest Dr. Beetroot build: ${{ steps.pick.outputs.name }}"
+          git push -q -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" dr-beetroot-out

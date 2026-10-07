@@ -1,0 +1,18 @@
+{
+  "title": {"big": "5 FOODS", "sub": "your body loves", "say": "Five foods your body loves.",
+            "clip": "https://cdn.pixabay.com/video/2015/10/16/1019-142621240"},
+  "items": [
+    {"big": "BLUEBERRIES", "sub": "feed your brain", "say": "Blueberries feed your brain.",
+     "clip": "https://cdn.pixabay.com/video/2024/02/01/198764-908485578"},
+    {"big": "CARROTS", "sub": "support your eyesight", "say": "Carrots support your eyesight.",
+     "clip": "https://cdn.pixabay.com/video/2021/01/11/61678-500316021"},
+    {"big": "WATERMELON", "sub": "keeps you hydrated", "say": "Watermelon keeps you hydrated.",
+     "clip": "https://cdn.pixabay.com/video/2021/04/21/71744-539969563"},
+    {"big": "YOGURT", "sub": "helps your gut", "say": "Yogurt helps your gut.",
+     "clip": "https://cdn.pixabay.com/video/2020/06/23/42968-434316760"},
+    {"big": "AVOCADO", "sub": "nourishes your skin", "say": "Avocado nourishes your skin.",
+     "clip": "https://cdn.pixabay.com/video/2017/03/08/8247-207598562"}
+  ],
+  "outro": {"big": "FOLLOW", "sub": "for daily wellness tips", "say": "Follow Doctor Beetroot for more."},
+  "caption": "5 foods your body loves. Save this for your next grocery run.\n\nGeneral wellness information, not medical advice.\n#WellnessTips #HealthyFoods #HealthyEating #NutritionTips #DrBeetroot"
+}
