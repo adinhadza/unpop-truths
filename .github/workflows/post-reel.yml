@@ -18,6 +18,21 @@ on:
         type: choice
         default: auto
         options: [auto, hosted, upload]
+      music:
+        description: "auto = any track; none = no music; or the name of a mood folder (for example calm) or a single file inside the music folder"
+        required: false
+        type: string
+        default: auto
+      music_volume:
+        description: "Music loudness, 0 to 1"
+        required: false
+        type: string
+        default: "0.35"
+      dry_run:
+        description: "Prepare the video but do not post it"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -39,4 +54,7 @@ jobs:
           VIDEO_URL: ${{ inputs.video_url }}
           CAPTION: ${{ inputs.caption }}
           MODE: ${{ inputs.mode }}
+          MUSIC: ${{ inputs.music }}
+          MUSIC_VOLUME: ${{ inputs.music_volume }}
+          DRY_RUN: ${{ inputs.dry_run }}
         run: bash scripts/post_reel.sh

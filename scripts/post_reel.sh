@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Publishes one Reel to a Facebook Page using Meta's Reels Publishing API.
-# Needs: FB_PAGE_ID, FB_PAGE_TOKEN, VIDEO_URL. Optional: CAPTION, MODE (auto|hosted|upload), GRAPH_VERSION.
+# Needs: FB_PAGE_ID, FB_PAGE_TOKEN, VIDEO_URL.
+# Optional: CAPTION, MODE (auto|hosted|upload), MUSIC (auto|none|a mood folder or file in music/),
+#           MUSIC_VOLUME, DRY_RUN (true = prepare the video but do not post), GRAPH_VERSION.
 set -euo pipefail
 
 : "${FB_PAGE_ID:?FB_PAGE_ID secret is missing}"
@@ -8,6 +10,12 @@ set -euo pipefail
 : "${VIDEO_URL:?VIDEO_URL is missing}"
 CAPTION="${CAPTION:-}"
 MODE="${MODE:-auto}"
+MUSIC="${MUSIC:-auto}"
+MUSIC_VOLUME="${MUSIC_VOLUME:-0.35}"
+DRY_RUN="${DRY_RUN:-false}"
+HERE="$(cd "$(dirname "$0")" && pwd)"
+MUSIC_DIR="${HERE}/../music"
+LOCAL_FILE=""
 VER="${GRAPH_VERSION:-v23.0}"
 GRAPH="https://graph.facebook.com/${VER}"
 echo "::add-mask::${VIDEO_URL}"
@@ -15,6 +23,50 @@ echo "::add-mask::${VIDEO_URL}"
 # Errors and progress are written as annotations so they can be read without opening the log.
 fail() { echo "::error::$1"; exit 1; }
 note() { echo "::notice::$1"; }
+
+download_video() {
+  curl -sSL --fail -o reel.mp4 "$VIDEO_URL" || fail "could not download the video link"
+  local size; size=$(stat -c %s reel.mp4)
+  [ "$size" -gt 10000 ] || fail "downloaded file is too small (${size} bytes) to be a video"
+  note "Downloaded ${size} bytes"
+  LOCAL_FILE="reel.mp4"
+}
+
+list_tracks() {
+  find "$1" -type f \( -name '*.m4a' -o -name '*.mp3' -o -name '*.wav' \) 2>/dev/null | sort
+}
+
+pick_track() {
+  # Prints the chosen track path, or nothing when no music should be added.
+  # MUSIC can be: none, auto (any track), a mood folder inside music/, or one file inside music/.
+  [ "$MUSIC" = "none" ] && return 0
+  local pool="$MUSIC_DIR"
+  if [ "$MUSIC" != "auto" ]; then
+    if [ -f "${MUSIC_DIR}/${MUSIC}" ]; then echo "${MUSIC_DIR}/${MUSIC}"; return 0; fi
+    if [ -d "${MUSIC_DIR}/${MUSIC}" ] && [ -n "$(list_tracks "${MUSIC_DIR}/${MUSIC}")" ]; then
+      pool="${MUSIC_DIR}/${MUSIC}"
+    else
+      echo "::notice::No tracks found for '${MUSIC}', choosing from all tracks instead" >&2
+    fi
+  fi
+  local tracks=()
+  while IFS= read -r f; do tracks+=("$f"); done < <(list_tracks "$pool")
+  [ "${#tracks[@]}" -gt 0 ] || return 0
+  echo "${tracks[$(( ${GITHUB_RUN_NUMBER:-0} % ${#tracks[@]} ))]}"
+}
+
+prepare_music() {
+  local track; track=$(pick_track)
+  if [ -z "$track" ]; then note "No music added"; return 0; fi
+  command -v ffmpeg >/dev/null 2>&1 || { sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg >/dev/null; }
+  download_video
+  bash "${HERE}/add_music.sh" reel.mp4 "$track" reel_music.mp4 "$MUSIC_VOLUME" || fail "could not mix the music into the video"
+  local a d; a=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 reel_music.mp4 | head -1)
+  d=$(ffprobe -v error -show_entries format=duration -of csv=p=0 reel_music.mp4)
+  [ -n "$a" ] || fail "the mixed video has no sound track"
+  LOCAL_FILE="reel_music.mp4"
+  note "Music added: ${track#"${MUSIC_DIR}/"} at volume ${MUSIC_VOLUME}, video length ${d}s, audio ${a}"
+}
 
 start_session() {
   local res
@@ -36,17 +88,23 @@ upload_hosted() {
 }
 
 upload_bytes() {
-  curl -sSL --fail -o reel.mp4 "$VIDEO_URL" || fail "could not download the video link"
+  [ -n "$LOCAL_FILE" ] || download_video
   local size res
-  size=$(stat -c %s reel.mp4)
-  [ "$size" -gt 10000 ] || fail "downloaded file is too small (${size} bytes) to be a video"
-  note "Downloaded ${size} bytes"
+  size=$(stat -c %s "$LOCAL_FILE")
   res=$(curl -sS -X POST "$UPLOAD_URL" \
     -H "Authorization: OAuth ${FB_PAGE_TOKEN}" -H "offset: 0" -H "file_size: ${size}" \
-    --data-binary @reel.mp4)
+    --data-binary @"$LOCAL_FILE")
   [ "$(echo "$res" | jq -r '.success // false')" = "true" ] \
     || fail "file upload failed: $(echo "$res" | jq -c '.error // .' 2>/dev/null || echo "$res")"
 }
+
+prepare_music
+if [ "$DRY_RUN" = "true" ]; then
+  note "Dry run: video prepared, nothing was posted"
+  exit 0
+fi
+# A video with music added exists only on this machine, so it has to be uploaded as a file.
+[ -n "$LOCAL_FILE" ] && MODE="upload"
 
 start_session
 case "$MODE" in
