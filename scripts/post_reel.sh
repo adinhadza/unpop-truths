@@ -33,7 +33,17 @@ download_video() {
 }
 
 list_tracks() {
-  find "$1" -type f \( -name '*.m4a' -o -name '*.mp3' -o -name '*.wav' \) 2>/dev/null | sort
+  # Tracks stored in the folder, plus any listed in its shared.txt (tracks that live in another
+  # mood folder but also fit this one). The top-level music folder lists every track once.
+  {
+    find "$1" -type f \( -name '*.m4a' -o -name '*.mp3' -o -name '*.wav' \) 2>/dev/null
+    if [ -f "$1/shared.txt" ]; then
+      while IFS= read -r rel; do
+        rel="${rel%$'\r'}"
+        [ -n "$rel" ] && [ -f "${MUSIC_DIR}/${rel}" ] && echo "${MUSIC_DIR}/${rel}"
+      done < "$1/shared.txt"
+    fi
+  } | sort -u
 }
 
 pick_track() {

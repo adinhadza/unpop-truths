@@ -19,9 +19,10 @@ Tracks are sorted into folders by mood. Each post asks for a mood, and the job p
 - Add tracks by uploading audio files (`.m4a`, `.mp3` or `.wav`) into a folder.
 - If a mood folder is empty or missing, the job picks from all tracks.
 - A track shorter than the video loops.
+- A track can serve several moods without being stored twice. Each folder may have a `shared.txt` listing tracks from other folders that also fit this mood, one per line, for example `calm/seasons.m4a`.
 
 ## Licences
 
 Only add music you are allowed to use on monetized videos, and keep a note of where each track came from.
 
-The tracks in `calm`, `warm`, `hopeful` and `bittersweet` were supplied by the page owner on 7 October 2026.
+The tracks in `calm`, `warm`, `hopeful`, `bittersweet` and `nostalgic` were supplied by the page owner on 7 October 2026.
