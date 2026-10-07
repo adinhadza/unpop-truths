@@ -1,0 +1,31 @@
+name: Check Reel status
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_id:
+        description: "The video id reported when the Reel was posted or scheduled"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Report status
+        env:
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          VIDEO_ID: ${{ inputs.video_id }}
+        run: |
+          case "$VIDEO_ID" in *[!0-9]*|"") echo "::error::video_id must be a number"; exit 1;; esac
+          res=$(curl -sS -G "https://graph.facebook.com/v23.0/${VIDEO_ID}" \
+            -d "fields=published,scheduled_publish_time,created_time,length,permalink_url,status" \
+            -d "access_token=${FB_PAGE_TOKEN}")
+          if [ "$(echo "$res" | jq -r '.error.message // empty')" != "" ]; then
+            echo "::error::$(echo "$res" | jq -c '.error')"; exit 1
+          fi
+          echo "::notice::$(echo "$res" | jq -c '{published, scheduled_publish_time, created_time, length, permalink_url, video_status: .status.video_status, publishing: .status.publishing_phase}')"
