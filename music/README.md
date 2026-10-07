@@ -1,6 +1,6 @@
 # Music tracks
 
-Each Reel gets one track mixed in at low volume before it is posted.
+Each Reel gets one track mixed in at low volume before it is posted. The job skips any silence at the start of a track and evens out loudness, so quiet and loud tracks sound equally soft.
 
 ## Mood folders
 
@@ -24,4 +24,6 @@ Tracks are sorted into folders by mood. Each post asks for a mood, and the job p
 
 Only add music you are allowed to use on monetized videos, and keep a note of where each track came from.
 
-The `soft-piano-0x.m4a` files are simple original loops generated for this project, so they carry no third-party licence. They are placeholders until real tracks are added.
+The `soft-piano-0x.m4a` files are simple original loops generated for this project, so they carry no third-party licence. They are placeholders in folders that have no real tracks yet.
+
+The tracks in `calm` were supplied by the page owner on 7 October 2026.

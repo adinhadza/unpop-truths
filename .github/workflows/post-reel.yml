@@ -23,11 +23,11 @@ on:
         required: false
         type: string
         default: auto
-      music_volume:
-        description: "Music loudness, 0 to 1"
+      music_level:
+        description: "Music loudness as an average level in dB. -27 is soft background; -22 is noticeably louder"
         required: false
         type: string
-        default: "0.35"
+        default: "-27"
       dry_run:
         description: "Prepare the video but do not post it"
         required: false
@@ -69,6 +69,6 @@ jobs:
           CAPTION: ${{ inputs.caption }}
           MODE: ${{ inputs.mode }}
           MUSIC: ${{ inputs.music }}
-          MUSIC_VOLUME: ${{ inputs.music_volume }}
+          MUSIC_LEVEL: ${{ inputs.music_level }}
           DRY_RUN: ${{ inputs.dry_run }}
         run: bash scripts/post_reel.sh

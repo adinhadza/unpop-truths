@@ -2,7 +2,7 @@
 # Publishes one Reel to a Facebook Page using Meta's Reels Publishing API.
 # Needs: FB_PAGE_ID, FB_PAGE_TOKEN, VIDEO_URL.
 # Optional: CAPTION, MODE (auto|hosted|upload), MUSIC (auto|none|a mood folder or file in music/),
-#           MUSIC_VOLUME, DRY_RUN (true = prepare the video but do not post), GRAPH_VERSION.
+#           MUSIC_LEVEL (average loudness in dB, default -27), DRY_RUN (true = prepare the video but do not post), GRAPH_VERSION.
 set -euo pipefail
 
 : "${FB_PAGE_ID:?FB_PAGE_ID secret is missing}"
@@ -11,7 +11,7 @@ set -euo pipefail
 CAPTION="${CAPTION:-}"
 MODE="${MODE:-auto}"
 MUSIC="${MUSIC:-auto}"
-MUSIC_VOLUME="${MUSIC_VOLUME:-0.35}"
+MUSIC_LEVEL="${MUSIC_LEVEL:--27}"
 DRY_RUN="${DRY_RUN:-false}"
 HERE="$(cd "$(dirname "$0")" && pwd)"
 MUSIC_DIR="${HERE}/../music"
@@ -60,12 +60,12 @@ prepare_music() {
   if [ -z "$track" ]; then note "No music added"; return 0; fi
   command -v ffmpeg >/dev/null 2>&1 || fail "ffmpeg is not installed on this machine"
   download_video
-  bash "${HERE}/add_music.sh" reel.mp4 "$track" reel_music.mp4 "$MUSIC_VOLUME" || fail "could not mix the music into the video"
+  bash "${HERE}/add_music.sh" reel.mp4 "$track" reel_music.mp4 "$MUSIC_LEVEL" >/dev/null || fail "could not mix the music into the video"
   local a d; a=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 reel_music.mp4 | head -1)
   d=$(ffprobe -v error -show_entries format=duration -of csv=p=0 reel_music.mp4)
   [ -n "$a" ] || fail "the mixed video has no sound track"
   LOCAL_FILE="reel_music.mp4"
-  note "Music added: ${track#"${MUSIC_DIR}/"} at volume ${MUSIC_VOLUME}, video length ${d}s, audio ${a}"
+  note "Music added: ${track#"${MUSIC_DIR}/"} at level ${MUSIC_LEVEL} dB, video length ${d}s, audio ${a}"
 }
 
 start_session() {
