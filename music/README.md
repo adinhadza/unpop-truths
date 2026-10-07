@@ -24,6 +24,4 @@ Tracks are sorted into folders by mood. Each post asks for a mood, and the job p
 
 Only add music you are allowed to use on monetized videos, and keep a note of where each track came from.
 
-The `soft-piano-0x.m4a` files are simple original loops generated for this project, so they carry no third-party licence. They are placeholders in folders that have no real tracks yet.
-
 The tracks in `calm` and `warm` were supplied by the page owner on 7 October 2026.
