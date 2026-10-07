@@ -1,0 +1,42 @@
+name: Post Reel to Facebook Page
+
+on:
+  workflow_dispatch:
+    inputs:
+      video_url:
+        description: "Public link to the finished MP4 (for example a Canva export link)"
+        required: true
+        type: string
+      caption:
+        description: "Caption for the Reel"
+        required: false
+        type: string
+        default: ""
+      mode:
+        description: "hosted = Facebook fetches the link itself; upload = download here, then upload the file"
+        required: false
+        type: choice
+        default: auto
+        options: [auto, hosted, upload]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: post-reel
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish Reel
+        env:
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          VIDEO_URL: ${{ inputs.video_url }}
+          CAPTION: ${{ inputs.caption }}
+          MODE: ${{ inputs.mode }}
+        run: bash scripts/post_reel.sh
