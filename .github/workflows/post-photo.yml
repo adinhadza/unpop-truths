@@ -1,0 +1,57 @@
+name: Post Photo to News Page
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_url:
+        description: "Public link to the finished PNG or JPEG (for example a Canva export link)"
+        required: true
+        type: string
+      caption:
+        description: "Caption for the photo post"
+        required: false
+        type: string
+        default: ""
+      mode:
+        description: "hosted = Facebook fetches the link itself; upload = upload the downloaded file; auto = try hosted, then upload"
+        required: false
+        type: choice
+        default: auto
+        options: [auto, hosted, upload]
+      publish_at:
+        description: "When to publish, for example 2026-10-08T15:00:00+02:00. Leave empty to publish now"
+        required: false
+        type: string
+        default: ""
+      dry_run:
+        description: "Fetch and check the image but do not post it"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: post-photo
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - name: Publish photo
+        timeout-minutes: 6
+        env:
+          NEWS_PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
+          NEWS_PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
+          IMAGE_URL: ${{ inputs.image_url }}
+          CAPTION: ${{ inputs.caption }}
+          MODE: ${{ inputs.mode }}
+          PUBLISH_AT: ${{ inputs.publish_at }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: bash scripts/post_photo.sh
