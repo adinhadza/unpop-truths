@@ -12,6 +12,8 @@ Tracks are sorted into folders by mood. Each post asks for a mood, and the job p
 | `warm` | love, home, gratitude |
 | `hopeful` | encouragement, new starts |
 | `bittersweet` | missing someone, loneliness, letting go |
+| `nostalgic` | old friends, memories, ordinary days |
+| `uplifting` | permission to rest, new chapters, encouragement with energy |
 
 - Add a mood by creating a new folder here and putting tracks in it.
 - Add tracks by uploading audio files (`.m4a`, `.mp3` or `.wav`) into a folder.
