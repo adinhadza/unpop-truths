@@ -6,8 +6,9 @@ Needs in the working folder: kokoro.onnx, voices.bin, Poppins-Bold.ttf, Poppins-
 Optional environment: VOICE (default af_heart), SPEED (default 0.95).
 
 Script file: "title", "items" (a list) and "outro", each with "big", "sub", "say" and
-an optional "clip". A clip is a Pixabay video link without the _large.mp4 ending, or a
-full link to any MP4. A scene without a clip reuses the title clip.
+an optional "clip". A clip is a Pixabay video link without the _large.mp4 ending, a
+full link to any MP4, or the path of a file in the repository (for example an AI clip
+saved in drbeetroot/clips). A scene without a clip reuses the title clip.
 """
 import json, os, subprocess, sys
 import numpy as np, soundfile as sf
@@ -40,6 +41,8 @@ def run(cmd):
 def fetch_clip(link, name):
     """Downloads a clip and returns a 1080x1920 version, or None if it cannot be fetched."""
     raw, out = f"{WORK}/{name}_raw.mp4", f"{WORK}/{name}.mp4"
+    if os.path.exists(link):  # a clip stored in the repository, already 1080x1920
+        return link
     tries = [link] if link.endswith(".mp4") else [f"{link}_{q}.mp4" for q in ("large", "medium", "small", "tiny")]
     for url in tries:
         ok = subprocess.run(["curl", "-sfL", "-m", "180", "-A", "Mozilla/5.0", "-o", raw, url]).returncode == 0
