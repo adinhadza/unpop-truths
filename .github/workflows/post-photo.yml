@@ -49,6 +49,7 @@ jobs:
         env:
           NEWS_PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
           NEWS_PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           IMAGE_URL: ${{ inputs.image_url }}
           CAPTION: ${{ inputs.caption }}
           MODE: ${{ inputs.mode }}

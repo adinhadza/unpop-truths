@@ -7,7 +7,8 @@
 set -euo pipefail
 
 : "${FB_PAGE_ID:?FB_PAGE_ID secret is missing}"
-: "${FB_PAGE_TOKEN:?FB_PAGE_TOKEN secret is missing}"
+FB_PAGE_TOKEN="$(bash "$(dirname "$0")/page_token.sh" "$FB_PAGE_ID" "${FB_PAGE_TOKEN:-}")"
+[ -n "$FB_PAGE_TOKEN" ] || { echo "::error::no Facebook token: save FB_SYSTEM_TOKEN or FB_PAGE_TOKEN"; exit 1; }
 : "${VIDEO_URL:?VIDEO_URL is missing}"
 CAPTION="${CAPTION:-}"
 MODE="${MODE:-auto}"

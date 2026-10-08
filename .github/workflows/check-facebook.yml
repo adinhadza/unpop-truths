@@ -1,0 +1,40 @@
+name: Check Facebook connection
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - name: Check both pages
+        env:
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          NEWS_PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
+          NEWS_PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
+        run: |
+          bad=0
+          check() {
+            local label="$1" page="$2" saved="$3"
+            if [ -z "$page" ]; then echo "::error::${label}: page id secret missing"; bad=1; return; fi
+            tok=$(bash scripts/page_token.sh "$page" "$saved")
+            echo "::add-mask::${tok}"
+            res=$(curl -sS -G "https://graph.facebook.com/v23.0/${page}" -d "fields=name,followers_count" -d "access_token=${tok}")
+            if echo "$res" | jq -e '.error' >/dev/null; then
+              echo "::error::${label}: $(echo "$res" | jq -r '.error.message')"; bad=1
+            else
+              echo "::notice::${label} OK: $(echo "$res" | jq -c '{name, followers_count}')"
+            fi
+          }
+          check unpopular-truths "$FB_PAGE_ID" "$FB_PAGE_TOKEN"
+          check news-page "$NEWS_PAGE_ID" "$NEWS_PAGE_TOKEN"
+          exit $bad

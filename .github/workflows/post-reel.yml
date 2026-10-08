@@ -1,4 +1,5 @@
 name: Post Reel to Facebook Page
+run-name: "Post Reel ${{ inputs.post_key }}"
 
 on:
   workflow_dispatch:
@@ -30,6 +31,11 @@ on:
         default: "-27"
       publish_at:
         description: "When to publish, for example 2026-10-08T01:00:00+02:00. Leave empty to publish now"
+        required: false
+        type: string
+        default: ""
+      post_key:
+        description: "Optional id of the guide post, for example 2026-10-09-s04 (shown in the run name so posts are not queued twice)"
         required: false
         type: string
         default: ""
@@ -70,6 +76,7 @@ jobs:
         env:
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           VIDEO_URL: ${{ inputs.video_url }}
           CAPTION: ${{ inputs.caption }}
           MODE: ${{ inputs.mode }}

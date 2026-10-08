@@ -18,6 +18,7 @@ jobs:
         env:
           PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           KIND: reels
           LABEL: unpopular-truths
         run: python3 scripts/page_report.py
@@ -25,6 +26,7 @@ jobs:
         env:
           PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           KIND: posts
           LABEL: unpopular-truths-posts
         run: python3 scripts/page_report.py
@@ -32,6 +34,7 @@ jobs:
         env:
           PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
           PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           KIND: posts
           LABEL: news-page
         run: python3 scripts/page_report.py

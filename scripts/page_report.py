@@ -12,6 +12,11 @@ VER = os.environ.get("GRAPH_VERSION", "v23.0")
 GRAPH = f"https://graph.facebook.com/{VER}"
 PAGE = os.environ.get("PAGE_ID", "")
 TOKEN = os.environ.get("PAGE_TOKEN", "")
+if os.environ.get("FB_SYSTEM_TOKEN") and PAGE:
+    import subprocess
+    TOKEN = subprocess.run(["bash", os.path.join(os.path.dirname(__file__), "page_token.sh"), PAGE, TOKEN],
+                           capture_output=True, text=True).stdout.strip() or TOKEN
+    print(f"::add-mask::{TOKEN}")
 KIND = os.environ.get("KIND", "posts")
 LABEL = os.environ.get("LABEL", "page")
 
