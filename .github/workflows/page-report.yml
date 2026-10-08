@@ -1,0 +1,37 @@
+name: Page performance report
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: scripts
+      - name: Unpopular Truths Reels
+        env:
+          PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          KIND: reels
+          LABEL: unpopular-truths
+        run: python3 scripts/page_report.py
+      - name: Unpopular Truths other posts
+        env:
+          PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          KIND: posts
+          LABEL: unpopular-truths-posts
+        run: python3 scripts/page_report.py
+      - name: The 50 State Wire posts
+        env:
+          PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
+          PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
+          KIND: posts
+          LABEL: news-page
+        run: python3 scripts/page_report.py
