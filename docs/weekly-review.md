@@ -30,6 +30,11 @@ and `reports/<date>-news-page.json`. If the run failed or a report shows errors 
 Per post: impressions, reach, reactions, comments, shares, clicks. Compare breaking news with good news,
 and the posting times. Top 3 and bottom 3 by headline.
 
+## 3b. Competitor patterns
+Read the newest file in `reports/competitors/` (written by the Sunday competitor scan), if there is one.
+Pick at most 2 of its patterns to test in the coming week (for example a theme or hook style), and say
+in the review which ones you are testing, so next week's review can judge them.
+
 ## 4. Improve the coming week
 Reels plan (`schedule/unpopular-truths-<YYYY>-<MM>.json`), for dates after tomorrow only (never touch posts
 already queued):
