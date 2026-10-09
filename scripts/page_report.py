@@ -112,7 +112,7 @@ if KIND == "reels":
             item["insights"] = insights(vid, [
                 "blue_reels_play_count",
                 "fb_reels_total_plays",
-                "post_impressions_unique",
+                "fb_reels_replay_count",
                 "post_video_avg_time_watched",
                 "post_video_social_actions",
                 "post_video_view_time",
