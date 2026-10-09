@@ -20,6 +20,14 @@ If the `unpopular-truths` line is an error, do NOT build anything. Send:
 "Unpopular Truths: Facebook key not working (<short error>). No Reels queued today. Fix the key in GitHub, then tell Claude."
 and stop.
 
+## 1b. Check that yesterday's Reels actually went out
+Dispatch `page-report.yml` the same way, wait about 90 seconds, and read its annotations
+(the `unpopular-truths` notices hold a JSON report split into parts; join them in order).
+Count yesterday's Reels (Chicago date) that show `published: true`, and compare with the number of
+`post-reel.yml` runs for yesterday's keys that ended with conclusion `success`.
+If fewer were published than queued, or any shows an error state, include it in the phone
+notification at the end ("Yesterday: 8 queued, 6 published"). If the report itself fails, mention that too.
+
 ## 2. Pick today's posts
 - The plan is `schedule/unpopular-truths-<YYYY>-<MM>.json`. Each post has `key`, `publish_at` (Chicago time), `line1`, `line2`, `caption`, `hashtags`, `mood`, `background`.
 - Take the posts whose `date` is today.
