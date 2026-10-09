@@ -8,7 +8,18 @@
   "id": "1434345153093297"
  },
  "list_error": "10: (#10) This endpoint requires the 'pages_read_user_content' permission or the 'Page Public Content Access' feature. Refer to https://developers.facebook.com/",
- "scheduled": [],
+ "scheduled": [
+  {
+   "id": "1434345153093297_122097486387508228",
+   "scheduled_publish_time": 1791595800,
+   "message": "The wetapunga, New Zealand's heaviest insect, once survived on a single island. Since 2010 a breeding program has released 11,214 of them at 10 predator-free sites, and wild-born generations are now being found. A new study says the species is recovering and no longer listed as endangered in New Zealand.\n\nSource: Earth.com, Positive News\n\n#GoodNews #NewZealand #Conservation #Wildlife"
+  },
+  {
+   "id": "1434345153093297_122097485709508228",
+   "scheduled_publish_time": 1791590400,
+   "message": "New claims for unemployment benefits fell by 2,000 to 197,000 in the week ended Oct. 3, the Labor Department reported Thursday. That keeps filings near their lowest level in 57 years. Hiring remains slow, with 29,000 jobs added in September and unemployment at 4.2%.\n\nSource: Reuters\n\n#Economy #Jobs #JoblessClaims #LaborMarket"
+  }
+ ],
  "items": [],
  "page_insights": {
   "page_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",

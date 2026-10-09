@@ -2,12 +2,124 @@
  "page": "unpopular-truths",
  "info": {
   "name": "Unpopular truths",
-  "fan_count": 4,
-  "followers_count": 4,
+  "fan_count": 7,
+  "followers_count": 7,
   "link": "https://www.facebook.com/1385763997949160",
   "id": "1385763997949160"
  },
  "items": [
+  {
+   "id": "4613966982193631",
+   "created": "2026-10-09T01:27:21+0000",
+   "text": "What's your favorite boring routine together?\n\n#Marriage #Love",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 0,
+   "comments": 0,
+   "views_field": 2,
+   "link": "/reel/4613966982193631/",
+   "insights": {
+    "blue_reels_play_count": 1,
+    "fb_reels_total_plays": 2,
+    "fb_reels_replay_count": 1,
+    "post_video_avg_time_watched": 5395,
+    "post_video_social_actions": {},
+    "post_video_view_time": 5395,
+    "post_video_likes_by_reaction_type": {}
+   }
+  },
+  {
+   "id": "1687809286031430",
+   "created": "2026-10-09T01:26:01+0000",
+   "text": "Who leaves the light on for you?\n\n#Love #Family",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 0,
+   "comments": 0,
+   "views_field": 2,
+   "link": "/reel/1687809286031430/",
+   "insights": {
+    "blue_reels_play_count": 1,
+    "fb_reels_total_plays": 2,
+    "fb_reels_replay_count": 1,
+    "post_video_avg_time_watched": 2945,
+    "post_video_social_actions": {},
+    "post_video_view_time": 2945,
+    "post_video_likes_by_reaction_type": {}
+   }
+  },
+  {
+   "id": "2115612295728882",
+   "created": "2026-10-09T01:24:37+0000",
+   "text": "What little thing would you miss most?\n\n#Appreciation #Relationships",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 0,
+   "comments": 0,
+   "views_field": 2,
+   "link": "/reel/2115612295728882/",
+   "insights": {
+    "blue_reels_play_count": 1,
+    "fb_reels_total_plays": 2,
+    "fb_reels_replay_count": 1,
+    "post_video_avg_time_watched": 2817,
+    "post_video_social_actions": {},
+    "post_video_view_time": 2817,
+    "post_video_likes_by_reaction_type": {}
+   }
+  },
+  {
+   "id": "1118164580743997",
+   "created": "2026-10-09T01:23:54+0000",
+   "text": "Do you have someone who just listens?\n\n#Kindness #Connection",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 3,
+   "comments": 0,
+   "views_field": 140,
+   "link": "/reel/1118164580743997/",
+   "insights": {
+    "blue_reels_play_count": 121,
+    "fb_reels_total_plays": 140,
+    "fb_reels_replay_count": 19,
+    "post_video_avg_time_watched": 6788,
+    "post_video_social_actions": {},
+    "post_video_view_time": 814668,
+    "post_video_likes_by_reaction_type": {
+     "REACTION_LIKE": 3
+    }
+   }
+  },
+  {
+   "id": "1461936532477388",
+   "created": "2026-10-09T01:23:53+0000",
+   "text": "What helps you most on the hard days?\n\n#SelfCare #Hope",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 18,
+   "comments": 0,
+   "views_field": 579,
+   "link": "/reel/1461936532477388/",
+   "insights": {
+    "blue_reels_play_count": 504,
+    "fb_reels_total_plays": 579,
+    "fb_reels_replay_count": 75,
+    "post_video_avg_time_watched": 3760,
+    "post_video_social_actions": {
+     "SHARE": 3
+    },
+    "post_video_view_time": 1895262,
+    "post_video_likes_by_reaction_type": {
+     "REACTION_LOVE": 1,
+     "REACTION_LIKE": 18
+    }
+   }
+  },
   {
    "id": "4655823971408721",
    "created": "2026-10-09T01:23:52+0000",
@@ -22,10 +134,52 @@
    "insights": {
     "blue_reels_play_count": 1,
     "fb_reels_total_plays": 2,
-    "post_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
-    "post_video_avg_time_watched": 0,
+    "fb_reels_replay_count": 1,
+    "post_video_avg_time_watched": 15135,
     "post_video_social_actions": {},
-    "post_video_view_time": 0,
+    "post_video_view_time": 15135,
+    "post_video_likes_by_reaction_type": {}
+   }
+  },
+  {
+   "id": "1427951312795186",
+   "created": "2026-10-09T01:22:55+0000",
+   "text": "Who makes your house feel like home?\n\n#Home #Family",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 0,
+   "comments": 0,
+   "views_field": 2,
+   "link": "/reel/1427951312795186/",
+   "insights": {
+    "blue_reels_play_count": 1,
+    "fb_reels_total_plays": 2,
+    "fb_reels_replay_count": 1,
+    "post_video_avg_time_watched": 1344,
+    "post_video_social_actions": {},
+    "post_video_view_time": 1344,
+    "post_video_likes_by_reaction_type": {}
+   }
+  },
+  {
+   "id": "1403705888052326",
+   "created": "2026-10-09T01:20:28+0000",
+   "text": "How does your person say I love you without saying it?\n\n#Marriage #Lov",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 0,
+   "comments": 0,
+   "views_field": 4,
+   "link": "/reel/1403705888052326/",
+   "insights": {
+    "blue_reels_play_count": 4,
+    "fb_reels_total_plays": 4,
+    "fb_reels_replay_count": 0,
+    "post_video_avg_time_watched": 5481,
+    "post_video_social_actions": {},
+    "post_video_view_time": 21926,
     "post_video_likes_by_reaction_type": {}
    }
   },
@@ -43,7 +197,7 @@
    "insights": {
     "blue_reels_play_count": 0,
     "fb_reels_total_plays": 0,
-    "post_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+    "fb_reels_replay_count": 0,
     "post_video_avg_time_watched": 0,
     "post_video_social_actions": {},
     "post_video_view_time": 0,
@@ -64,7 +218,7 @@
    "insights": {
     "blue_reels_play_count": 0,
     "fb_reels_total_plays": 0,
-    "post_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+    "fb_reels_replay_count": 0,
     "post_video_avg_time_watched": 0,
     "post_video_social_actions": {},
     "post_video_view_time": 0,
@@ -85,7 +239,7 @@
    "insights": {
     "blue_reels_play_count": 0,
     "fb_reels_total_plays": 0,
-    "post_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+    "fb_reels_replay_count": 0,
     "post_video_avg_time_watched": 7310,
     "post_video_social_actions": {},
     "post_video_view_time": 14620,
@@ -101,17 +255,17 @@
    "scheduled_for": null,
    "likes": 4,
    "comments": 0,
-   "views_field": 258,
+   "views_field": 259,
    "link": "/reel/4053609771608631/",
    "insights": {
-    "blue_reels_play_count": 226,
-    "fb_reels_total_plays": 258,
-    "post_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
-    "post_video_avg_time_watched": 4115,
+    "blue_reels_play_count": 227,
+    "fb_reels_total_plays": 259,
+    "fb_reels_replay_count": 32,
+    "post_video_avg_time_watched": 4104,
     "post_video_social_actions": {
      "SHARE": 1
     },
-    "post_video_view_time": 934159,
+    "post_video_view_time": 935868,
     "post_video_likes_by_reaction_type": {
      "REACTION_LIKE": 4
     }
@@ -131,7 +285,7 @@
    "insights": {
     "blue_reels_play_count": 519,
     "fb_reels_total_plays": 570,
-    "post_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+    "fb_reels_replay_count": 51,
     "post_video_avg_time_watched": 3333,
     "post_video_social_actions": {},
     "post_video_view_time": 1733286,
@@ -155,7 +309,7 @@
    "insights": {
     "blue_reels_play_count": 330,
     "fb_reels_total_plays": 361,
-    "post_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+    "fb_reels_replay_count": 31,
     "post_video_avg_time_watched": 3285,
     "post_video_social_actions": {},
     "post_video_view_time": 1084288,
@@ -168,7 +322,7 @@
  ],
  "page_insights": {
   "page_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
-  "page_post_engagements": 20,
-  "page_video_views": 387
+  "page_post_engagements": 0,
+  "page_video_views": 8
  }
 }
