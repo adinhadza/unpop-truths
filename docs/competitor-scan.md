@@ -1,6 +1,6 @@
 # Daily scan: competitors, new niches and our numbers
 
-Find the top-performing US Facebook pages in Adin's niches and report what they do, so the daily
+Find the top-performing US Facebook pages in Adin's niches and report what they do, so the 5-day
 review can borrow what works. Work unattended. Never copy their lines or videos; learn patterns only.
 
 Niches: one per page listed in `docs/pages.md` (read it every run; Adin adds pages there).
@@ -52,7 +52,7 @@ a new page with a one-line content formula for each.
    c. Top Reels list with the breakdown from step 6 and links.
    d. Our numbers yesterday: dispatch page-report.yml (without save), read its annotations, and list
       each of Adin's pages with yesterday's posts, plays or reach, and the best and worst post. Numbers only;
-      do not change any plan (the weekly review does that).
+      do not change any plan (the 5-day review does that).
    e. New niches explored today with scores, and the running top 5 niches from niches.md.
    f. "What to upgrade on Unpopular Truths": 5 to 8 concrete, prioritized changes for the motivation page
       (themes, hooks, text length, footage, music, posting volume and times, captions), each with the evidence

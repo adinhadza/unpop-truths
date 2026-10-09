@@ -1,6 +1,7 @@
-# Weekly performance review
+# Performance review (every 5 days)
 
-Instructions for the unattended weekly run that reviews both pages and improves the coming week.
+Instructions for the unattended review that runs on the 1st, 6th, 11th, 16th, 21st and 26th of each month.
+It reviews every page in `docs/pages.md` and improves the plan for the next 5 days.
 Work without asking questions. Adin reads the result on his phone.
 
 ## 0. Set up
@@ -21,7 +22,7 @@ and `reports/<date>-news-page.json`. If the run failed or a report shows errors 
 - Per Reel: plays (`blue_reels_play_count`, or `fb_reels_total_plays`), reach (`post_impressions_unique`),
   average watch time (`post_video_avg_time_watched`, milliseconds) divided by the video length = share watched,
   likes, comments, and engagement per 1,000 plays.
-- Compare only Reels at least 48 hours old; list newer ones separately as "too early".
+- Cover the posts since the last review (about 5 days). Compare only Reels at least 48 hours old; list newer ones separately as "too early".
 - Find patterns: by slot time, by mood, by theme, by background type (water, sky, candle, city, nature),
   by line length. Name the top 5 and bottom 5 Reels with their first line.
 - Sample sizes are small. Call something a pattern only when it holds across at least 4 Reels.
@@ -31,17 +32,17 @@ Per post: impressions, reach, reactions, comments, shares, clicks. Compare break
 and the posting times. Top 3 and bottom 3 by headline.
 
 ## 3b. Competitor patterns
-Read the newest file in `reports/competitors/` (written by the daily competitor scan; also look at the week's PDFs), if there is one.
+Read the newest file in `reports/competitors/` (written by the daily scan; also look at the PDFs since the last review), if there is one.
 Pick at most 2 of its patterns to test in the coming week (for example a theme or hook style), and say
 in the review which ones you are testing, so next week's review can judge them.
 
-## 4. Improve the coming week
+## 4. Improve the next 5 days
 Reels plan (`schedule/unpopular-truths-<YYYY>-<MM>.json`), for dates after tomorrow only (never touch posts
 already queued):
 - Keep 10 posts a day and the same JSON structure.
 - Rewrite up to 30 upcoming posts so they lean towards the best themes, moods and backgrounds, and away from
   the weakest. New lines must be original and not repeat any line in any schedule file.
-- If one slot time was the weakest for 2 weeks in a row, move it by up to 1 hour, staying between 6 AM and
+- If one slot time was the weakest in 2 reviews in a row, move it by up to 1 hour, staying between 6 AM and
   10 PM Chicago time and at least 1 hour from the next slot. Update `publish_at` for every upcoming post in that slot.
 - If the plan has fewer than 10 days left, add days with the best-performing themes.
 
@@ -49,14 +50,14 @@ News guidance: rewrite `docs/news-notes.md` (create it if missing) with at most 
 coming week, for example "good news about animals and rescues does 3x better than average; use 3 such stories a day".
 The daily news task reads that file.
 
-Commit everything with the message "Weekly review <date>" and push to main.
+Commit everything with the message "Review <date>" and push to main.
 
 ## 5. Write the review and notify
-- Save the review as `reports/weekly/<date>.md`: totals for the week (posts, plays, reach, followers),
+- Save the review as `reports/reviews/<date>.md`: totals since the last review (posts, plays, reach, followers),
   the best and worst posts, the patterns found, and exactly what was changed in the plan.
 - Commit and push it.
 - Send ONE phone notification (PushNotification tool, load it with ToolSearch), under 200 characters, for example:
-  "Week: 64 Reels, 18.2k plays, avg 61% watched. Best: family/nostalgic at 6 PM. Plan updated: +8 family posts, 9 AM slot moved to 9:30."
+  "Last 5 days: 48 Reels, 18.2k plays, avg 61% watched. Best: family/nostalgic at 6 PM. Plan updated: +8 family posts, 9 AM slot moved to 9:30."
   Always send this one, even when nothing changed.
 
 ## Never
