@@ -4,9 +4,9 @@ Find the top-performing US Facebook pages in Adin's niches and report what they 
 review can borrow what works. Work unattended. Never copy their lines or videos; learn patterns only.
 
 Niches: one per page listed in `docs/pages.md` (read it every run; Adin adds pages there).
-Keep a running list of pages already found in `reports/competitors/tracked.md` (name, link, niche,
-date first found, last check). Each day: add up to 5 new pages per niche, re-check up to 5 tracked pages
-(oldest check first) for changes in themes, volume or followers, and drop pages that went inactive.
+Each run covers 8 to 12 top-performing US pages per niche. Keep a running list in
+`reports/competitors/tracked.md` (name, link, niche, date first found, last check): reuse the strongest
+tracked pages, replace inactive or weak ones with new finds, so the list stays the current top 8 to 12.
 
 ## Limits to respect
 - Facebook pages mostly need a login to view. Do not log in to anything and do not use Adin's Facebook
@@ -20,7 +20,7 @@ date first found, last check). Each day: add up to 5 new pages per niche, re-che
    creator-statistics sites (for example CreatorDB, Social Blade, Fanpage Karma or Socialinsider public pages),
    Facebook page links that appear in search results with follower counts. Same for US news and good-news pages
    (for example Good News Network, Upworthy, local-news style pages, "positive news" pages).
-2. Prefer pages that look US-based (US locations, US spelling, US topics). Prefer pages
+2. Keep 8 to 12 pages per niche that look US-based (US locations, US spelling, US topics). Prefer pages
    with recent activity.
 3. For each page record what you can actually find, with the source link:
    name, link, followers, country signals, main themes, post formats (Reels, photos, text-on-video, carousel),
@@ -30,5 +30,19 @@ date first found, last check). Each day: add up to 5 new pages per niche, re-che
 5. Write `reports/competitors/<date>.md`: what is new today (new pages, changes, 3 to 5 patterns worth testing),
    then one table per niche for the pages checked today, then sources. Update `tracked.md`. Mark every number with where it came from; write "unknown"
    rather than guessing. Commit and push to main.
-6. Send ONE phone notification (PushNotification, load with ToolSearch), under 200 characters:
-   the single most useful finding and how many pages were checked. Skip the notification if nothing new was found.
+6. Top-performing Reels. For each niche, pick the 5 to 10 best-performing recent Reels you can find on those pages
+   (highest views or engagement that is publicly shown). For each: page, link, views/likes if shown, the hook
+   (described in your own words, not copied), text style, background footage type, length, music feel, caption style.
+7. Make a PDF report `reports/competitors/<date>-inspiration.pdf` (use Python with reportlab; install it with
+   pip --break-system-packages if missing). Contents, in this order:
+   a. Summary: the 5 most important takeaways.
+   b. Top pages table per niche (name, followers, posts per day, themes, formats, monetization signals + confidence).
+   c. Top Reels list with the breakdown from step 6 and links.
+   d. "What to upgrade on Unpopular Truths": 5 to 8 concrete, prioritized changes for the motivation page
+      (themes, hooks, text length, footage, music, posting volume and times, captions), each with the evidence
+      behind it and how to test it. Also 2 to 4 suggestions for the news page.
+   Keep it readable on a phone: large text, short lines, one idea per bullet.
+   Commit the PDF and the markdown report and push to main.
+8. Send ONE phone notification (PushNotification, load with ToolSearch), under 200 characters:
+   the single most useful finding, and the PDF link
+   https://github.com/adinhadza/unpop-truths/blob/main/reports/competitors/<date>-inspiration.pdf
