@@ -1,6 +1,6 @@
 # Daily competitor scan
 
-Find the top-performing US Facebook pages in Adin's niches and report what they do, so the Monday
+Find the top-performing US Facebook pages in Adin's niches and report what they do, so the daily
 review can borrow what works. Work unattended. Never copy their lines or videos; learn patterns only.
 
 Niches: one per page listed in `docs/pages.md` (read it every run; Adin adds pages there).
