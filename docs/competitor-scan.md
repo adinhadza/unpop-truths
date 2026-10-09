@@ -1,4 +1,4 @@
-# Daily competitor scan
+# Daily scan: competitors, new niches and our numbers
 
 Find the top-performing US Facebook pages in Adin's niches and report what they do, so the daily
 review can borrow what works. Work unattended. Never copy their lines or videos; learn patterns only.
@@ -7,6 +7,18 @@ Niches: one per page listed in `docs/pages.md` (read it every run; Adin adds pag
 Each run covers 8 to 12 top-performing US pages per niche. Keep a running list in
 `reports/competitors/tracked.md` (name, link, niche, date first found, last check): reuse the strongest
 tracked pages, replace inactive or weak ones with new finds, so the list stays the current top 8 to 12.
+
+## Niche exploration (outside our niches)
+Each day also explore 2 or 3 niches we do not run yet, rotating so a niche is not repeated within 14 days
+(keep the log in `reports/competitors/niches.md`: niche, date explored, score, verdict).
+Ideas to rotate through: faith and prayer, pets and animal rescue, nostalgia (50s to 90s America),
+relationships and marriage advice, cooking and old family recipes, gardening and homesteading, true stories
+and history, health and aging tips, money lessons, trucker and blue-collar life, military and veterans,
+small-town America, cars and classic trucks, funny everyday moments, wildlife and nature, DIY and home fixes,
+and any niche you see trending. For each niche find 3 to 5 leading US pages and score it 1 to 10 on:
+audience size and views shown, engagement, how easy it is to make with our setup (Canva + stock footage
+or photos + music, fully automated), competition, and monetization signals. Recommend the top niches for
+a new page with a one-line content formula for each.
 
 ## Limits to respect
 - Facebook pages mostly need a login to view. Do not log in to anything and do not use Adin's Facebook
@@ -38,7 +50,11 @@ tracked pages, replace inactive or weak ones with new finds, so the list stays t
    a. Summary: the 5 most important takeaways.
    b. Top pages table per niche (name, followers, posts per day, themes, formats, monetization signals + confidence).
    c. Top Reels list with the breakdown from step 6 and links.
-   d. "What to upgrade on Unpopular Truths": 5 to 8 concrete, prioritized changes for the motivation page
+   d. Our numbers yesterday: dispatch page-report.yml (without save), read its annotations, and list
+      each of Adin's pages with yesterday's posts, plays or reach, and the best and worst post. Numbers only;
+      do not change any plan (the weekly review does that).
+   e. New niches explored today with scores, and the running top 5 niches from niches.md.
+   f. "What to upgrade on Unpopular Truths": 5 to 8 concrete, prioritized changes for the motivation page
       (themes, hooks, text length, footage, music, posting volume and times, captions), each with the evidence
       behind it and how to test it. Also 2 to 4 suggestions for the news page.
    Keep it readable on a phone: large text, short lines, one idea per bullet.
