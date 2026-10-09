@@ -18,7 +18,7 @@ and `reports/<date>-news-page.json`. If the run failed or a report shows errors 
 
 ## 2. Unpopular Truths Reels
 - Match each Reel to its plan entry in `schedule/unpopular-truths-*.json` by its caption text (the Reel's
-  description starts with the plan's `caption`). That gives its key, slot, theme, mood and background.
+  description starts with the plan's `caption`). That gives its key, slot, theme, mood, background and real publish time (`publish_at`; the report's `created` is only the upload time).
 - Per Reel: plays (`blue_reels_play_count`, or `fb_reels_total_plays`), reach (`post_impressions_unique`),
   average watch time (`post_video_avg_time_watched`, milliseconds) divided by the video length = share watched,
   likes, comments, and engagement per 1,000 plays.

@@ -53,6 +53,9 @@ a new page with a one-line content formula for each.
    d. Our numbers yesterday: dispatch page-report.yml (without save), read its annotations, and list
       each of Adin's pages with yesterday's posts, plays or reach, and the best and worst post. Numbers only;
       do not change any plan (the 5-day review does that).
+      Note: a Reel's `created` time in the report is when it was uploaded, not when it went public. Scheduled
+      Reels are uploaded in a batch hours ahead; take the real publish time from the plan's `publish_at`
+      (match by caption) before drawing any conclusion about timing.
    e. New niches explored today with scores, and the running top 5 niches from niches.md.
    f. "What to upgrade on Unpopular Truths": 5 to 8 concrete, prioritized changes for the motivation page
       (themes, hooks, text length, footage, music, posting volume and times, captions), each with the evidence
