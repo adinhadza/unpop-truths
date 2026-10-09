@@ -49,7 +49,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: post-reel
+  group: post-reel-${{ inputs.post_key || github.run_id }}
   cancel-in-progress: false
 
 jobs:

@@ -54,7 +54,7 @@ gh api -X POST repos/adinhadza/unpop-truths/actions/workflows/post-reel.yml/disp
   -f 'inputs[video_url]=<export link>' -f 'inputs[caption]=<caption>' -f 'inputs[mode]=upload' \
   -f 'inputs[music]=<mood>' -f 'inputs[publish_at]=<publish_at>' -f 'inputs[post_key]=<key>'
 ```
-- Run ONE job at a time: after each dispatch wait about 60 seconds, then poll the newest `post-reel.yml` run until it is completed. Queued runs replace each other, so never dispatch the next one before the previous one finished.
+- Each post's job runs on its own (jobs no longer replace each other), but still dispatch one at a time and wait for each to finish: after a dispatch wait about 60 seconds, then find the run whose `display_title` is "Post Reel <key>" and poll it until it is completed.
 - Success shows an annotation "Reel scheduled for …, video id …". On failure, read the annotations, fix what you can (for example export again if the link expired) and retry once. If it fails again, skip that post and note it.
 - Build the next post while nothing is running if that is faster, but keep dispatches one at a time.
 
