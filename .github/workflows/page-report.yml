@@ -1,24 +1,35 @@
 name: Page performance report
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      save:
+        description: "Also save the full report as JSON files in the reports folder of the repo"
+        required: false
+        type: boolean
+        default: false
 
 permissions:
-  contents: read
+  contents: write
+
+concurrency:
+  group: page-report
+  cancel-in-progress: false
 
 jobs:
   report:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    env:
+      OUT_DIR: ${{ inputs.save && 'reports' || '' }}
+      SAVE_ONLY: ${{ inputs.save && 'true' || 'false' }}
+      FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: scripts
       - name: Unpopular Truths Reels
         env:
           PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
-          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           KIND: reels
           LABEL: unpopular-truths
         run: python3 scripts/page_report.py
@@ -26,7 +37,6 @@ jobs:
         env:
           PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
-          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           KIND: posts
           LABEL: unpopular-truths-posts
         run: python3 scripts/page_report.py
@@ -34,7 +44,15 @@ jobs:
         env:
           PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
           PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
-          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           KIND: posts
           LABEL: news-page
         run: python3 scripts/page_report.py
+      - name: Save the report in the repo
+        if: ${{ inputs.save }}
+        run: |
+          git config user.name "page-report"
+          git config user.email "page-report@users.noreply.github.com"
+          git add reports
+          git commit -m "Page report $(date -u +%F)" || { echo "::notice::nothing new to save"; exit 0; }
+          for i in 1 2 3; do git pull --rebase -q && git push -q && break; sleep 5; done
+          echo "::notice::report saved to the reports folder"

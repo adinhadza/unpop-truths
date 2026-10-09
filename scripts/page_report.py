@@ -37,6 +37,24 @@ def get(path, **params):
         return {"_error": str(e)[:160]}
 
 
+def get_all(path, pages=4, **params):
+    out, first = [], get(path, **params)
+    if "_error" in first:
+        return first
+    out.extend(first.get("data", []))
+    nxt = (first.get("paging") or {}).get("next")
+    while nxt and pages > 1:
+        pages -= 1
+        try:
+            with urllib.request.urlopen(nxt, timeout=40) as r:
+                page = json.load(r)
+        except Exception:
+            break
+        out.extend(page.get("data", []))
+        nxt = (page.get("paging") or {}).get("next")
+    return {"data": out}
+
+
 def insights(obj_id, metrics, endpoint="insights"):
     out = {}
     for m in metrics:
@@ -67,7 +85,7 @@ report["info"] = info
 
 items = []
 if KIND == "reels":
-    lst = get(f"{PAGE}/video_reels",
+    lst = get_all(f"{PAGE}/video_reels",
               fields="id,description,created_time,updated_time,length,permalink_url,published,status",
               limit=50)
     if "_error" in lst:
@@ -97,10 +115,12 @@ if KIND == "reels":
                 "post_impressions_unique",
                 "post_video_avg_time_watched",
                 "post_video_social_actions",
+                "post_video_view_time",
+                "post_video_likes_by_reaction_type",
             ], endpoint="video_insights")
         items.append(item)
 else:
-    lst = get(f"{PAGE}/posts",
+    lst = get_all(f"{PAGE}/posts",
               fields="id,created_time,message,permalink_url,is_published,"
                      "reactions.summary(true).limit(0),comments.summary(true).limit(0),shares",
               limit=50)
@@ -122,6 +142,17 @@ else:
 
 report["items"] = items
 report["page_insights"] = insights(PAGE, ["page_impressions_unique", "page_post_engagements", "page_video_views"])
+
+out_dir = os.environ.get("OUT_DIR")
+if out_dir:
+    import datetime
+    os.makedirs(out_dir, exist_ok=True)
+    stamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+    with open(os.path.join(out_dir, f"{stamp}-{LABEL}.json"), "w") as f:
+        json.dump(report, f, indent=1)
+    print(f"::notice title={LABEL}::saved full report to {out_dir}/{stamp}-{LABEL}.json ({len(items)} items)")
+    if os.environ.get("SAVE_ONLY") == "true":
+        sys.exit(0)
 
 text = json.dumps(report, separators=(",", ":"), ensure_ascii=True)
 text = text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
