@@ -9,7 +9,8 @@ with a one-line reason.
 1. Attach the repo: `add_repo` owner `adinhadza`, repo `unpop-truths`, access `push`; clone it as instructed and work inside it.
 2. Today's date is the date in **America/Chicago** (`TZ=America/Chicago date +%F`). All posts are for US viewers.
 
-## 1. Check the Facebook connection first
+## 1. (Manual mode: skip the Facebook connection check below; build the videos regardless.)
+## 1-old. Check the Facebook connection first
 ```
 gh api -X POST repos/adinhadza/unpop-truths/actions/workflows/check-facebook.yml/dispatches -f ref=main
 ```
