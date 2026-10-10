@@ -20,7 +20,8 @@ If the `unpopular-truths` line is an error, do NOT build anything. Send:
 "Unpopular Truths: Facebook key not working (<short error>). No Reels queued today. Fix the key in GitHub, then tell Claude."
 and stop.
 
-## 1b. Check that yesterday's Reels actually went out
+## 1b. (Manual mode: skip this check; Adin posts the Reels himself.)
+## 1b-old. Check that yesterday's Reels actually went out
 Dispatch `page-report.yml` the same way, wait about 90 seconds, and read its annotations
 (the `unpopular-truths` notices hold a JSON report split into parts; join them in order).
 Count yesterday's Reels (Chicago date) that show `published: true`, and compare with the number of
@@ -55,17 +56,19 @@ For each post:
 5. Look at the preview thumbnail. Check: both lines fully visible, no overlap, nothing cut at the edges, text readable over the footage, handle visible near the bottom. Fix and look again if needed. Then `edit-design` with finalize `commit` and no operations.
 6. `export-design` type `mp4`, quality `vertical_1080p`. The link expires within hours, so post it straight away.
 
-## 4. Schedule it on Facebook through GitHub
-Caption = the post's `caption`, a blank line, then its `hashtags`.
-```
-gh api -X POST repos/adinhadza/unpop-truths/actions/workflows/post-reel.yml/dispatches -f ref=main \
-  -f 'inputs[video_url]=<export link>' -f 'inputs[caption]=<caption>' -f 'inputs[mode]=upload' \
-  -f 'inputs[music]=<mood>' -f 'inputs[publish_at]=<publish_at>' -f 'inputs[post_key]=<key>'
-```
-- Each post's job runs on its own (jobs no longer replace each other), but still dispatch one at a time and wait for each to finish: after a dispatch wait about 60 seconds, then find the run whose `display_title` is "Post Reel <key>" and poll it until it is completed.
-- Success shows an annotation "Reel scheduled for …, video id …". On failure, read the annotations, fix what you can (for example export again if the link expired) and retry once. If it fails again, skip that post and note it.
-- Build the next post while nothing is running if that is faster, but keep dispatches one at a time.
+## 4. Save it for Adin (he posts the Reels himself; do NOT post to Facebook)
+Mode: MANUAL since 2026-10-11. Never dispatch post-reel.yml. Videos stay silent: Adin adds music
+inside Facebook when he posts.
+- In Canva, find or create the folder `Unpopular Truths <YYYY-MM-DD>` (search-folders first; create-folder if
+  missing) and move the finished design into it (move-item-to-folder). Title each design
+  `<HH:MM Serbia> - <first words of line 1>` so the folder sorts in posting order
+  (Serbia time = Chicago time + 7 hours until Oct 24, + 6 hours from Oct 25).
+- If Google Drive tools are available, also follow docs/drive-delivery.md.
+- Write `drafts/<YYYY-MM-DD>.md` with one row per video: Serbia time, Chicago time, design title, caption
+  + hashtags (ready to paste), and a suggested music mood. Commit and push.
+- The "already queued" check in step 2 now means: a design titled for that key's time already exists in
+  today's Canva folder.
 
 ## 5. Finish
-End with a short summary: each key, its time, line 1, the video id or the reason it was skipped.
+End with a short summary: each key, its time, line 1, and where it was saved, or why it was skipped.
 Send a phone notification only when a post was skipped or something failed (one notification for the whole run, under 200 characters).
