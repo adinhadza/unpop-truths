@@ -42,6 +42,8 @@ jobs:
         run: |
           echo "::add-mask::$URL"
           [ -n "$SCRIPT_URL" ] && [ -n "$KEY" ] || { echo "::error::DRIVE_SCRIPT_URL or DRIVE_KEY secret is missing"; exit 1; }
+          SCRIPT_URL=$(printf '%s' "$SCRIPT_URL" | tr -d '[:space:]')
+          case "$SCRIPT_URL" in https://script.google.com/macros/s/*/exec) ;; *) echo "::error::DRIVE_SCRIPT_URL does not look like a web app URL (starts with: $(printf '%s' "$SCRIPT_URL" | cut -c1-30), length ${#SCRIPT_URL})"; exit 1;; esac
           body=$(jq -n --arg k "$KEY" --arg u "$URL" --arg f "$FOLDER" --arg n "$NAME" --arg t "$TEXT" '{key:$k,url:$u,folder:$f,name:$n,text:$t} | if .url == "" then del(.url) else . end')
           res=$(curl -sSL --max-time 300 -H "Content-Type: application/json" --data "$body" "$SCRIPT_URL")
           echo "$res" | jq -e '.ok == true' >/dev/null || { echo "::error::Drive upload failed: $(echo "$res" | head -c 300)"; exit 1; }
