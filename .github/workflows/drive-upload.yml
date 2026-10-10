@@ -1,0 +1,41 @@
+name: Save video to Google Drive
+run-name: "Drive ${{ inputs.folder }} / ${{ inputs.name }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "Public link to the file (for example a Canva export link)"
+        required: true
+        type: string
+      folder:
+        description: "Day folder name inside 'Unpopular Truths Reels', for example '2026-10-11 Sun'"
+        required: true
+        type: string
+      name:
+        description: "File name, for example '13-00 Some days you dont need advice.mp4'"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  save:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - name: Send to the Drive web app
+        env:
+          SCRIPT_URL: ${{ secrets.DRIVE_SCRIPT_URL }}
+          KEY: ${{ secrets.DRIVE_KEY }}
+          URL: ${{ inputs.url }}
+          FOLDER: ${{ inputs.folder }}
+          NAME: ${{ inputs.name }}
+        run: |
+          echo "::add-mask::$URL"
+          [ -n "$SCRIPT_URL" ] && [ -n "$KEY" ] || { echo "::error::DRIVE_SCRIPT_URL or DRIVE_KEY secret is missing"; exit 1; }
+          body=$(jq -n --arg k "$KEY" --arg u "$URL" --arg f "$FOLDER" --arg n "$NAME" '{key:$k,url:$u,folder:$f,name:$n}')
+          res=$(curl -sSL --max-time 300 -H "Content-Type: application/json" --data "$body" "$SCRIPT_URL")
+          echo "$res" | jq -e '.ok == true' >/dev/null || { echo "::error::Drive upload failed: $(echo "$res" | head -c 300)"; exit 1; }
+          echo "::notice::Saved to Drive: $FOLDER / $NAME ($(echo "$res" | jq -r '.size') bytes)$(echo "$res" | jq -r 'if .skipped then " - " + .skipped else "" end')"
