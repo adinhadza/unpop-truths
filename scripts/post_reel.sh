@@ -91,7 +91,27 @@ pick_track() {
 
 prepare_music() {
   local track; track=$(pick_track)
-  if [ -z "$track" ]; then note "No music added"; return 0; fi
+  if [ -z "$track" ]; then
+    # No track is mixed in, so the video keeps whatever sound it already has. Report it, so a silent video is noticed.
+    if command -v ffprobe >/dev/null 2>&1; then
+      [ -n "$LOCAL_FILE" ] || download_video
+      local oa ol
+      oa=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 "$LOCAL_FILE" | head -1)
+      if [ -n "$oa" ]; then
+        ol=$(ffmpeg -nostdin -hide_banner -i "$LOCAL_FILE" -vn -af volumedetect -f null - 2>&1 | sed -n 's/.*mean_volume: \(-\{0,1\}[0-9.]*\) dB.*/\1/p' | tail -1)
+        if awk -v l="${ol:--91}" 'BEGIN { exit !(l < -60) }'; then
+          echo "::warning::No music added and the video's own sound track is silent (${ol:-unknown} dB)"
+        else
+          note "No music added; the video keeps its own sound (${oa}, average level ${ol} dB)"
+        fi
+      else
+        echo "::warning::No music added and the video has no sound track"
+      fi
+    else
+      note "No music added"
+    fi
+    return 0
+  fi
   command -v ffmpeg >/dev/null 2>&1 || fail "ffmpeg is not installed on this machine"
   [ -n "$LOCAL_FILE" ] || download_video
   bash "${HERE}/add_music.sh" reel.mp4 "$track" reel_music.mp4 "$MUSIC_LEVEL" >/dev/null || fail "could not mix the music into the video"
