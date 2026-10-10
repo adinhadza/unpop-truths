@@ -5,9 +5,15 @@ on:
   workflow_dispatch:
     inputs:
       url:
-        description: "Public link to the file (for example a Canva export link)"
-        required: true
+        description: "Public link to the file (for example a Canva export link). Leave empty when sending text"
+        required: false
         type: string
+        default: ""
+      text:
+        description: "Text content for a text file (used instead of url, e.g. the captions list)"
+        required: false
+        type: string
+        default: ""
       folder:
         description: "Day folder name inside 'Unpopular Truths Reels', for example '2026-10-11 Sun'"
         required: true
@@ -32,10 +38,11 @@ jobs:
           URL: ${{ inputs.url }}
           FOLDER: ${{ inputs.folder }}
           NAME: ${{ inputs.name }}
+          TEXT: ${{ inputs.text }}
         run: |
           echo "::add-mask::$URL"
           [ -n "$SCRIPT_URL" ] && [ -n "$KEY" ] || { echo "::error::DRIVE_SCRIPT_URL or DRIVE_KEY secret is missing"; exit 1; }
-          body=$(jq -n --arg k "$KEY" --arg u "$URL" --arg f "$FOLDER" --arg n "$NAME" '{key:$k,url:$u,folder:$f,name:$n}')
+          body=$(jq -n --arg k "$KEY" --arg u "$URL" --arg f "$FOLDER" --arg n "$NAME" --arg t "$TEXT" '{key:$k,url:$u,folder:$f,name:$n,text:$t} | if .url == "" then del(.url) else . end')
           res=$(curl -sSL --max-time 300 -H "Content-Type: application/json" --data "$body" "$SCRIPT_URL")
           echo "$res" | jq -e '.ok == true' >/dev/null || { echo "::error::Drive upload failed: $(echo "$res" | head -c 300)"; exit 1; }
           echo "::notice::Saved to Drive: $FOLDER / $NAME ($(echo "$res" | jq -r '.size') bytes)$(echo "$res" | jq -r 'if .skipped then " - " + .skipped else "" end')"

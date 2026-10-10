@@ -64,7 +64,8 @@ inside Facebook when he posts.
   missing) and move the finished design into it (move-item-to-folder). Title each design
   `<HH:MM Serbia> - <first words of line 1>` so the folder sorts in posting order
   (Serbia time = Chicago time + 7 hours until Oct 24, + 6 hours from Oct 25).
-- If Google Drive tools are available, also follow docs/drive-delivery.md.
+- Always follow docs/drive-delivery.md: Google Drive is where Adin downloads the videos and captions.
+  The Canva folder is the backup.
 - Write `drafts/<YYYY-MM-DD>.md` with one row per video: Serbia time, Chicago time, design title, caption
   + hashtags (ready to paste), and a suggested music mood. Commit and push.
 - The "already queued" check in step 2 now means: a design titled for that key's time already exists in

@@ -14,10 +14,13 @@ For each finished video (after the Canva export in reels-agent.md):
    Wait about 40 seconds and check the run named "Drive <folder> / <name>" finished with success
    (annotation "Saved to Drive"). Runs for different files can go in parallel. On failure read the
    annotations, export again if the link expired, retry once, then note it.
-3. After all videos, create the captions file in the same day folder with the Google Drive tool
-   (create_file, parentId = the day folder id found with search_files, textContent, contentMimeType
-   text/plain, title `00 Captions <date>`), so it converts to a Google Doc Adin can copy from on his phone.
-   One block per video, in posting order:
+3. After all videos, save the captions file to the same day folder through the same job, with `text`
+   instead of `url`:
+   ```
+   gh api -X POST repos/adinhadza/unpop-truths/actions/workflows/drive-upload.yml/dispatches -f ref=main \
+     -f 'inputs[text]=<captions>' -f 'inputs[folder]=<YYYY-MM-DD Ddd>' -f 'inputs[name]=00 Captions <date>.txt'
+   ```
+   Captions content, one block per video in posting order:
    ```
    13:00 Serbia (6:00 AM Chicago) - <file name>
    <caption>
