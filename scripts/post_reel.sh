@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Publishes one Reel to a Facebook Page using Meta's Reels Publishing API.
-# Needs: FB_PAGE_ID, FB_PAGE_TOKEN, VIDEO_URL.
-# Optional: CAPTION, MODE (auto|hosted|upload), MUSIC (auto|none|a mood folder or file in music/),
+# Needs: FB_PAGE_ID, FB_PAGE_TOKEN, and either VIDEO_URL (a finished MP4) or IMAGE_URL (a finished card image,
+#        which is turned into a short vertical video here).
+# Optional: IMAGE_SECONDS (length of a video made from an image, default 10), CAPTION, MODE (auto|hosted|upload), MUSIC (auto|none|a mood folder or file in music/),
 #           MUSIC_LEVEL (average loudness in dB, default -27),
 #           PUBLISH_AT (a date and time such as 2026-10-08T01:00:00+02:00; empty = publish now), DRY_RUN (true = prepare the video but do not post), GRAPH_VERSION.
 set -euo pipefail
@@ -9,7 +10,10 @@ set -euo pipefail
 : "${FB_PAGE_ID:?FB_PAGE_ID secret is missing}"
 FB_PAGE_TOKEN="$(bash "$(dirname "$0")/page_token.sh" "$FB_PAGE_ID" "${FB_PAGE_TOKEN:-}")"
 [ -n "$FB_PAGE_TOKEN" ] || { echo "::error::no Facebook token: save FB_SYSTEM_TOKEN or FB_PAGE_TOKEN"; exit 1; }
-: "${VIDEO_URL:?VIDEO_URL is missing}"
+VIDEO_URL="${VIDEO_URL:-}"
+IMAGE_URL="${IMAGE_URL:-}"
+IMAGE_SECONDS="${IMAGE_SECONDS:-10}"
+[ -n "$VIDEO_URL" ] || [ -n "$IMAGE_URL" ] || { echo "::error::give either a video link or an image link"; exit 1; }
 CAPTION="${CAPTION:-}"
 MODE="${MODE:-auto}"
 MUSIC="${MUSIC:-auto}"
@@ -22,7 +26,8 @@ MUSIC_DIR="${HERE}/../music"
 LOCAL_FILE=""
 VER="${GRAPH_VERSION:-v23.0}"
 GRAPH="https://graph.facebook.com/${VER}"
-echo "::add-mask::${VIDEO_URL}"
+[ -n "$VIDEO_URL" ] && echo "::add-mask::${VIDEO_URL}"
+[ -n "$IMAGE_URL" ] && echo "::add-mask::${IMAGE_URL}"
 
 # Errors and progress are written as annotations so they can be read without opening the log.
 fail() { echo "::error::$1"; exit 1; }
@@ -33,6 +38,21 @@ download_video() {
   local size; size=$(stat -c %s reel.mp4)
   [ "$size" -gt 10000 ] || fail "downloaded file is too small (${size} bytes) to be a video"
   note "Downloaded ${size} bytes"
+  LOCAL_FILE="reel.mp4"
+}
+
+image_to_video() {
+  # Builds the Reel video from a card image. The result exists only on this machine.
+  command -v ffmpeg >/dev/null 2>&1 || fail "ffmpeg is not installed on this machine"
+  curl -sSL --fail --connect-timeout 20 --max-time 120 -o card.img "$IMAGE_URL" || fail "could not download the image link"
+  local size kind
+  size=$(stat -c %s card.img)
+  kind=$(file -b --mime-type card.img)
+  case "$kind" in image/png|image/jpeg) ;; *) fail "the image link did not return a PNG or JPEG (got ${kind})" ;; esac
+  [ "$size" -gt 10000 ] || fail "downloaded image is too small (${size} bytes)"
+  bash "${HERE}/card_to_video.sh" card.img reel.mp4 "$IMAGE_SECONDS" || fail "could not turn the image into a video"
+  local d; d=$(ffprobe -v error -show_entries format=duration -of csv=p=0 reel.mp4)
+  note "Video made from the image: 1080x1920, ${d}s"
   LOCAL_FILE="reel.mp4"
 }
 
@@ -73,7 +93,7 @@ prepare_music() {
   local track; track=$(pick_track)
   if [ -z "$track" ]; then note "No music added"; return 0; fi
   command -v ffmpeg >/dev/null 2>&1 || fail "ffmpeg is not installed on this machine"
-  download_video
+  [ -n "$LOCAL_FILE" ] || download_video
   bash "${HERE}/add_music.sh" reel.mp4 "$track" reel_music.mp4 "$MUSIC_LEVEL" >/dev/null || fail "could not mix the music into the video"
   local a d; a=$(ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 reel_music.mp4 | head -1)
   d=$(ffprobe -v error -show_entries format=duration -of csv=p=0 reel_music.mp4)
@@ -119,12 +139,13 @@ if [ -n "$PUBLISH_AT" ]; then
   [ "$PUBLISH_TS" -le $(( now + 28*24*3600 )) ] || fail "the publish time must be within 28 days"
 fi
 
+[ -n "$IMAGE_URL" ] && image_to_video
 prepare_music
 if [ "$DRY_RUN" = "true" ]; then
   note "Dry run: video prepared, nothing was posted"
   exit 0
 fi
-# A video with music added exists only on this machine, so it has to be uploaded as a file.
+# A video made here (from an image, or with music added) exists only on this machine, so it has to be uploaded as a file.
 [ -n "$LOCAL_FILE" ] && MODE="upload"
 
 start_session

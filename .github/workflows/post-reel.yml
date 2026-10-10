@@ -4,10 +4,22 @@ run-name: "Post Reel ${{ inputs.post_key }}"
 on:
   workflow_dispatch:
     inputs:
+      page:
+        description: "Which page to post to: main = Unpopular Truths, news = The 50 State Wire"
+        required: false
+        type: choice
+        default: main
+        options: [main, news]
       video_url:
-        description: "Public link to the finished MP4 (for example a Canva export link)"
-        required: true
+        description: "Public link to the finished MP4 (for example a Canva export link). Leave empty when giving an image"
+        required: false
         type: string
+        default: ""
+      image_url:
+        description: "Public link to a finished card image (PNG or JPEG). It is turned into a 10 second vertical video"
+        required: false
+        type: string
+        default: ""
       caption:
         description: "Caption for the Reel"
         required: false
@@ -74,10 +86,11 @@ jobs:
       - name: Publish Reel
         timeout-minutes: 8
         env:
-          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ inputs.page == 'news' && secrets.NEWS_PAGE_ID || secrets.FB_PAGE_ID }}
+          FB_PAGE_TOKEN: ${{ inputs.page == 'news' && secrets.NEWS_PAGE_TOKEN || secrets.FB_PAGE_TOKEN }}
           FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           VIDEO_URL: ${{ inputs.video_url }}
+          IMAGE_URL: ${{ inputs.image_url }}
           CAPTION: ${{ inputs.caption }}
           MODE: ${{ inputs.mode }}
           MUSIC: ${{ inputs.music }}

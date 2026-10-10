@@ -40,6 +40,13 @@ jobs:
           KIND: posts
           LABEL: unpopular-truths-posts
         run: python3 scripts/page_report.py
+      - name: The 50 State Wire Reels
+        env:
+          PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
+          PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
+          KIND: reels
+          LABEL: news-page-reels
+        run: python3 scripts/page_report.py
       - name: The 50 State Wire posts
         env:
           PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
