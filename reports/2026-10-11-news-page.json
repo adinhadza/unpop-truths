@@ -1,0 +1,18 @@
+{
+ "page": "news-page",
+ "info": {
+  "name": "50 State Wire",
+  "fan_count": 0,
+  "followers_count": 0,
+  "link": "https://www.facebook.com/1434345153093297",
+  "id": "1434345153093297"
+ },
+ "list_error": "10: (#10) This endpoint requires the 'pages_read_user_content' permission or the 'Page Public Content Access' feature. Refer to https://developers.facebook.com/",
+ "scheduled": [],
+ "items": [],
+ "page_insights": {
+  "page_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+  "page_post_engagements": 0,
+  "page_video_views": 0
+ }
+}

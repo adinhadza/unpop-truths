@@ -1,0 +1,41 @@
+{
+ "page": "news-page-reels",
+ "info": {
+  "name": "50 State Wire",
+  "fan_count": 0,
+  "followers_count": 0,
+  "link": "https://www.facebook.com/1434345153093297",
+  "id": "1434345153093297"
+ },
+ "items": [
+  {
+   "id": "2697305404112293",
+   "created": "2026-10-10T16:42:54+0000",
+   "text": "The 2026 Nobel Peace Prize was awarded Friday to Navanethem \"Navi\" Pil",
+   "published": true,
+   "state": "ready",
+   "scheduled_for": null,
+   "likes": 2,
+   "comments": 0,
+   "views_field": 98,
+   "link": "/reel/2697305404112293/",
+   "insights": {
+    "blue_reels_play_count": 96,
+    "fb_reels_total_plays": 98,
+    "fb_reels_replay_count": 2,
+    "post_video_avg_time_watched": 2678,
+    "post_video_social_actions": {},
+    "post_video_view_time": 243705,
+    "post_video_likes_by_reaction_type": {
+     "REACTION_LOVE": 1,
+     "REACTION_LIKE": 2
+    }
+   }
+  }
+ ],
+ "page_insights": {
+  "page_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+  "page_post_engagements": 0,
+  "page_video_views": 0
+ }
+}

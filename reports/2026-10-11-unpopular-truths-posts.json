@@ -1,0 +1,18 @@
+{
+ "page": "unpopular-truths-posts",
+ "info": {
+  "name": "Unpopular truths",
+  "fan_count": 7,
+  "followers_count": 7,
+  "link": "https://www.facebook.com/1385763997949160",
+  "id": "1385763997949160"
+ },
+ "list_error": "10: (#10) This endpoint requires the 'pages_read_user_content' permission or the 'Page Public Content Access' feature. Refer to https://developers.facebook.com/",
+ "scheduled": [],
+ "items": [],
+ "page_insights": {
+  "page_impressions_unique": "ERR 100: (#100) The value must be a valid insights metric",
+  "page_post_engagements": 24,
+  "page_video_views": 276
+ }
+}
