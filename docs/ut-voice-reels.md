@@ -15,7 +15,7 @@ schedules the NEXT day's three Reels on Facebook.
 - Music under the voice: rotate the 8 chosen calm tracks, one per Reel:
   moments-emotional, float, stardust-instrumental, there-for-you, the-pearly-gates,
   hymn-for-peace, autumn-reverie, reflections-instrumental (`music/calm/`).
-- Length ~15 s.
+- Length ~15 s. **Every Reel MUST be at least 10 seconds** (the build script never outputs less than 11 s; check with ffprobe before posting).
 
 Approved example script:
 ```

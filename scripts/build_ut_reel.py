@@ -24,6 +24,9 @@ def run(cmd):
     return r
 
 
+MIN_LEN = 11.0  # seconds; Facebook Reels for this page must be 10 s+
+
+
 def duration(path):
     out = run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                "-of", "csv=p=0", path]).stdout
@@ -68,6 +71,8 @@ def main():
     per = len(lines) // len(imgs)
     vlen = duration(a.voice)
     total = round(DELAY + vlen + TAIL, 2)
+    # Reels must be at least 10 s: hold the last frame/line longer if the voice is short.
+    total = max(total, MIN_LEN)
     st = [t + DELAY if i else 0.0 for i, t in enumerate(line_starts(a.voice, len(lines)))]
     st = [round(x - (0.1 if i else 0), 2) for i, x in enumerate(st)]
     ends = st[1:] + [total]
