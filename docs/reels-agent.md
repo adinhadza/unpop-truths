@@ -1,3 +1,5 @@
+> **Paused 12 Oct 2026.** Replaced by docs/ut-voice-reels.md (illustration + voice Reels). Kept for reference.
+
 # Daily Reels agent: Unpopular Truths
 
 Instructions for the unattended daily run that builds and schedules the day's Reels.
