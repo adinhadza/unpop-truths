@@ -49,7 +49,7 @@ Element locators in the copy (page `PBYSHskBPy9HJ1K7`; confirm with read-design,
 - handle "@unpopular truths": `PBYSHskBPy9HJ1K7-LBkYc5VXwHFyYFKL` (leave it)
 
 For each post:
-1. **Background clip.** `orshot_search_stock_media` with the post's `background` term, type video. Choose a slow, calm clip, 8 to 20 seconds long, no visible text, logo or watermark, no close-up faces. Then `orshot_use_stock_media` to get a permanent `storage.orshot.com` link, and Canva `upload-asset-from-url` with that link to get a video asset id (wait for the upload job to finish). If nothing fits, try a simpler term (for example "sunset sky", "rain window", "ocean waves").
+1. **Background clip.** `orshot_search_stock_media` with the post's `background` term, type video. Choose a slow, calm clip, **12 to 20 seconds long (Reels MUST be at least 10 seconds; Canva rounds clip length down, so never pick a clip under 12s)**, no visible text, logo or watermark, no close-up faces. Then `orshot_use_stock_media` to get a permanent `storage.orshot.com` link, and Canva `upload-asset-from-url` with that link to get a video asset id (wait for the upload job to finish). Check the `duration` in the Canva upload result: if it is under 11, pick another clip. If nothing fits, try a simpler term (for example "sunset sky", "rain window", "ocean waves").
 2. `copy-design` DAHXXLLSR6U. `read-design` the copy with `open_transaction: true` and `fields: ["design_content","thumbnails"]`.
 3. `edit-design` (finalize `keep_open`, page_index 1):
    - `update_title` → `Unpopular Truths - <key>`
