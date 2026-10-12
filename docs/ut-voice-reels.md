@@ -55,7 +55,8 @@ then back to +7 h when the US also changes clocks on 1 Nov).
    Check a contact sheet: text readable, lines in sync, nothing cropped.
 5. Push the MP4s to branch `reel-files` (replace older files) → public URL
    `https://raw.githubusercontent.com/adinhadza/unpop-truths/reel-files/<file>`.
-6. Dispatch `post-reel.yml`: page `main`, video_url, caption, mode `upload`,
+6. Run `python3 scripts/schedule_ut_reel.py <n> <publish_at> <caption> <date>` (it dispatches `post-reel.yml`
+   through the GitHub API and waits; `gh` is not signed in, plain curl through the session proxy works): page `main`, video_url, caption, mode `upload`,
    **music `none`** (anything else replaces the voice), publish_at with Chicago offset
    (e.g. `2026-10-13T07:00:00-05:00`), post_key `ut-<date>-<n>`. One at a time; each run must
    succeed and log "the video keeps its own sound".
