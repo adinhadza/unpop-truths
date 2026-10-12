@@ -11,13 +11,16 @@
 | Gardening and homesteading | 2026-10-11 | 6.2 | Easiest and safest of today's three, with a large loyal US audience. Main risk: wrong advice or fake-looking plant images, which this community calls out, plus Meta's push-down of plain stock clips with captions. Formula: 'This week in your zone': one planting or chore tip by USDA hardiness zone, from USDA or extension facts in our own words, over a stock clip of the real plant, with licensed music. |
 | True stories and history | 2026-10-11 | 6.0 | Highest engagement ceiling and public archives make it legally clean. Main risk: being lumped in with fake AI history pages, the niche journalists watch most; one invented detail can sink the page. Formula: 'On this day in America': one real Library of Congress or National Archives photo with the archive credit on screen, a 60 to 90 word sourced caption, slow pan and zoom. No AI images, no invented people. |
 | Cars and classic trucks | 2026-10-11 | 5.6 | Big audience, but the appeal is the exact vehicle and stock libraries are thin on specific makes and years. Main risk: photo copyright and an expert audience that punishes errors and AI fakes. Formula: 'Truck of the day, from the archive': one public-domain period photo, year, model and three checked specs on a card, and a 'did your family own one?' question. |
+| Wildlife and nature | 2026-10-12 | 6.0 | Good stock footage and free agency facts, but fake AI animal videos are under scrutiny, so anything staged-looking hurts trust. Formula: 'Wild America fact': one checked fact about a US animal from a park or wildlife agency, over a licensed real clip of that species, place named on screen, calm music. No AI animals, no fake rescues. |
+| Money lessons | 2026-10-12 | 5.8 | Easy to make and close to our 35+ audience, but finance content on Meta has a trust problem (about half of US-targeted finance ads judged high-risk). Formula: 'Grandma's money rule': one old-fashioned saving habit in our own words, one checked number from BLS, Fed or Census, everyday stock footage, a question. No products, no investing tips. |
+| DIY and home fixes | 2026-10-12 | 5.2 | Big audience, but viewers want to see the actual fix, which stock clips rarely show, and fake hacks get exposed. Formula: 'One-minute home check': one seasonal maintenance tip from Energy Star, FEMA or the US Fire Administration as text cards over a matching stock clip. No untested hacks. |
 
 ## Running top 5
 
 1. Faith and prayer (6.4)
 2. Cooking and old family recipes (6.4)
 3. Gardening and homesteading (6.2)
-4. Pets and animal rescue (6.0)
-5. Relationships and marriage advice (6.0)
+4. Relationships and marriage advice (6.0)
+5. True stories and history (6.0)
 
-Ties are ordered by ease of automation. Military and veterans (6.0) dropped out of the top 5; True stories and history (6.0) sits just outside it. Cars and classic trucks (5.6) and Nostalgia (5.4) are below.
+Ties are ordered by ease of automation, then engagement (corrected 2026-10-12: Pets, ease 3, had been placed above higher-ease niches). Just outside at 6.0: Wildlife and nature (ease 7, engagement 7), Military and veterans (ease 5), Pets and animal rescue (ease 3). Below: Money lessons 5.8, Cars and classic trucks 5.6, Nostalgia 5.4, DIY and home fixes 5.2.
