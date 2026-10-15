@@ -5,11 +5,11 @@ on:
   workflow_dispatch:
     inputs:
       page:
-        description: "Which page to post to: main = Unpopular Truths, news = The 50 State Wire"
+        description: "Which page to post to: main = Unpopular Truths, news = The 50 State Wire, words = Words That Stay"
         required: false
         type: choice
         default: main
-        options: [main, news]
+        options: [main, news, words]
       video_url:
         description: "Public link to the finished MP4 (for example a Canva export link). Leave empty when giving an image"
         required: false
@@ -86,8 +86,8 @@ jobs:
       - name: Publish Reel
         timeout-minutes: 8
         env:
-          FB_PAGE_ID: ${{ inputs.page == 'news' && secrets.NEWS_PAGE_ID || secrets.FB_PAGE_ID }}
-          FB_PAGE_TOKEN: ${{ inputs.page == 'news' && secrets.NEWS_PAGE_TOKEN || secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID: ${{ inputs.page == 'words' && secrets.WORDS_THAT_STAY_PAGE_ID || (inputs.page == 'news' && secrets.NEWS_PAGE_ID || secrets.FB_PAGE_ID) }}
+          FB_PAGE_TOKEN: ${{ inputs.page == 'words' && '' || (inputs.page == 'news' && secrets.NEWS_PAGE_TOKEN || secrets.FB_PAGE_TOKEN) }}
           FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           VIDEO_URL: ${{ inputs.video_url }}
           IMAGE_URL: ${{ inputs.image_url }}
@@ -97,4 +97,8 @@ jobs:
           MUSIC_LEVEL: ${{ inputs.music_level }}
           PUBLISH_AT: ${{ inputs.publish_at }}
           DRY_RUN: ${{ inputs.dry_run }}
-        run: bash scripts/post_reel.sh
+        run: |
+          if [ "${{ inputs.page }}" = "words" ] && [ -z "$FB_PAGE_ID" ]; then
+            echo '::error::WORDS_THAT_STAY_PAGE_ID secret is missing'; exit 1
+          fi
+          bash scripts/post_reel.sh
