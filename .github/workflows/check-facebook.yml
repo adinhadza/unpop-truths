@@ -14,13 +14,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           sparse-checkout: scripts
-      - name: Check all pages
+      - name: Check Words That Stay
         env:
           FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
-          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
-          FB_PAGE_TOKEN: ${{ secrets.FB_PAGE_TOKEN }}
-          NEWS_PAGE_ID: ${{ secrets.NEWS_PAGE_ID }}
-          NEWS_PAGE_TOKEN: ${{ secrets.NEWS_PAGE_TOKEN }}
           WORDS_THAT_STAY_PAGE_ID: ${{ secrets.WORDS_THAT_STAY_PAGE_ID }}
         run: |
           bad=0
@@ -36,7 +32,5 @@ jobs:
               echo "::notice::${label} OK: $(echo "$res" | jq -c '{name, followers_count}')"
             fi
           }
-          check unpopular-truths "$FB_PAGE_ID" "$FB_PAGE_TOKEN"
-          check news-page "$NEWS_PAGE_ID" "$NEWS_PAGE_TOKEN"
           check words-that-stay "$WORDS_THAT_STAY_PAGE_ID" ""
           exit $bad
