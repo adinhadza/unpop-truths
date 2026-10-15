@@ -1,0 +1,39 @@
+name: Generate Words That Stay Reels (preview only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      count:
+        description: "How many preview Reels to generate (1-9)"
+        required: true
+        default: "1"
+        type: choice
+        options: ["1", "3", "9"]
+      start:
+        description: "Starting message index (0-8)"
+        required: true
+        default: "0"
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install render dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-dejavu-core
+          python -m pip install --disable-pip-version-check pillow numpy
+      - name: Generate original quote Reels with soft synthesized piano
+        run: python scripts/words_reels.py --count "${{ inputs.count }}" --start "${{ inputs.start }}"
+      - name: Upload previews (no Facebook publishing)
+        uses: actions/upload-artifact@v4
+        with:
+          name: words-that-stay-reels
+          path: output/words/
+          retention-days: 7
