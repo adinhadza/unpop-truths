@@ -1,6 +1,9 @@
 name: Words That Stay - nine daily Reels
 
 on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/words-daily.yml', 'scripts/words_reels.py', 'scripts/words_publish.sh']
   schedule:
     - cron: '7 * * * *'
   workflow_dispatch:
@@ -39,7 +42,7 @@ jobs:
           from zoneinfo import ZoneInfo
           now=datetime.datetime.now(ZoneInfo("America/Chicago"))
           hours=[7,9,11,13,15,17,19,20,22]
-          if os.environ["EVENT"]=="workflow_dispatch":
+          if os.environ["EVENT"] in ("workflow_dispatch","push"):
               slot=int(os.environ.get("MANUAL_SLOT") or "0")
               active=True
           else:
@@ -70,7 +73,7 @@ jobs:
         env:
           FB_PAGE_ID: ${{ secrets.WORDS_THAT_STAY_PAGE_ID }}
           FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
-          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+          DRY_RUN: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
         run: bash scripts/words_publish.sh
       - name: Save generated preview
         if: steps.slot.outputs.active == 'true' && always()
