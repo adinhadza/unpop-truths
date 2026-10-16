@@ -54,8 +54,11 @@ def card(path, headline, subtitle, keyword):
   xpos=540-(sum(widths)+gap*max(0,len(parts)-1))/2
   for word,w in zip(parts,widths):
    clean=re.sub(r'[^a-z]', '', word.lower())
-   color=(166,92,67) if clean==keyword else (48,44,40)
-   d.text((int(xpos),int(y)),word,font=f,fill=color,stroke_width=1 if clean==keyword else 0,anchor="lt")
+   if clean==keyword:
+    # A soft terracotta marker behind the word, with warm dark text on top.
+    bbox=d.textbbox((int(xpos),int(y)),word,font=f,anchor="lt")
+    d.rounded_rectangle((bbox[0]-9,bbox[1]-4,bbox[2]+9,bbox[3]+6),radius=8,fill=(201,151,125))
+   d.text((int(xpos),int(y)),word,font=f,fill=(48,44,40),anchor="lt")
    xpos+=w+gap
   y+=lineheight
  sf=font(33);sub=wrap(d,subtitle,sf,780)
