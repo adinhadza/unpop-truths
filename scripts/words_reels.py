@@ -41,11 +41,11 @@ def card(path, headline, subtitle, keyword):
  d.line((125,280,955,280),fill=(160,157,132),width=2)
  d.line((125,1640,955,1640),fill=(160,157,132),width=2)
  d.text((540,355),"WORDS THAT STAY",font=font(33),fill=(90,105,83),anchor="mm")
- f=font(66); lines=wrap(d,headline,f,840)
- while len(lines)>8:
-  f=font(f.size-4);lines=wrap(d,headline,f,840)
- lineheight=f.size*1.42
- y=950-(len(lines)*lineheight)/2
+ f=font(80); lines=wrap(d,headline,f,810)
+ while len(lines)>7 or (len(lines)*f.size*1.65)>820:
+  f=font(f.size-4);lines=wrap(d,headline,f,810)
+ lineheight=f.size*1.65
+ y=925-(len(lines)-1)*lineheight/2
  for line in lines:
   # Draw centered words separately so exactly one meaningful word stands out.
   parts=line.split(" ")
@@ -58,8 +58,8 @@ def card(path, headline, subtitle, keyword):
    d.text((int(xpos),int(y)),word,font=f,fill=color,stroke_width=1 if clean==keyword else 0,anchor="lt")
    xpos+=w+gap
   y+=lineheight
- sf=font(34);sub=wrap(d,subtitle,sf,800)
- for i,line in enumerate(sub):d.text((540,1350+i*52),line,font=sf,fill=(96,98,87),anchor="mt")
+ sf=font(33);sub=wrap(d,subtitle,sf,780)
+ for i,line in enumerate(sub):d.text((540,1470+i*60),line,font=sf,fill=(96,98,87),anchor="mt")
  d.text((540,1730),"A LITTLE REMINDER FOR TODAY",font=font(25),fill=(110,117,101),anchor="mm")
  im.save(path)
 def audio(path,seconds,seed):
