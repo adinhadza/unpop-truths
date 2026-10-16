@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Original Words That Stay quote-card Reels, with synthesized piano-like audio."""
-import argparse, datetime, math, os, random, subprocess, wave
+import argparse, datetime, math, os, random, subprocess, wave, re
 from pathlib import Path
 import numpy as np
 from PIL import Image, ImageDraw, ImageFont
@@ -53,7 +53,7 @@ def card(path, headline, subtitle, keyword):
   gap=d.textlength(" ",font=f)
   xpos=540-(sum(widths)+gap*max(0,len(parts)-1))/2
   for word,w in zip(parts,widths):
-   clean=word.strip(".,!?\\\"\u0027:;0123456789").lower()
+   clean=re.sub(r'[^a-z]', '', word.lower())
    color=(166,92,67) if clean==keyword else (48,44,40)
    d.text((int(xpos),int(y)),word,font=f,fill=color,stroke_width=1 if clean==keyword else 0,anchor="lt")
    xpos+=w+gap
