@@ -41,9 +41,13 @@ def card(path, headline, subtitle, keyword):
  d.line((125,280,955,280),fill=(160,157,132),width=2)
  d.line((125,1640,955,1640),fill=(160,157,132),width=2)
  d.text((540,355),"WORDS THAT STAY",font=font(33),fill=(90,105,83),anchor="mm")
- f=font(80); lines=wrap(d,headline,f,810)
- while len(lines)>7 or (len(lines)*f.size*1.65)>820:
-  f=font(f.size-4);lines=wrap(d,headline,f,810)
+ # Fit the author's intended lines before wrapping: no orphaned highlight words.
+ # Keep all text inside a generous safe margin for Facebook's mobile viewer.
+ paragraphs=headline.split("\n")
+ f=font(76)
+ while f.size>36 and (any(d.textlength(p,font=f)>920 for p in paragraphs) or len(paragraphs)*f.size*1.65>790):
+  f=font(f.size-2)
+ lines=wrap(d,headline,f,920)
  lineheight=f.size*1.65
  y=925-(len(lines)-1)*lineheight/2
  for line in lines:
