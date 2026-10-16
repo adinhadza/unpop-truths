@@ -1,0 +1,84 @@
+name: Words That Stay - nine daily Reels
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/words-daily.yml', 'scripts/words_reels.py', 'scripts/words_publish.sh']
+  schedule:
+    - cron: '7 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Render only, without publishing to Facebook"
+        type: boolean
+        default: true
+      slot:
+        description: "Slot 0-8 (manual test)"
+        type: choice
+        default: '0'
+        options: ['0','1','2','3','4','5','6','7','8']
+
+permissions:
+  contents: read
+
+concurrency:
+  group: words-daily-${{ github.event.schedule || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select America/Chicago posting slot
+        id: slot
+        env:
+          EVENT: ${{ github.event_name }}
+          MANUAL_SLOT: ${{ inputs.slot }}
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import datetime, os
+          from zoneinfo import ZoneInfo
+          now=datetime.datetime.now(ZoneInfo("America/Chicago"))
+          hours=[7,9,11,13,15,17,19,20,22]
+          if os.environ["EVENT"] in ("workflow_dispatch","push"):
+              slot=int(os.environ.get("MANUAL_SLOT") or "0")
+              active=True
+          else:
+              active=now.hour in hours
+              slot=hours.index(now.hour) if active else 0
+          print(f"active={str(active).lower()}")
+          print(f"slot={slot}")
+          print(f"local_date={now.date().isoformat()}")
+          PY
+      - name: Install dependencies
+        if: steps.slot.outputs.active == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-dejavu-core jq
+          python -m pip install --disable-pip-version-check pillow numpy
+      - name: Generate original Reel with highlighted word and piano sound
+        if: steps.slot.outputs.active == 'true'
+        env:
+          SLOT: ${{ steps.slot.outputs.slot }}
+          DATE: ${{ steps.slot.outputs.local_date }}
+        run: |
+          python scripts/words_reels.py --count 1 --start "$SLOT"
+          i=$(printf "%02d" "$((SLOT+1))")
+          echo "VIDEO_FILE=output/words/words-${i}.mp4" >> "$GITHUB_ENV"
+          echo "CAPTION_FILE=output/words/words-${i}.txt" >> "$GITHUB_ENV"
+      - name: Publish Words That Stay Reel
+        if: steps.slot.outputs.active == 'true'
+        env:
+          FB_PAGE_ID: ${{ secrets.WORDS_THAT_STAY_PAGE_ID }}
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
+          DRY_RUN: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
+        run: bash scripts/words_publish.sh
+      - name: Save generated preview
+        if: steps.slot.outputs.active == 'true' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: words-${{ steps.slot.outputs.local_date }}-slot-${{ steps.slot.outputs.slot }}
+          path: output/words/
+          retention-days: 7
