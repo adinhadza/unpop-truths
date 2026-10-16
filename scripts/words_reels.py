@@ -30,7 +30,9 @@ def wrap(draw, text, f, width):
    else:line=nxt
   lines.append(line)
  return lines
-def card(path, headline, subtitle):
+KEYWORDS = ["blessing", "memories", "begin", "promises", "peace", "kind", "strongest", "remember", "proud"]
+def card(path, headline, subtitle, keyword):
+
  im=Image.new("RGB",(1080,1920),(238,230,213));d=ImageDraw.Draw(im)
  rng=random.Random(17)
  for _ in range(9500):
@@ -45,7 +47,16 @@ def card(path, headline, subtitle):
  lineheight=f.size*1.42
  y=950-(len(lines)*lineheight)/2
  for line in lines:
-  d.text((540,int(y)),line,font=f,fill=(48,44,40),anchor="mt")
+  # Draw centered words separately so exactly one meaningful word stands out.
+  parts=line.split(" ")
+  widths=[d.textlength(word,font=f) for word in parts]
+  gap=d.textlength(" ",font=f)
+  xpos=540-(sum(widths)+gap*max(0,len(parts)-1))/2
+  for word,w in zip(parts,widths):
+   clean=word.strip(".,!?\\"'0123456789").lower()
+   color=(166,92,67) if clean==keyword else (48,44,40)
+   d.text((int(xpos),int(y)),word,font=f,fill=color,stroke_width=1 if clean==keyword else 0,anchor="lt")
+   xpos+=w+gap
   y+=lineheight
  sf=font(34);sub=wrap(d,subtitle,sf,800)
  for i,line in enumerate(sub):d.text((540,1350+i*52),line,font=sf,fill=(96,98,87),anchor="mt")
@@ -73,7 +84,7 @@ def main():
  for k in range(a.count):
   i=(a.start+k)%len(MESSAGES);name=f"words-{i+1:02d}"
   png=out/(name+".png");wav=out/(name+".wav");mp4=out/(name+".mp4")
-  card(png,*MESSAGES[i]);audio(wav,12,i)
+  card(png,*MESSAGES[i],KEYWORDS[i]);audio(wav,12,i)
   subprocess.run(["ffmpeg","-nostdin","-loglevel","error","-y","-loop","1","-framerate","24","-i",str(png),"-i",str(wav),"-t","12","-vf","scale=1080:1920,format=yuv420p","-c:v","libx264","-preset","veryfast","-crf","27","-r","24","-c:a","aac","-b:a","128k","-shortest","-movflags","+faststart",str(mp4)],check=True)
   (out/(name+".txt")).write_text(MESSAGES[i][1]+"\n\n#WordsThatStay #LifeLessons #Family #Gratitude\n")
   print(mp4)
