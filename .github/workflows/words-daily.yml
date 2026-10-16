@@ -73,7 +73,7 @@ jobs:
         env:
           FB_PAGE_ID: ${{ secrets.WORDS_THAT_STAY_PAGE_ID }}
           FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
-          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+          DRY_RUN: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.dry_run) }}
         run: bash scripts/words_publish.sh
       - name: Save generated preview
         if: steps.slot.outputs.active == 'true' && always()
