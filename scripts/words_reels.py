@@ -69,7 +69,7 @@ def vintage_background(index):
    ex=865+j*14;ey=1280+(j%4)*44
    dd.line((925,1585,ex,ey),fill=(117,100,65,130),width=3)
    dd.ellipse((ex-12,ey-21,ex+12,ey+21),fill=(164,132,91,95))
-  im=Image.alpha_composite(im,decor)
+  im=Image.alpha_composite(im.convert("RGBA"),decor)
  if kind=="paper":
   decor=Image.new("RGBA",im.size,(0,0,0,0));dd=ImageDraw.Draw(decor)
   dd.rectangle((65,110,1015,1805),outline=(135,110,80,42),width=3)
