@@ -3,7 +3,7 @@
 import argparse, datetime, math, os, random, subprocess, wave, re
 from pathlib import Path
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
 MESSAGES = [
  ("Some people are a blessing\njust by being there.", "Never forget the quiet ones who stayed."),
@@ -31,15 +31,59 @@ def wrap(draw, text, f, width):
   lines.append(line)
  return lines
 KEYWORDS = ["blessing", "memories", "begin", "promises", "peace", "kind", "strongest", "remember", "proud"]
+def vintage_background(index):
+ """Three original warm editorial designs: sunlit wall, floral still life, parchment."""
+ style=index%10
+ # Five sunlit walls, three floral still lifes, two parchment cards per ten.
+ kind="wall" if style in (0,1,3,5,8) else ("flowers" if style in (2,4,7) else "paper")
+ palettes={"wall":((238,228,209),(218,200,172)),
+           "flowers":((234,220,198),(201,175,145)),
+           "paper":((243,230,207),(224,204,173))}
+ top,bottom=palettes[kind]
+ yy,xx=np.mgrid[0:1920,0:1080]
+ t=(yy/1919.0)[...,None]
+ sun=np.maximum(0,1-np.hypot((xx-180)/1100,(yy-300)/1800))
+ shade=9*sun-8*((xx-540)/540)**2
+ grain=np.random.default_rng(index*17+31).normal(0,2.4,(1920,1080))
+ colors=np.asarray(top)[None,None,:]*(1-t)+np.asarray(bottom)[None,None,:]*t
+ pixels=np.uint8(np.clip(colors+shade[...,None]+grain[...,None],0,255))
+ im=Image.fromarray(pixels,"RGB")
+ # Blurred organic shadow shapes stay outside the central reading zone.
+ shadow=Image.new("RGBA",im.size,(0,0,0,0));s=ImageDraw.Draw(shadow)
+ if kind in ("wall","flowers"):
+  for side in (-1,1):
+   xbase=30 if side<0 else 1060
+   for j in range(5):
+    cy=170+j*180+(index%3)*30
+    cx=xbase+side*(-45-j*11)
+    s.ellipse((cx-85,cy-25,cx+85,cy+35),fill=(84,76,51,32))
+  shadow=shadow.filter(ImageFilter.GaussianBlur(46))
+  im=Image.alpha_composite(im.convert("RGBA"),shadow)
+ if kind=="flowers":
+  decor=Image.new("RGBA",im.size,(0,0,0,0));dd=ImageDraw.Draw(decor)
+  # Vase and dried stems confined to the lower-right corner.
+  dd.ellipse((810,1665,1040,1735),fill=(89,65,47,45))
+  dd.polygon([(857,1580),(998,1580),(973,1702),(880,1702)],fill=(160,120,85,125))
+  dd.ellipse((857,1561,998,1600),fill=(177,136,97,150))
+  for j in range(11):
+   ex=865+j*14;ey=1280+(j%4)*44
+   dd.line((925,1585,ex,ey),fill=(117,100,65,130),width=3)
+   dd.ellipse((ex-12,ey-21,ex+12,ey+21),fill=(164,132,91,95))
+  im=Image.alpha_composite(im,decor)
+ if kind=="paper":
+  decor=Image.new("RGBA",im.size,(0,0,0,0));dd=ImageDraw.Draw(decor)
+  dd.rectangle((65,110,1015,1805),outline=(135,110,80,42),width=3)
+  for j in range(4):
+   yy=245+j*445
+   dd.line((100,yy,980,yy+22),fill=(145,120,94,17),width=2)
+  im=Image.alpha_composite(im,decor)
+ return im.convert("RGB")
+
 def card(path, headline, subtitle, keyword):
 
- im=Image.new("RGB",(1080,1920),(238,230,213));d=ImageDraw.Draw(im)
- rng=random.Random(17)
- for _ in range(9500):
-  x=rng.randrange(1080);y=rng.randrange(1920);v=rng.randrange(-10,11)
-  d.point((x,y),fill=tuple(max(0,min(255,c+v)) for c in (238,230,213)))
- d.line((125,280,955,280),fill=(160,157,132),width=2)
- d.line((125,1640,955,1640),fill=(160,157,132),width=2)
+ im=vintage_background(KEYWORDS.index(keyword));d=ImageDraw.Draw(im)
+ d.line((125,280,955,280),fill=(164,145,119),width=2)
+ d.line((125,1640,955,1640),fill=(164,145,119),width=2)
  d.text((540,355),"WORDS THAT STAY",font=font(33),fill=(90,105,83),anchor="mm")
  # Fit the author's intended lines before wrapping: no orphaned highlight words.
  # Keep all text inside a generous safe margin for Facebook's mobile viewer.
