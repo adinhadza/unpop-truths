@@ -40,17 +40,14 @@ def vintage_background(index):
            "flowers":((234,220,198),(201,175,145)),
            "paper":((243,230,207),(224,204,173))}
  top,bottom=palettes[kind]
- im=Image.new("RGB",(1080,1920))
- pix=im.load()
- rng=random.Random(index*733+19)
+ yy,xx=np.mgrid[0:1920,0:1080]
+ t=(yy/1919.0)[...,None]
+ sun=np.maximum(0,1-np.hypot((xx-180)/1100,(yy-300)/1800))
+ shade=9*sun-8*((xx-540)/540)**2
  grain=np.random.default_rng(index*17+31).normal(0,2.4,(1920,1080))
- for y in range(1920):
-  t=y/1919
-  # Warm daylight from upper-left and softly darker corners.
-  for x in range(1080):
-   sun=max(0,1-math.hypot((x-180)/1100,(y-300)/1800))
-   shade=9*sun-8*((x-540)/540)**2
-   pix[x,y]=tuple(int(max(0,min(255,top[k]*(1-t)+bottom[k]*t+shade+grain[y,x]))) for k in range(3))
+ colors=np.asarray(top)[None,None,:]*(1-t)+np.asarray(bottom)[None,None,:]*t
+ pixels=np.uint8(np.clip(colors+shade[...,None]+grain[...,None],0,255))
+ im=Image.fromarray(pixels,"RGB")
  # Blurred organic shadow shapes stay outside the central reading zone.
  shadow=Image.new("RGBA",im.size,(0,0,0,0));s=ImageDraw.Draw(shadow)
  if kind in ("wall","flowers"):
