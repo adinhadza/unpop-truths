@@ -4,8 +4,6 @@ on:
   push:
     branches: [main]
     paths: ['.github/workflows/words-daily.yml', 'scripts/words_reels.py', 'scripts/words_publish.sh']
-  schedule:
-    - cron: '7 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -69,7 +67,7 @@ jobs:
           echo "VIDEO_FILE=output/words/words-${i}.mp4" >> "$GITHUB_ENV"
           echo "CAPTION_FILE=output/words/words-${i}.txt" >> "$GITHUB_ENV"
       - name: Publish Words That Stay Reel
-        if: steps.slot.outputs.active == 'true'
+        if: false # Publishing paused at owner's request
         env:
           FB_PAGE_ID: ${{ secrets.WORDS_THAT_STAY_PAGE_ID }}
           FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
