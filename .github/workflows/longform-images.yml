@@ -38,16 +38,19 @@ jobs:
         run: python3 scripts/longform_images.py "${{ inputs.scenes }}" out --only "${{ inputs.only }}"
       - name: Save to branch longform-assets
         if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
-          ls out | head -80
+          ls -la out
+          mkdir assets && cd assets
+          git init -q
           git config user.name "longform-bot"; git config user.email "longform-bot@users.noreply.github.com"
-          git fetch origin longform-assets || true
-          if git rev-parse --verify origin/longform-assets >/dev/null 2>&1; then
-            git worktree add assets origin/longform-assets && (cd assets && git checkout -B longform-assets)
-          else
-            git worktree add --detach assets && (cd assets && git checkout --orphan longform-assets && git rm -rf -q . || true)
-          fi
-          mkdir -p "assets/${{ inputs.out }}"
-          cp out/*.jpg "assets/${{ inputs.out }}/" 2>/dev/null || true
-          cd assets && git add -A && (git commit -q -m "pictures ${{ inputs.out }}" || echo "nothing new") && git push -q origin longform-assets
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git fetch -q --depth 1 origin longform-assets
+          git checkout -q -b longform-assets FETCH_HEAD
+          mkdir -p "${{ inputs.out }}"
+          cp ../out/*.jpg "${{ inputs.out }}/" 2>/dev/null || true
+          git add -A
+          git commit -q -m "pictures ${{ inputs.out }}" || { echo "nothing new"; exit 0; }
+          git push -q origin longform-assets
