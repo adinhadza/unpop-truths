@@ -1,0 +1,250 @@
+{
+  "name": "Two Paths Mindset - Telegram + Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 10 * * *"
+            }
+          ]
+        }
+      },
+      "id": "a3318d8e-d64e-4e6c-8a97-7ef7ca8285f6",
+      "name": "Daily prompts 10:00",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "* * * * *"
+            }
+          ]
+        }
+      },
+      "id": "dd5e4410-6c79-4ecf-a7ac-de2c15cbf90b",
+      "name": "Check Telegram every minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7f2fd5e3-ccb9-44e3-93fb-5a62e47ff9fd",
+              "name": "TELEGRAM_BOT_TOKEN",
+              "value": "PASTE_BOT_TOKEN_FROM_BOTFATHER",
+              "type": "string"
+            },
+            {
+              "id": "a726e0de-d1e5-48f4-844a-3a476816f408",
+              "name": "TELEGRAM_CHAT_ID",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "ec02211a-8f49-4051-a7e0-0e51ec67a43f",
+              "name": "GITHUB_TOKEN",
+              "value": "PASTE_YOUR_GITHUB_TOKEN",
+              "type": "string"
+            },
+            {
+              "id": "952ad268-63fa-4e13-8564-0d1f74560249",
+              "name": "GITHUB_REPO",
+              "value": "adinhadza/unpop-truths",
+              "type": "string"
+            },
+            {
+              "id": "ba253b02-8ef0-4c15-9406-98593e48abc4",
+              "name": "POST_TIME_1",
+              "value": "12",
+              "type": "string"
+            },
+            {
+              "id": "0bfbf3fa-35ec-44b7-b91c-0eaf2e42fb38",
+              "name": "POST_TIME_2",
+              "value": "19",
+              "type": "string"
+            },
+            {
+              "id": "1c61805d-404b-4399-8787-c4e4e2addc4f",
+              "name": "START_AT_IDEA",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "19d4b160-2810-49b4-af64-8ee683252be1",
+              "name": "DRY_RUN",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "id": "b5dff48e-b206-4c97-a11e-ec461edad7de",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "3c5743cc-3535-4552-80ff-0e6d66345a6a",
+              "leftValue": "={{ $('Daily prompts 10:00').isExecuted }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "5c0f8717-7261-49c3-9841-7991a25435d9",
+      "name": "Daily or minute?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "\n// ---------- shared helpers (same in both code nodes) ----------\nconst cfg = $('Config').first().json;\nconst st = $getWorkflowStaticData('global');\nst.pending = st.pending || {};          // post_key -> idea + telegram message id\nconst IDEAS = [\n {\n  \"L\": \"STEADY\",\n  \"R\": \"SPRINTER\",\n  \"light\": \"bright indoor pool light\",\n  \"scene\": \"an indoor swimming pool, one lane on each half, a glowing finish wall at the far end\",\n  \"left\": \"standing at the edge of his lane in a swim cap, calm\",\n  \"right\": \"crouched at the edge of his lane, flexing, ready to explode off the block\",\n  \"beats\": \"The grey figure on the RIGHT dives in and sprints wildly, splashing hard, then runs out of breath halfway and clings to the lane rope, stuck. The ivory figure on the LEFT dives in and swims calm, even strokes the whole way and touches the glowing finish wall, which lights up warm gold.\",\n  \"nots\": \"The grey figure never reaches the wall. Only the wall on the LEFT lights up.\",\n  \"s1\": \"Fast starts fade.\",\n  \"s2\": \"Steady finishes.\",\n  \"cap\": \"He started fast. I finished.\",\n  \"tags\": \"#consistency #mindset #discipline\"\n },\n {\n  \"L\": \"INNOVATOR\",\n  \"R\": \"STUBBORN\",\n  \"light\": \"warm desert sunlight\",\n  \"scene\": \"sand dunes on both halves, each figure holding the rope of a heavy wooden sled stacked with crates\",\n  \"left\": \"standing next to his sled, looking at it thoughtfully, two wooden wheels lying beside it\",\n  \"right\": \"leaning into the rope, pulling his sled hard\",\n  \"beats\": \"The grey figure on the RIGHT pulls harder and harder; his sled digs deeper into the sand and stops completely. The ivory figure on the LEFT fits the two wooden wheels under his sled, then rolls it easily across the sand and out of frame toward a glowing oasis.\",\n  \"nots\": \"The grey sled never moves forward. The grey figure himself never changes.\",\n  \"s1\": \"Work harder?\",\n  \"s2\": \"Work different.\",\n  \"cap\": \"Same load. Different idea.\",\n  \"tags\": \"#innovation #worksmart #mindset\"\n },\n {\n  \"L\": \"DOER\",\n  \"R\": \"OVERTHINKER\",\n  \"light\": \"golden late-afternoon light\",\n  \"scene\": \"a beach on both halves with big glowing waves rolling in\",\n  \"left\": \"standing at the water's edge holding a simple surfboard\",\n  \"right\": \"sitting on the sand surrounded by unused surfboards, reading a thick surfing manual\",\n  \"beats\": \"The ivory figure on the LEFT paddles out on his simple board, stands up and rides a glowing wave across the LEFT half. The grey figure on the RIGHT keeps reading his manual, turning page after page, and never touches the water.\",\n  \"nots\": \"The grey figure never stands up and never enters the water.\",\n  \"s1\": \"Reading isn't riding.\",\n  \"s2\": \"Start.\",\n  \"cap\": \"He studied the wave. I caught it.\",\n  \"tags\": \"#action #mindset #motivation\"\n },\n {\n  \"L\": \"ADAPT\",\n  \"R\": \"REPEAT\",\n  \"light\": \"soft overcast light\",\n  \"scene\": \"a tall heavy wooden gate in a stone wall on each half, bright garden light behind each gate\",\n  \"left\": \"standing in front of his gate, looking at its handle\",\n  \"right\": \"ramming his shoulder into his gate\",\n  \"beats\": \"The grey figure on the RIGHT rams his shoulder into the gate again and again; it never moves and he staggers back each time. The ivory figure on the LEFT notices the gate is a sliding door, slides it sideways with one hand and walks through into warm garden light.\",\n  \"nots\": \"The gate on the RIGHT never opens. The grey figure himself never changes.\",\n  \"s1\": \"Same move, same wall.\",\n  \"s2\": \"Change the move.\",\n  \"cap\": \"He pushed harder. I looked closer.\",\n  \"tags\": \"#adapt #growthmindset #mindset\"\n },\n {\n  \"L\": \"INVESTOR\",\n  \"R\": \"SPENDER\",\n  \"light\": \"bright clean studio light\",\n  \"scene\": \"a calm light-grey studio with soft clouds high above both halves\",\n  \"left\": \"kneeling beside a small stack of gold bricks\",\n  \"right\": \"standing surrounded by colorful shopping bags and boxes\",\n  \"beats\": \"The ivory figure on the LEFT stacks gold bricks one by one into a staircase that rises into the clouds, then climbs up toward a glowing platform. On the RIGHT the pile of shopping bags around the grey figure grows, wobbles and topples over him, and he stays on the ground.\",\n  \"nots\": \"The grey figure never rises. Only the LEFT staircase grows.\",\n  \"s1\": \"Stack, don't spend.\",\n  \"s2\": \"Rise.\",\n  \"cap\": \"He bought things. I built steps.\",\n  \"tags\": \"#money #investing #mindset\"\n },\n {\n  \"L\": \"COURAGE\",\n  \"R\": \"FEAR\",\n  \"light\": \"dramatic canyon sunset light\",\n  \"scene\": \"the edge of a deep canyon on both halves, a narrow wooden rope bridge leading across to a glowing platform on the far side\",\n  \"left\": \"standing at the start of the rope bridge, one hand on the rope\",\n  \"right\": \"crouched at the canyon edge clutching the railing, maps in his hands\",\n  \"beats\": \"The ivory figure on the LEFT walks across the bridge plank by plank and reaches the glowing platform, which brightens. The grey figure on the RIGHT stays crouched at the edge; the wind blows his maps out of his hands and away into the canyon.\",\n  \"nots\": \"The grey figure never steps onto the bridge.\",\n  \"s1\": \"Fear plans.\",\n  \"s2\": \"Courage crosses.\",\n  \"cap\": \"He planned the crossing. I crossed.\",\n  \"tags\": \"#courage #mindset #selfgrowth\"\n },\n {\n  \"L\": \"FOCUSED\",\n  \"R\": \"DISTRACTED\",\n  \"light\": \"crisp morning light\",\n  \"scene\": \"an outdoor archery range on both halves, a round target at the back of each half\",\n  \"left\": \"standing with a bow, drawing an arrow calmly\",\n  \"right\": \"holding a bow while glancing at a phone in his other hand\",\n  \"beats\": \"Colorful notification bubbles keep popping up around the grey figure on the RIGHT; he shoots while looking at his phone and his arrows fly wide, missing the target. The ivory figure on the LEFT breathes, aims and hits the center of his target, which flashes gold.\",\n  \"nots\": \"No notification bubbles appear on the LEFT. The grey figure never hits the target.\",\n  \"s1\": \"Notifications or goals.\",\n  \"s2\": \"Pick one.\",\n  \"cap\": \"He checked his phone. I checked my aim.\",\n  \"tags\": \"#focus #discipline #productivity\"\n },\n {\n  \"L\": \"LEARNING\",\n  \"R\": \"SCROLLING\",\n  \"light\": \"warm evening lamp light\",\n  \"scene\": \"a cozy room on both halves at night\",\n  \"left\": \"sitting at a desk with a stack of books and a glowing lamp\",\n  \"right\": \"slouched on a sofa holding a phone with a blue glowing screen\",\n  \"beats\": \"The ivory figure on the LEFT reads book after book; with each closed book a step of light appears and the room on the LEFT grows warmer and brighter, ending with a glowing doorway opening behind him. On the RIGHT the grey figure keeps scrolling; the room around him slowly gets darker until only the phone glow lights his blank face.\",\n  \"nots\": \"No doorway appears on the RIGHT. The grey figure never puts down the phone.\",\n  \"s1\": \"One scroll at a time,\",\n  \"s2\": \"or one page at a time.\",\n  \"cap\": \"Same hours. Different future.\",\n  \"tags\": \"#selfimprovement #reading #mindset\"\n },\n {\n  \"L\": \"RESPONSIBLE\",\n  \"R\": \"EXCUSES\",\n  \"light\": \"cloudy lake light\",\n  \"scene\": \"a calm lake on both halves, each figure sitting in a small wooden rowboat that has a small leak with water bubbling in\",\n  \"left\": \"looking down at the leak, a bucket and a patch in his hands\",\n  \"right\": \"pointing angrily at the leak and then out at the lake as if blaming it\",\n  \"beats\": \"The ivory figure on the LEFT bails the water out with his bucket, presses the patch over the leak and rows calmly toward a sunny shore. The grey figure on the RIGHT keeps pointing and complaining while water rises in his boat until it sits low in the water, stuck.\",\n  \"nots\": \"The grey figure never picks up a bucket. Only the LEFT boat moves.\",\n  \"s1\": \"Blame keeps you sinking.\",\n  \"s2\": \"Fix it.\",\n  \"cap\": \"He blamed the water. I fixed the hole.\",\n  \"tags\": \"#responsibility #mindset #growth\"\n },\n {\n  \"L\": \"PREPARED\",\n  \"R\": \"CARELESS\",\n  \"light\": \"calm sunny light turning stormy\",\n  \"scene\": \"a small hilltop on both halves under a clear sky, dark storm clouds approaching in the distance\",\n  \"left\": \"hammering wooden boards onto a small shelter frame\",\n  \"right\": \"lying in a hammock with sunglasses, relaxed\",\n  \"beats\": \"The ivory figure on the LEFT finishes the roof of his small shelter and steps inside just as the storm arrives. Heavy rain pours on both halves; the grey figure on the RIGHT jumps out of his soaked hammock with nowhere to go, standing in the rain.\",\n  \"nots\": \"The grey figure never builds anything. The ivory figure stays dry under his roof.\",\n  \"s1\": \"Build the roof\",\n  \"s2\": \"before the rain.\",\n  \"cap\": \"He waited for the storm. I got ready for it.\",\n  \"tags\": \"#prepared #discipline #mindset\"\n },\n {\n  \"L\": \"BUILDER\",\n  \"R\": \"GAMBLER\",\n  \"light\": \"warm golden studio light\",\n  \"scene\": \"a clean beige studio on both halves\",\n  \"left\": \"laying bricks for a low wall, a stack of bricks beside him\",\n  \"right\": \"standing at a flashy glowing slot machine with a handful of gold coins\",\n  \"beats\": \"The ivory figure on the LEFT lays brick after brick; the wall rises steadily into a small solid house with a warm lit window. The grey figure on the RIGHT feeds coins into the slot machine and pulls the lever again and again; his coin pile shrinks to nothing and the machine's lights go dark.\",\n  \"nots\": \"The grey figure never wins anything. Only the LEFT house grows.\",\n  \"s1\": \"Luck is a lever.\",\n  \"s2\": \"Work is a wall.\",\n  \"cap\": \"He pulled a lever. I laid a brick.\",\n  \"tags\": \"#discipline #money #mindset\"\n },\n {\n  \"L\": \"EARLY\",\n  \"R\": \"LATE\",\n  \"light\": \"soft sunrise light\",\n  \"scene\": \"a small farm field on both halves at sunrise, ripe golden wheat\",\n  \"left\": \"already standing in the field with a sickle and a basket\",\n  \"right\": \"asleep in a hammock under a tree at the edge of the field\",\n  \"beats\": \"The ivory figure on the LEFT harvests the wheat steadily and fills his basket to the top as the sun rises. As the light turns grey, rain begins on the RIGHT; the grey figure wakes up, sits up in the hammock and looks at his field, flattened by the rain.\",\n  \"nots\": \"The grey figure never harvests anything. The LEFT field stays sunny.\",\n  \"s1\": \"The day rewards\",\n  \"s2\": \"who shows up first.\",\n  \"cap\": \"He slept in. I showed up.\",\n  \"tags\": \"#discipline #morningroutine #mindset\"\n }\n];\nconst IVORY = \"a faceless male mannequin with warm ivory satin ceramic skin, featureless egg-shaped head, wearing a fitted cream long-sleeve sweater, sand-colored trousers, gold belt buckle and tan shoes\";\nconst GREY = \"a faceless male mannequin with flat matte slate-grey skin, featureless head, wearing a loose grey sweatshirt, charcoal trousers and dark shoes\";\nconst TG = `https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}`;\nconst http = this.helpers.httpRequest.bind(this.helpers);\nconst esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nasync function tg(method, body) {\n  return http({method: 'POST', url: `${TG}/${method}`, body, json: true});\n}\nfunction nyDate(d) {\n  return new Intl.DateTimeFormat('en-CA', {timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'}).format(d);\n}\nfunction nyOffset(dateStr, hh) {\n  const probe = new Date(`${dateStr}T${hh}:00:00Z`);\n  const p = new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York', timeZoneName: 'shortOffset'}).formatToParts(probe).find(x => x.type === 'timeZoneName').value;\n  const h = Number(p.replace('GMT', '')) || -5;\n  return (h < 0 ? '-' : '+') + String(Math.abs(h)).padStart(2, '0') + ':00';\n}\nfunction slotTime(dateStr, hh) {\n  hh = String(hh).padStart(2, '0');\n  const iso = `${dateStr}T${hh}:00:00${nyOffset(dateStr, hh)}`;\n  return {iso, ms: Date.parse(iso)};\n}\nfunction serbiaTime(ms) {\n  return new Intl.DateTimeFormat('en-GB', {timeZone: 'Europe/Belgrade', weekday: 'short', hour: '2-digit', minute: '2-digit'}).format(new Date(ms));\n}\nfunction buildPrompts(i) {\n  const image_prompt = `Vertical 9:16 split screen divided by a thin vertical line down the middle, clean stylized 3D render, ${i.light}, ${i.scene}. LEFT half: ${IVORY}, ${i.left}. At the top of the left half the word ${i.L} in clean bold white letters inside a thin glowing white halo ring. RIGHT half: ${GREY}, ${i.right}. At the top of the right half the word ${i.R} in clean bold white letters. Both figures large and fully visible, static eye-level camera, no other text, no logos.`;\n  const video_prompt = `Static locked-off camera, one continuous shot, no cuts, the split screen stays exactly as is. ${i.beats} ${i.nots} Nothing covers the figures' heads. The words ${i.L} and ${i.R} stay exactly as they are at the top, sharp and single, no extra text. Both figures keep their exact shape, clothing, color and material. Ambient sound only, no speech, no music.`;\n  return {image_prompt, video_prompt};\n}\n// Sends the next 2 ideas as two Telegram messages and remembers them.\nasync function sendNextPrompts(chatId) {\n  let next = Number(st.next ?? cfg.START_AT_IDEA ?? 0);\n  if (next >= IDEAS.length) {\n    await tg('sendMessage', {chat_id: chatId, text: 'Two Paths: the idea list is used up. Add more ideas to the IDEAS list in both code nodes (or reset START_AT_IDEA).'});\n    return [];\n  }\n  const date = nyDate(new Date());\n  const sent = [];\n  for (let k = 0; k < 2 && next < IDEAS.length; k++, next++) {\n    const i = IDEAS[next];\n    const {image_prompt, video_prompt} = buildPrompts(i);\n    const post_key = `tp-${date}-${k + 1}-${next}`;\n    const hh = k === 0 ? cfg.POST_TIME_1 : cfg.POST_TIME_2;\n    let slot = slotTime(date, hh), sdate = date;\n    if (slot.ms < Date.now() + 2 * 3600 * 1000) { sdate = nyDate(new Date(Date.now() + 24 * 3600 * 1000)); slot = slotTime(sdate, hh); }\n    const text =\n      `<b>Reel ${k + 1}: ${esc(i.L)} vs ${esc(i.R)}</b>  (${esc(post_key)})\\n` +\n      `Posts ${hh}:00 New York (${esc(serbiaTime(slot.ms))} Serbia)\\n\\n` +\n      `<b>1. Start image</b> (Flow: Image, Nano Banana, 9:16)\\n<pre>${esc(image_prompt)}</pre>\\n\\n` +\n      `<b>2. Video</b> (Flow: Video, Frames, 9:16, 8s, start = that image)\\n<pre>${esc(video_prompt)}</pre>\\n\\n` +\n      `Summary: ${esc(i.s1)} / ${esc(i.s2)}\\n` +\n      `👉 <b>Reply to this message with the finished video</b> (send it as a File if Telegram compresses it).`;\n    const r = await tg('sendMessage', {chat_id: chatId, text, parse_mode: 'HTML'});\n    st.pending[post_key] = {post_key, slot_hour: String(hh), date: sdate, msg_id: r.result.message_id,\n      labels: `${i.L} vs ${i.R}`, summary1: i.s1, summary2: i.s2, caption: `${i.cap}\\n\\n${i.tags}`, sent_at: Date.now()};\n    sent.push(post_key);\n  }\n  st.next = next;\n  return sent;\n}\n// ---------- end of shared helpers ----------\n\n// Daily: send today's two prompt messages.\nconst chatId = cfg.TELEGRAM_CHAT_ID || st.owner_chat;\nif (!chatId) throw new Error('No Telegram chat linked yet: send any message to your bot first (the minute check links it), or fill TELEGRAM_CHAT_ID in Config.');\nconst sent = await sendNextPrompts(chatId);\nreturn [{json: {sent, next_idea: st.next}}];\n"
+      },
+      "id": "59ad0170-b488-48d3-96e5-18ff417a8f00",
+      "name": "Send today's prompts",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "\n// ---------- shared helpers (same in both code nodes) ----------\nconst cfg = $('Config').first().json;\nconst st = $getWorkflowStaticData('global');\nst.pending = st.pending || {};          // post_key -> idea + telegram message id\nconst IDEAS = [\n {\n  \"L\": \"STEADY\",\n  \"R\": \"SPRINTER\",\n  \"light\": \"bright indoor pool light\",\n  \"scene\": \"an indoor swimming pool, one lane on each half, a glowing finish wall at the far end\",\n  \"left\": \"standing at the edge of his lane in a swim cap, calm\",\n  \"right\": \"crouched at the edge of his lane, flexing, ready to explode off the block\",\n  \"beats\": \"The grey figure on the RIGHT dives in and sprints wildly, splashing hard, then runs out of breath halfway and clings to the lane rope, stuck. The ivory figure on the LEFT dives in and swims calm, even strokes the whole way and touches the glowing finish wall, which lights up warm gold.\",\n  \"nots\": \"The grey figure never reaches the wall. Only the wall on the LEFT lights up.\",\n  \"s1\": \"Fast starts fade.\",\n  \"s2\": \"Steady finishes.\",\n  \"cap\": \"He started fast. I finished.\",\n  \"tags\": \"#consistency #mindset #discipline\"\n },\n {\n  \"L\": \"INNOVATOR\",\n  \"R\": \"STUBBORN\",\n  \"light\": \"warm desert sunlight\",\n  \"scene\": \"sand dunes on both halves, each figure holding the rope of a heavy wooden sled stacked with crates\",\n  \"left\": \"standing next to his sled, looking at it thoughtfully, two wooden wheels lying beside it\",\n  \"right\": \"leaning into the rope, pulling his sled hard\",\n  \"beats\": \"The grey figure on the RIGHT pulls harder and harder; his sled digs deeper into the sand and stops completely. The ivory figure on the LEFT fits the two wooden wheels under his sled, then rolls it easily across the sand and out of frame toward a glowing oasis.\",\n  \"nots\": \"The grey sled never moves forward. The grey figure himself never changes.\",\n  \"s1\": \"Work harder?\",\n  \"s2\": \"Work different.\",\n  \"cap\": \"Same load. Different idea.\",\n  \"tags\": \"#innovation #worksmart #mindset\"\n },\n {\n  \"L\": \"DOER\",\n  \"R\": \"OVERTHINKER\",\n  \"light\": \"golden late-afternoon light\",\n  \"scene\": \"a beach on both halves with big glowing waves rolling in\",\n  \"left\": \"standing at the water's edge holding a simple surfboard\",\n  \"right\": \"sitting on the sand surrounded by unused surfboards, reading a thick surfing manual\",\n  \"beats\": \"The ivory figure on the LEFT paddles out on his simple board, stands up and rides a glowing wave across the LEFT half. The grey figure on the RIGHT keeps reading his manual, turning page after page, and never touches the water.\",\n  \"nots\": \"The grey figure never stands up and never enters the water.\",\n  \"s1\": \"Reading isn't riding.\",\n  \"s2\": \"Start.\",\n  \"cap\": \"He studied the wave. I caught it.\",\n  \"tags\": \"#action #mindset #motivation\"\n },\n {\n  \"L\": \"ADAPT\",\n  \"R\": \"REPEAT\",\n  \"light\": \"soft overcast light\",\n  \"scene\": \"a tall heavy wooden gate in a stone wall on each half, bright garden light behind each gate\",\n  \"left\": \"standing in front of his gate, looking at its handle\",\n  \"right\": \"ramming his shoulder into his gate\",\n  \"beats\": \"The grey figure on the RIGHT rams his shoulder into the gate again and again; it never moves and he staggers back each time. The ivory figure on the LEFT notices the gate is a sliding door, slides it sideways with one hand and walks through into warm garden light.\",\n  \"nots\": \"The gate on the RIGHT never opens. The grey figure himself never changes.\",\n  \"s1\": \"Same move, same wall.\",\n  \"s2\": \"Change the move.\",\n  \"cap\": \"He pushed harder. I looked closer.\",\n  \"tags\": \"#adapt #growthmindset #mindset\"\n },\n {\n  \"L\": \"INVESTOR\",\n  \"R\": \"SPENDER\",\n  \"light\": \"bright clean studio light\",\n  \"scene\": \"a calm light-grey studio with soft clouds high above both halves\",\n  \"left\": \"kneeling beside a small stack of gold bricks\",\n  \"right\": \"standing surrounded by colorful shopping bags and boxes\",\n  \"beats\": \"The ivory figure on the LEFT stacks gold bricks one by one into a staircase that rises into the clouds, then climbs up toward a glowing platform. On the RIGHT the pile of shopping bags around the grey figure grows, wobbles and topples over him, and he stays on the ground.\",\n  \"nots\": \"The grey figure never rises. Only the LEFT staircase grows.\",\n  \"s1\": \"Stack, don't spend.\",\n  \"s2\": \"Rise.\",\n  \"cap\": \"He bought things. I built steps.\",\n  \"tags\": \"#money #investing #mindset\"\n },\n {\n  \"L\": \"COURAGE\",\n  \"R\": \"FEAR\",\n  \"light\": \"dramatic canyon sunset light\",\n  \"scene\": \"the edge of a deep canyon on both halves, a narrow wooden rope bridge leading across to a glowing platform on the far side\",\n  \"left\": \"standing at the start of the rope bridge, one hand on the rope\",\n  \"right\": \"crouched at the canyon edge clutching the railing, maps in his hands\",\n  \"beats\": \"The ivory figure on the LEFT walks across the bridge plank by plank and reaches the glowing platform, which brightens. The grey figure on the RIGHT stays crouched at the edge; the wind blows his maps out of his hands and away into the canyon.\",\n  \"nots\": \"The grey figure never steps onto the bridge.\",\n  \"s1\": \"Fear plans.\",\n  \"s2\": \"Courage crosses.\",\n  \"cap\": \"He planned the crossing. I crossed.\",\n  \"tags\": \"#courage #mindset #selfgrowth\"\n },\n {\n  \"L\": \"FOCUSED\",\n  \"R\": \"DISTRACTED\",\n  \"light\": \"crisp morning light\",\n  \"scene\": \"an outdoor archery range on both halves, a round target at the back of each half\",\n  \"left\": \"standing with a bow, drawing an arrow calmly\",\n  \"right\": \"holding a bow while glancing at a phone in his other hand\",\n  \"beats\": \"Colorful notification bubbles keep popping up around the grey figure on the RIGHT; he shoots while looking at his phone and his arrows fly wide, missing the target. The ivory figure on the LEFT breathes, aims and hits the center of his target, which flashes gold.\",\n  \"nots\": \"No notification bubbles appear on the LEFT. The grey figure never hits the target.\",\n  \"s1\": \"Notifications or goals.\",\n  \"s2\": \"Pick one.\",\n  \"cap\": \"He checked his phone. I checked my aim.\",\n  \"tags\": \"#focus #discipline #productivity\"\n },\n {\n  \"L\": \"LEARNING\",\n  \"R\": \"SCROLLING\",\n  \"light\": \"warm evening lamp light\",\n  \"scene\": \"a cozy room on both halves at night\",\n  \"left\": \"sitting at a desk with a stack of books and a glowing lamp\",\n  \"right\": \"slouched on a sofa holding a phone with a blue glowing screen\",\n  \"beats\": \"The ivory figure on the LEFT reads book after book; with each closed book a step of light appears and the room on the LEFT grows warmer and brighter, ending with a glowing doorway opening behind him. On the RIGHT the grey figure keeps scrolling; the room around him slowly gets darker until only the phone glow lights his blank face.\",\n  \"nots\": \"No doorway appears on the RIGHT. The grey figure never puts down the phone.\",\n  \"s1\": \"One scroll at a time,\",\n  \"s2\": \"or one page at a time.\",\n  \"cap\": \"Same hours. Different future.\",\n  \"tags\": \"#selfimprovement #reading #mindset\"\n },\n {\n  \"L\": \"RESPONSIBLE\",\n  \"R\": \"EXCUSES\",\n  \"light\": \"cloudy lake light\",\n  \"scene\": \"a calm lake on both halves, each figure sitting in a small wooden rowboat that has a small leak with water bubbling in\",\n  \"left\": \"looking down at the leak, a bucket and a patch in his hands\",\n  \"right\": \"pointing angrily at the leak and then out at the lake as if blaming it\",\n  \"beats\": \"The ivory figure on the LEFT bails the water out with his bucket, presses the patch over the leak and rows calmly toward a sunny shore. The grey figure on the RIGHT keeps pointing and complaining while water rises in his boat until it sits low in the water, stuck.\",\n  \"nots\": \"The grey figure never picks up a bucket. Only the LEFT boat moves.\",\n  \"s1\": \"Blame keeps you sinking.\",\n  \"s2\": \"Fix it.\",\n  \"cap\": \"He blamed the water. I fixed the hole.\",\n  \"tags\": \"#responsibility #mindset #growth\"\n },\n {\n  \"L\": \"PREPARED\",\n  \"R\": \"CARELESS\",\n  \"light\": \"calm sunny light turning stormy\",\n  \"scene\": \"a small hilltop on both halves under a clear sky, dark storm clouds approaching in the distance\",\n  \"left\": \"hammering wooden boards onto a small shelter frame\",\n  \"right\": \"lying in a hammock with sunglasses, relaxed\",\n  \"beats\": \"The ivory figure on the LEFT finishes the roof of his small shelter and steps inside just as the storm arrives. Heavy rain pours on both halves; the grey figure on the RIGHT jumps out of his soaked hammock with nowhere to go, standing in the rain.\",\n  \"nots\": \"The grey figure never builds anything. The ivory figure stays dry under his roof.\",\n  \"s1\": \"Build the roof\",\n  \"s2\": \"before the rain.\",\n  \"cap\": \"He waited for the storm. I got ready for it.\",\n  \"tags\": \"#prepared #discipline #mindset\"\n },\n {\n  \"L\": \"BUILDER\",\n  \"R\": \"GAMBLER\",\n  \"light\": \"warm golden studio light\",\n  \"scene\": \"a clean beige studio on both halves\",\n  \"left\": \"laying bricks for a low wall, a stack of bricks beside him\",\n  \"right\": \"standing at a flashy glowing slot machine with a handful of gold coins\",\n  \"beats\": \"The ivory figure on the LEFT lays brick after brick; the wall rises steadily into a small solid house with a warm lit window. The grey figure on the RIGHT feeds coins into the slot machine and pulls the lever again and again; his coin pile shrinks to nothing and the machine's lights go dark.\",\n  \"nots\": \"The grey figure never wins anything. Only the LEFT house grows.\",\n  \"s1\": \"Luck is a lever.\",\n  \"s2\": \"Work is a wall.\",\n  \"cap\": \"He pulled a lever. I laid a brick.\",\n  \"tags\": \"#discipline #money #mindset\"\n },\n {\n  \"L\": \"EARLY\",\n  \"R\": \"LATE\",\n  \"light\": \"soft sunrise light\",\n  \"scene\": \"a small farm field on both halves at sunrise, ripe golden wheat\",\n  \"left\": \"already standing in the field with a sickle and a basket\",\n  \"right\": \"asleep in a hammock under a tree at the edge of the field\",\n  \"beats\": \"The ivory figure on the LEFT harvests the wheat steadily and fills his basket to the top as the sun rises. As the light turns grey, rain begins on the RIGHT; the grey figure wakes up, sits up in the hammock and looks at his field, flattened by the rain.\",\n  \"nots\": \"The grey figure never harvests anything. The LEFT field stays sunny.\",\n  \"s1\": \"The day rewards\",\n  \"s2\": \"who shows up first.\",\n  \"cap\": \"He slept in. I showed up.\",\n  \"tags\": \"#discipline #morningroutine #mindset\"\n }\n];\nconst IVORY = \"a faceless male mannequin with warm ivory satin ceramic skin, featureless egg-shaped head, wearing a fitted cream long-sleeve sweater, sand-colored trousers, gold belt buckle and tan shoes\";\nconst GREY = \"a faceless male mannequin with flat matte slate-grey skin, featureless head, wearing a loose grey sweatshirt, charcoal trousers and dark shoes\";\nconst TG = `https://api.telegram.org/bot${cfg.TELEGRAM_BOT_TOKEN}`;\nconst http = this.helpers.httpRequest.bind(this.helpers);\nconst esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');\nasync function tg(method, body) {\n  return http({method: 'POST', url: `${TG}/${method}`, body, json: true});\n}\nfunction nyDate(d) {\n  return new Intl.DateTimeFormat('en-CA', {timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'}).format(d);\n}\nfunction nyOffset(dateStr, hh) {\n  const probe = new Date(`${dateStr}T${hh}:00:00Z`);\n  const p = new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York', timeZoneName: 'shortOffset'}).formatToParts(probe).find(x => x.type === 'timeZoneName').value;\n  const h = Number(p.replace('GMT', '')) || -5;\n  return (h < 0 ? '-' : '+') + String(Math.abs(h)).padStart(2, '0') + ':00';\n}\nfunction slotTime(dateStr, hh) {\n  hh = String(hh).padStart(2, '0');\n  const iso = `${dateStr}T${hh}:00:00${nyOffset(dateStr, hh)}`;\n  return {iso, ms: Date.parse(iso)};\n}\nfunction serbiaTime(ms) {\n  return new Intl.DateTimeFormat('en-GB', {timeZone: 'Europe/Belgrade', weekday: 'short', hour: '2-digit', minute: '2-digit'}).format(new Date(ms));\n}\nfunction buildPrompts(i) {\n  const image_prompt = `Vertical 9:16 split screen divided by a thin vertical line down the middle, clean stylized 3D render, ${i.light}, ${i.scene}. LEFT half: ${IVORY}, ${i.left}. At the top of the left half the word ${i.L} in clean bold white letters inside a thin glowing white halo ring. RIGHT half: ${GREY}, ${i.right}. At the top of the right half the word ${i.R} in clean bold white letters. Both figures large and fully visible, static eye-level camera, no other text, no logos.`;\n  const video_prompt = `Static locked-off camera, one continuous shot, no cuts, the split screen stays exactly as is. ${i.beats} ${i.nots} Nothing covers the figures' heads. The words ${i.L} and ${i.R} stay exactly as they are at the top, sharp and single, no extra text. Both figures keep their exact shape, clothing, color and material. Ambient sound only, no speech, no music.`;\n  return {image_prompt, video_prompt};\n}\n// Sends the next 2 ideas as two Telegram messages and remembers them.\nasync function sendNextPrompts(chatId) {\n  let next = Number(st.next ?? cfg.START_AT_IDEA ?? 0);\n  if (next >= IDEAS.length) {\n    await tg('sendMessage', {chat_id: chatId, text: 'Two Paths: the idea list is used up. Add more ideas to the IDEAS list in both code nodes (or reset START_AT_IDEA).'});\n    return [];\n  }\n  const date = nyDate(new Date());\n  const sent = [];\n  for (let k = 0; k < 2 && next < IDEAS.length; k++, next++) {\n    const i = IDEAS[next];\n    const {image_prompt, video_prompt} = buildPrompts(i);\n    const post_key = `tp-${date}-${k + 1}-${next}`;\n    const hh = k === 0 ? cfg.POST_TIME_1 : cfg.POST_TIME_2;\n    let slot = slotTime(date, hh), sdate = date;\n    if (slot.ms < Date.now() + 2 * 3600 * 1000) { sdate = nyDate(new Date(Date.now() + 24 * 3600 * 1000)); slot = slotTime(sdate, hh); }\n    const text =\n      `<b>Reel ${k + 1}: ${esc(i.L)} vs ${esc(i.R)}</b>  (${esc(post_key)})\\n` +\n      `Posts ${hh}:00 New York (${esc(serbiaTime(slot.ms))} Serbia)\\n\\n` +\n      `<b>1. Start image</b> (Flow: Image, Nano Banana, 9:16)\\n<pre>${esc(image_prompt)}</pre>\\n\\n` +\n      `<b>2. Video</b> (Flow: Video, Frames, 9:16, 8s, start = that image)\\n<pre>${esc(video_prompt)}</pre>\\n\\n` +\n      `Summary: ${esc(i.s1)} / ${esc(i.s2)}\\n` +\n      `👉 <b>Reply to this message with the finished video</b> (send it as a File if Telegram compresses it).`;\n    const r = await tg('sendMessage', {chat_id: chatId, text, parse_mode: 'HTML'});\n    st.pending[post_key] = {post_key, slot_hour: String(hh), date: sdate, msg_id: r.result.message_id,\n      labels: `${i.L} vs ${i.R}`, summary1: i.s1, summary2: i.s2, caption: `${i.cap}\\n\\n${i.tags}`, sent_at: Date.now()};\n    sent.push(post_key);\n  }\n  st.next = next;\n  return sent;\n}\n// ---------- end of shared helpers ----------\n\n// Every minute: read new Telegram messages; videos replying to a prompt message are built and scheduled.\nconst res = await http({method: 'GET', url: `${TG}/getUpdates`, qs: {offset: (st.offset || 0), timeout: 0, allowed_updates: JSON.stringify(['message'])}, json: true});\nconst updates = res.result || [];\nconst log = [];\nif (updates.length) {   // confirm them right away so an overlapping run never processes the same video twice\n  st.offset = updates[updates.length - 1].update_id + 1;\n  await http({method: 'GET', url: `${TG}/getUpdates`, qs: {offset: st.offset, limit: 1, timeout: 0}, json: true});\n}\nfor (const u of updates) {\n  st.offset = u.update_id + 1;\n  const m = u.message;\n  if (!m) continue;\n  const chatId = m.chat.id;\n  // link the owner: the first chat that writes to the bot (or the one in Config)\n  if (!cfg.TELEGRAM_CHAT_ID && !st.owner_chat) {\n    st.owner_chat = chatId;\n    await tg('sendMessage', {chat_id: chatId, text: 'Linked ✅ This chat will get the daily Two Paths prompts. Send /prompts to get the next 2 now.'});\n    continue;\n  }\n  const owner = String(cfg.TELEGRAM_CHAT_ID || st.owner_chat);\n  if (String(chatId) !== owner) continue;              // ignore strangers\n\n  const text = (m.text || '').trim().toLowerCase();\n  if (text === '/prompts' || text === 'prompts') { await sendNextPrompts(chatId); log.push('prompts sent'); continue; }\n  if (text === '/status' || text === 'status') {\n    const p = Object.values(st.pending);\n    await tg('sendMessage', {chat_id: chatId, text: p.length ? 'Waiting for videos:\\n' + p.map(x => `• ${x.labels} (${x.post_key})`).join('\\n') : 'Nothing waiting. Send /prompts for the next 2.'});\n    continue;\n  }\n\n  const file = m.video || m.document || m.animation;\n  if (!file) continue;\n  // which prompt does this video belong to? 1) the message it replies to, 2) otherwise the oldest waiting one\n  let item = null;\n  if (m.reply_to_message) item = Object.values(st.pending).find(x => x.msg_id === m.reply_to_message.message_id);\n  if (!item) item = Object.values(st.pending).sort((a, b) => a.sent_at - b.sent_at)[0];\n  if (!item) { await tg('sendMessage', {chat_id: chatId, reply_to_message_id: m.message_id, text: 'I have no prompt waiting for a video. Send /prompts first.'}); continue; }\n\n  try {\n    if (file.file_size && file.file_size > 20 * 1024 * 1024) throw new Error('video is over 20 MB (Telegram bot limit). Export 720p or trim it.');\n    const f = await tg('getFile', {file_id: file.file_id});\n    const buf = await http({method: 'GET', url: `https://api.telegram.org/file/bot${cfg.TELEGRAM_BOT_TOKEN}/${f.result.file_path}`, encoding: 'arraybuffer'});\n    // store the raw clip on the reel-files branch\n    const gh = {Authorization: `Bearer ${cfg.GITHUB_TOKEN}`, Accept: 'application/vnd.github+json', 'User-Agent': 'n8n-two-paths'};\n    const path = `tp-raw/${item.post_key}.mp4`;\n    let sha;\n    try { sha = (await http({method: 'GET', url: `https://api.github.com/repos/${cfg.GITHUB_REPO}/contents/${path}?ref=reel-files`, headers: gh, json: true})).sha; } catch (e) {}\n    await http({method: 'PUT', url: `https://api.github.com/repos/${cfg.GITHUB_REPO}/contents/${path}`, headers: gh, json: true,\n      body: {message: `raw clip ${item.post_key}`, content: Buffer.from(buf).toString('base64'), branch: 'reel-files', ...(sha ? {sha} : {})}});\n    // publish time: this slot today, or the same slot tomorrow if it is less than 30 min away\n    let slot = slotTime(item.date, item.slot_hour);\n    if (slot.ms < Date.now() + 30 * 60 * 1000) {\n      let d = nyDate(new Date());\n      slot = slotTime(d, item.slot_hour);\n      if (slot.ms < Date.now() + 30 * 60 * 1000) { d = nyDate(new Date(Date.now() + 24 * 3600 * 1000)); slot = slotTime(d, item.slot_hour); }\n    }\n    await new Promise(r => setTimeout(r, 10000));   // let the raw link appear\n    const dry = cfg.DRY_RUN === true || cfg.DRY_RUN === 'true';\n    await http({method: 'POST', url: `https://api.github.com/repos/${cfg.GITHUB_REPO}/actions/workflows/two-paths-reel.yml/dispatches`, headers: gh, json: true,\n      body: {ref: 'main', inputs: {raw_url: `https://raw.githubusercontent.com/${cfg.GITHUB_REPO}/reel-files/${path}`,\n        summary1: item.summary1, summary2: item.summary2, caption: item.caption, publish_at: slot.iso,\n        post_key: item.post_key, dry_run: String(dry)}}});\n    delete st.pending[item.post_key];\n    await tg('sendMessage', {chat_id: chatId, reply_to_message_id: m.message_id, parse_mode: 'HTML',\n      text: `✅ <b>${esc(item.labels)}</b> received.\\n${dry ? 'TEST MODE: built only, not posted.' : `Scheduled for ${esc(slot.iso.slice(11, 16))} New York (${esc(serbiaTime(slot.ms))} Serbia).`}\\nThe outro is added on GitHub in ~2 min: https://github.com/${esc(cfg.GITHUB_REPO)}/actions/workflows/two-paths-reel.yml`});\n    log.push(`${item.post_key} -> ${slot.iso}`);\n  } catch (e) {\n    await tg('sendMessage', {chat_id: chatId, reply_to_message_id: m.message_id, text: `❌ Couldn't schedule ${item.labels}: ${String(e.message || e).slice(0, 300)}\\nSend the video again to retry.`});\n    log.push(`error ${item.post_key}: ${e.message}`);\n  }\n}\nreturn [{json: {updates: updates.length, log}}];\n"
+      },
+      "id": "114e5f48-3d6b-47ad-947c-87a57e0e4236",
+      "name": "Process new videos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Two Paths Mindset via Telegram\n1. **Config**: paste the bot token (from @BotFather) and the GitHub token. Keep DRY_RUN = true for the first test.\n2. Switch the workflow **Active**, then send any message to your bot: it replies *Linked*.\n3. Send **/prompts** to get 2 reels now (or wait for 10:00). Make them in Flow, then **reply to each message with its video**.\n4. When the test reel looks right on GitHub, set DRY_RUN = false.\nCommands: /prompts, /status",
+        "height": 260,
+        "width": 560
+      },
+      "id": "a86d74cf-aa86-4e37-b178-1a9b2815406b",
+      "name": "How to use",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        -160
+      ]
+    }
+  ],
+  "connections": {
+    "Daily prompts 10:00": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Telegram every minute": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Daily or minute?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Daily or minute?": {
+      "main": [
+        [
+          {
+            "node": "Send today's prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Process new videos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Belgrade",
+    "saveManualExecutions": true,
+    "saveDataSuccessExecution": "none",
+    "saveDataErrorExecution": "all"
+  },
+  "pinData": {},
+  "active": false
+}
