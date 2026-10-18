@@ -1,0 +1,53 @@
+name: Long-form - make scene pictures
+run-name: "Pictures ${{ inputs.scenes }} ${{ inputs.only }}"
+
+on:
+  workflow_dispatch:
+    inputs:
+      scenes:
+        description: "Scenes file in the repo, e.g. longform/ep01/scenes.json"
+        required: true
+        type: string
+      out:
+        description: "Folder on branch longform-assets, e.g. ep01/img"
+        required: true
+        type: string
+      only:
+        description: "Only these scene ids (comma list). Empty = all"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: longform-images
+  cancel-in-progress: false
+
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Make pictures
+        env:
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+        run: python3 scripts/longform_images.py "${{ inputs.scenes }}" out --only "${{ inputs.only }}"
+      - name: Save to branch longform-assets
+        if: always()
+        run: |
+          set -e
+          ls out | head -80
+          git config user.name "longform-bot"; git config user.email "longform-bot@users.noreply.github.com"
+          git fetch origin longform-assets || true
+          if git rev-parse --verify origin/longform-assets >/dev/null 2>&1; then
+            git worktree add assets origin/longform-assets && (cd assets && git checkout -B longform-assets)
+          else
+            git worktree add --detach assets && (cd assets && git checkout --orphan longform-assets && git rm -rf -q . || true)
+          fi
+          mkdir -p "assets/${{ inputs.out }}"
+          cp out/*.jpg "assets/${{ inputs.out }}/" 2>/dev/null || true
+          cd assets && git add -A && (git commit -q -m "pictures ${{ inputs.out }}" || echo "nothing new") && git push -q origin longform-assets
