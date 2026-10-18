@@ -1,0 +1,359 @@
+{
+  "name": "Two Paths Mindset - daily reels",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "49 18 * * *"
+            }
+          ]
+        }
+      },
+      "id": "ce0a69db-221b-43a6-82f9-04bb89ac0513",
+      "name": "Every day 18:49",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": false,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5c5af69-a1e3-497c-9487-9e12c836b900",
+              "name": "GEMINI_API_KEY",
+              "value": "PASTE_YOUR_GEMINI_API_KEY",
+              "type": "string"
+            },
+            {
+              "id": "9b84fe2f-289b-47e4-8b58-85dcd0345d38",
+              "name": "GITHUB_TOKEN",
+              "value": "PASTE_YOUR_GITHUB_TOKEN",
+              "type": "string"
+            },
+            {
+              "id": "48e71ba5-c78c-4f16-a4af-51a333b6c140",
+              "name": "GITHUB_REPO",
+              "value": "adinhadza/unpop-truths",
+              "type": "string"
+            },
+            {
+              "id": "6367a2fd-17cb-4d6e-adc3-a791d9c3e8fb",
+              "name": "IMAGE_MODEL",
+              "value": "gemini-2.5-flash-image",
+              "type": "string"
+            },
+            {
+              "id": "f79f2109-c1aa-4e0f-b7ac-22807e7e85fa",
+              "name": "VEO_MODEL",
+              "value": "veo-3.1-fast-generate-preview",
+              "type": "string"
+            },
+            {
+              "id": "4b189798-e512-409b-8946-fce3dc585acb",
+              "name": "POST_TIME_1",
+              "value": "12",
+              "type": "string"
+            },
+            {
+              "id": "02e09c72-cbf5-4daa-b660-5af100a53479",
+              "name": "POST_TIME_2",
+              "value": "19",
+              "type": "string"
+            },
+            {
+              "id": "ff5d07da-538d-404d-9058-b81b66154077",
+              "name": "START_AT_IDEA",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "445bafbe-c8ab-4828-94b3-69b5d6fa050c",
+              "name": "DRY_RUN",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "id": "00232bd8-3b9a-4ada-a10e-e8f4555141ef",
+      "name": "Config",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        220,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Picks the next 2 ideas, builds the prompts and the US post times for TOMORROW (New York).\nconst cfg = $('Config').first().json;\nconst IDEAS = [\n {\n  \"L\": \"STEADY\",\n  \"R\": \"SPRINTER\",\n  \"light\": \"bright indoor pool light\",\n  \"scene\": \"an indoor swimming pool, one lane on each half, a glowing finish wall at the far end\",\n  \"left\": \"standing at the edge of his lane in a swim cap, calm\",\n  \"right\": \"crouched at the edge of his lane, flexing, ready to explode off the block\",\n  \"beats\": \"The grey figure on the RIGHT dives in and sprints wildly, splashing hard, then runs out of breath halfway and clings to the lane rope, stuck. The ivory figure on the LEFT dives in and swims calm, even strokes the whole way and touches the glowing finish wall, which lights up warm gold.\",\n  \"nots\": \"The grey figure never reaches the wall. Only the wall on the LEFT lights up.\",\n  \"s1\": \"Fast starts fade.\",\n  \"s2\": \"Steady finishes.\",\n  \"cap\": \"He started fast. I finished.\",\n  \"tags\": \"#consistency #mindset #discipline\"\n },\n {\n  \"L\": \"INNOVATOR\",\n  \"R\": \"STUBBORN\",\n  \"light\": \"warm desert sunlight\",\n  \"scene\": \"sand dunes on both halves, each figure holding the rope of a heavy wooden sled stacked with crates\",\n  \"left\": \"standing next to his sled, looking at it thoughtfully, two wooden wheels lying beside it\",\n  \"right\": \"leaning into the rope, pulling his sled hard\",\n  \"beats\": \"The grey figure on the RIGHT pulls harder and harder; his sled digs deeper into the sand and stops completely. The ivory figure on the LEFT fits the two wooden wheels under his sled, then rolls it easily across the sand and out of frame toward a glowing oasis.\",\n  \"nots\": \"The grey sled never moves forward. The grey figure himself never changes.\",\n  \"s1\": \"Work harder?\",\n  \"s2\": \"Work different.\",\n  \"cap\": \"Same load. Different idea.\",\n  \"tags\": \"#innovation #worksmart #mindset\"\n },\n {\n  \"L\": \"DOER\",\n  \"R\": \"OVERTHINKER\",\n  \"light\": \"golden late-afternoon light\",\n  \"scene\": \"a beach on both halves with big glowing waves rolling in\",\n  \"left\": \"standing at the water's edge holding a simple surfboard\",\n  \"right\": \"sitting on the sand surrounded by unused surfboards, reading a thick surfing manual\",\n  \"beats\": \"The ivory figure on the LEFT paddles out on his simple board, stands up and rides a glowing wave across the LEFT half. The grey figure on the RIGHT keeps reading his manual, turning page after page, and never touches the water.\",\n  \"nots\": \"The grey figure never stands up and never enters the water.\",\n  \"s1\": \"Reading isn't riding.\",\n  \"s2\": \"Start.\",\n  \"cap\": \"He studied the wave. I caught it.\",\n  \"tags\": \"#action #mindset #motivation\"\n },\n {\n  \"L\": \"ADAPT\",\n  \"R\": \"REPEAT\",\n  \"light\": \"soft overcast light\",\n  \"scene\": \"a tall heavy wooden gate in a stone wall on each half, bright garden light behind each gate\",\n  \"left\": \"standing in front of his gate, looking at its handle\",\n  \"right\": \"ramming his shoulder into his gate\",\n  \"beats\": \"The grey figure on the RIGHT rams his shoulder into the gate again and again; it never moves and he staggers back each time. The ivory figure on the LEFT notices the gate is a sliding door, slides it sideways with one hand and walks through into warm garden light.\",\n  \"nots\": \"The gate on the RIGHT never opens. The grey figure himself never changes.\",\n  \"s1\": \"Same move, same wall.\",\n  \"s2\": \"Change the move.\",\n  \"cap\": \"He pushed harder. I looked closer.\",\n  \"tags\": \"#adapt #growthmindset #mindset\"\n },\n {\n  \"L\": \"INVESTOR\",\n  \"R\": \"SPENDER\",\n  \"light\": \"bright clean studio light\",\n  \"scene\": \"a calm light-grey studio with soft clouds high above both halves\",\n  \"left\": \"kneeling beside a small stack of gold bricks\",\n  \"right\": \"standing surrounded by colorful shopping bags and boxes\",\n  \"beats\": \"The ivory figure on the LEFT stacks gold bricks one by one into a staircase that rises into the clouds, then climbs up toward a glowing platform. On the RIGHT the pile of shopping bags around the grey figure grows, wobbles and topples over him, and he stays on the ground.\",\n  \"nots\": \"The grey figure never rises. Only the LEFT staircase grows.\",\n  \"s1\": \"Stack, don't spend.\",\n  \"s2\": \"Rise.\",\n  \"cap\": \"He bought things. I built steps.\",\n  \"tags\": \"#money #investing #mindset\"\n },\n {\n  \"L\": \"COURAGE\",\n  \"R\": \"FEAR\",\n  \"light\": \"dramatic canyon sunset light\",\n  \"scene\": \"the edge of a deep canyon on both halves, a narrow wooden rope bridge leading across to a glowing platform on the far side\",\n  \"left\": \"standing at the start of the rope bridge, one hand on the rope\",\n  \"right\": \"crouched at the canyon edge clutching the railing, maps in his hands\",\n  \"beats\": \"The ivory figure on the LEFT walks across the bridge plank by plank and reaches the glowing platform, which brightens. The grey figure on the RIGHT stays crouched at the edge; the wind blows his maps out of his hands and away into the canyon.\",\n  \"nots\": \"The grey figure never steps onto the bridge.\",\n  \"s1\": \"Fear plans.\",\n  \"s2\": \"Courage crosses.\",\n  \"cap\": \"He planned the crossing. I crossed.\",\n  \"tags\": \"#courage #mindset #selfgrowth\"\n },\n {\n  \"L\": \"FOCUSED\",\n  \"R\": \"DISTRACTED\",\n  \"light\": \"crisp morning light\",\n  \"scene\": \"an outdoor archery range on both halves, a round target at the back of each half\",\n  \"left\": \"standing with a bow, drawing an arrow calmly\",\n  \"right\": \"holding a bow while glancing at a phone in his other hand\",\n  \"beats\": \"Colorful notification bubbles keep popping up around the grey figure on the RIGHT; he shoots while looking at his phone and his arrows fly wide, missing the target. The ivory figure on the LEFT breathes, aims and hits the center of his target, which flashes gold.\",\n  \"nots\": \"No notification bubbles appear on the LEFT. The grey figure never hits the target.\",\n  \"s1\": \"Notifications or goals.\",\n  \"s2\": \"Pick one.\",\n  \"cap\": \"He checked his phone. I checked my aim.\",\n  \"tags\": \"#focus #discipline #productivity\"\n },\n {\n  \"L\": \"LEARNING\",\n  \"R\": \"SCROLLING\",\n  \"light\": \"warm evening lamp light\",\n  \"scene\": \"a cozy room on both halves at night\",\n  \"left\": \"sitting at a desk with a stack of books and a glowing lamp\",\n  \"right\": \"slouched on a sofa holding a phone with a blue glowing screen\",\n  \"beats\": \"The ivory figure on the LEFT reads book after book; with each closed book a step of light appears and the room on the LEFT grows warmer and brighter, ending with a glowing doorway opening behind him. On the RIGHT the grey figure keeps scrolling; the room around him slowly gets darker until only the phone glow lights his blank face.\",\n  \"nots\": \"No doorway appears on the RIGHT. The grey figure never puts down the phone.\",\n  \"s1\": \"One scroll at a time,\",\n  \"s2\": \"or one page at a time.\",\n  \"cap\": \"Same hours. Different future.\",\n  \"tags\": \"#selfimprovement #reading #mindset\"\n },\n {\n  \"L\": \"RESPONSIBLE\",\n  \"R\": \"EXCUSES\",\n  \"light\": \"cloudy lake light\",\n  \"scene\": \"a calm lake on both halves, each figure sitting in a small wooden rowboat that has a small leak with water bubbling in\",\n  \"left\": \"looking down at the leak, a bucket and a patch in his hands\",\n  \"right\": \"pointing angrily at the leak and then out at the lake as if blaming it\",\n  \"beats\": \"The ivory figure on the LEFT bails the water out with his bucket, presses the patch over the leak and rows calmly toward a sunny shore. The grey figure on the RIGHT keeps pointing and complaining while water rises in his boat until it sits low in the water, stuck.\",\n  \"nots\": \"The grey figure never picks up a bucket. Only the LEFT boat moves.\",\n  \"s1\": \"Blame keeps you sinking.\",\n  \"s2\": \"Fix it.\",\n  \"cap\": \"He blamed the water. I fixed the hole.\",\n  \"tags\": \"#responsibility #mindset #growth\"\n },\n {\n  \"L\": \"PREPARED\",\n  \"R\": \"CARELESS\",\n  \"light\": \"calm sunny light turning stormy\",\n  \"scene\": \"a small hilltop on both halves under a clear sky, dark storm clouds approaching in the distance\",\n  \"left\": \"hammering wooden boards onto a small shelter frame\",\n  \"right\": \"lying in a hammock with sunglasses, relaxed\",\n  \"beats\": \"The ivory figure on the LEFT finishes the roof of his small shelter and steps inside just as the storm arrives. Heavy rain pours on both halves; the grey figure on the RIGHT jumps out of his soaked hammock with nowhere to go, standing in the rain.\",\n  \"nots\": \"The grey figure never builds anything. The ivory figure stays dry under his roof.\",\n  \"s1\": \"Build the roof\",\n  \"s2\": \"before the rain.\",\n  \"cap\": \"He waited for the storm. I got ready for it.\",\n  \"tags\": \"#prepared #discipline #mindset\"\n },\n {\n  \"L\": \"BUILDER\",\n  \"R\": \"GAMBLER\",\n  \"light\": \"warm golden studio light\",\n  \"scene\": \"a clean beige studio on both halves\",\n  \"left\": \"laying bricks for a low wall, a stack of bricks beside him\",\n  \"right\": \"standing at a flashy glowing slot machine with a handful of gold coins\",\n  \"beats\": \"The ivory figure on the LEFT lays brick after brick; the wall rises steadily into a small solid house with a warm lit window. The grey figure on the RIGHT feeds coins into the slot machine and pulls the lever again and again; his coin pile shrinks to nothing and the machine's lights go dark.\",\n  \"nots\": \"The grey figure never wins anything. Only the LEFT house grows.\",\n  \"s1\": \"Luck is a lever.\",\n  \"s2\": \"Work is a wall.\",\n  \"cap\": \"He pulled a lever. I laid a brick.\",\n  \"tags\": \"#discipline #money #mindset\"\n },\n {\n  \"L\": \"EARLY\",\n  \"R\": \"LATE\",\n  \"light\": \"soft sunrise light\",\n  \"scene\": \"a small farm field on both halves at sunrise, ripe golden wheat\",\n  \"left\": \"already standing in the field with a sickle and a basket\",\n  \"right\": \"asleep in a hammock under a tree at the edge of the field\",\n  \"beats\": \"The ivory figure on the LEFT harvests the wheat steadily and fills his basket to the top as the sun rises. As the light turns grey, rain begins on the RIGHT; the grey figure wakes up, sits up in the hammock and looks at his field, flattened by the rain.\",\n  \"nots\": \"The grey figure never harvests anything. The LEFT field stays sunny.\",\n  \"s1\": \"The day rewards\",\n  \"s2\": \"who shows up first.\",\n  \"cap\": \"He slept in. I showed up.\",\n  \"tags\": \"#discipline #morningroutine #mindset\"\n }\n];\nconst IVORY = \"a faceless male mannequin with warm ivory satin ceramic skin, featureless egg-shaped head, wearing a fitted cream long-sleeve sweater, sand-colored trousers, gold belt buckle and tan shoes\";\nconst GREY = \"a faceless male mannequin with flat matte slate-grey skin, featureless head, wearing a loose grey sweatshirt, charcoal trousers and dark shoes\";\nconst st = $getWorkflowStaticData('global');\nlet next = Number(st.next ?? cfg.START_AT_IDEA ?? 0);\nif (next + 2 > IDEAS.length) throw new Error('Two Paths: idea list is used up. Add more ideas to the \"Pick 2 ideas\" node (IDEAS list) or set START_AT_IDEA.');\n\n// tomorrow's date in New York, and that day's UTC offset (handles the clock change)\nconst now = new Date();\nconst nyDate = d => new Intl.DateTimeFormat('en-CA', {timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit'}).format(d);\nconst tomorrow = nyDate(new Date(now.getTime() + 24 * 3600 * 1000));\nfunction nyOffset(dateStr, hh) {\n  const probe = new Date(`${dateStr}T${hh}:00:00Z`);\n  const part = new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York', timeZoneName: 'shortOffset'}).formatToParts(probe).find(p => p.type === 'timeZoneName').value; // e.g. GMT-4\n  const h = Number(part.replace('GMT', '')) || -5;\n  return (h < 0 ? '-' : '+') + String(Math.abs(h)).padStart(2, '0') + ':00';\n}\nconst times = [cfg.POST_TIME_1 || '12', cfg.POST_TIME_2 || '19'];\nconst out = [];\nfor (let k = 0; k < 2; k++) {\n  const i = IDEAS[next + k];\n  const hh = String(times[k]).padStart(2, '0');\n  const image_prompt = `Vertical 9:16 split screen divided by a thin vertical line down the middle, clean stylized 3D render, ${i.light}, ${i.scene}. LEFT half: ${IVORY}, ${i.left}. At the top of the left half the word ${i.L} in clean bold white letters inside a thin glowing white halo ring. RIGHT half: ${GREY}, ${i.right}. At the top of the right half the word ${i.R} in clean bold white letters. Both figures large and fully visible, static eye-level camera, no other text, no logos.`;\n  const motion_prompt = `Static locked-off camera, one continuous shot, no cuts, the split screen stays exactly as is. ${i.beats} ${i.nots} Nothing covers the figures' heads. The words ${i.L} and ${i.R} stay exactly as they are at the top, sharp and single, no extra text. Both figures keep their exact shape, clothing, color and material. Ambient sound only, no speech, no music.`;\n  out.push({json: {\n    n: k + 1, idea_index: next + k, labels: `${i.L} vs ${i.R}`, date: tomorrow,\n    post_key: `tp-${tomorrow}-${k + 1}`,\n    publish_at: `${tomorrow}T${hh}:00:00${nyOffset(tomorrow, hh)}`,\n    image_prompt, motion_prompt, summary1: i.s1, summary2: i.s2,\n    caption: `${i.cap}\\n\\n${i.tags}`,\n  }});\n}\nst.next = next + 2;\nreturn out;\n"
+      },
+      "id": "8e77ab2b-3e28-4ba2-b74d-177003cdade6",
+      "name": "Pick 2 ideas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Start image with Google's image model (Nano Banana), 9:16.\nconst cfg = $('Config').first().json;\nconst j = $json;\nconst res = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://generativelanguage.googleapis.com/v1beta/models/${cfg.IMAGE_MODEL}:generateContent`,\n  headers: {'x-goog-api-key': cfg.GEMINI_API_KEY, 'Content-Type': 'application/json'},\n  body: {contents: [{parts: [{text: j.image_prompt}]}],\n         generationConfig: {responseModalities: ['IMAGE'], imageConfig: {aspectRatio: '9:16'}}},\n  json: true,\n});\nconst parts = res?.candidates?.[0]?.content?.parts || [];\nconst img = parts.find(p => p.inlineData || p.inline_data);\nif (!img) throw new Error('No image returned: ' + JSON.stringify(res).slice(0, 400));\nconst d = img.inlineData || img.inline_data;\nreturn {json: {...j, image_b64: d.data, image_mime: d.mimeType || d.mime_type || 'image/png'}};\n"
+      },
+      "id": "77813f82-065a-4add-b526-13fa999cda93",
+      "name": "Make start image",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Start the 8 s Veo video from the start image.\nconst cfg = $('Config').first().json;\nconst j = $json;\nconst res = await this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://generativelanguage.googleapis.com/v1beta/models/${cfg.VEO_MODEL}:predictLongRunning`,\n  headers: {'x-goog-api-key': cfg.GEMINI_API_KEY, 'Content-Type': 'application/json'},\n  body: {instances: [{prompt: j.motion_prompt, image: {inlineData: {mimeType: j.image_mime, data: j.image_b64}}}],\n         parameters: {aspectRatio: '9:16', durationSeconds: 8, resolution: '720p', personGeneration: 'allow_adult'}},\n  json: true,\n});\nif (!res.name) throw new Error('Veo did not start: ' + JSON.stringify(res).slice(0, 400));\nconst {image_b64, ...rest} = j;   // drop the big image, keep the rest\nreturn {json: {...rest, operation: res.name, checks: 0}};\n"
+      },
+      "id": "d9f59cb2-c70a-4745-aa17-72a6930345b5",
+      "name": "Start video (Veo)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "id": "1c455ba2-5fb1-4b41-9abc-1172d475d0a1",
+      "name": "Wait 30s",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1100,
+        300
+      ],
+      "webhookId": "558c88a7-f27b-43be-a2e4-6cdfd7ef3438"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Check the Veo job once.\nconst cfg = $('Config').first().json;\nconst j = $json;\nconst res = await this.helpers.httpRequest({\n  method: 'GET',\n  url: `https://generativelanguage.googleapis.com/v1beta/${j.operation}`,\n  headers: {'x-goog-api-key': cfg.GEMINI_API_KEY},\n  json: true,\n});\nif (res.error) throw new Error('Veo error: ' + JSON.stringify(res.error).slice(0, 400));\nconst checks = (j.checks || 0) + 1;\nif (checks > 40) throw new Error('Veo took more than 20 minutes for ' + j.post_key);\nlet video_uri = '';\nif (res.done) {\n  video_uri = res?.response?.generateVideoResponse?.generatedSamples?.[0]?.video?.uri || '';\n  if (!video_uri) throw new Error('Veo finished without a video (maybe blocked by safety filters): ' + JSON.stringify(res).slice(0, 500));\n}\nreturn {json: {...j, checks, done: !!res.done, video_uri}};\n"
+      },
+      "id": "4aab48a7-bb8f-42c1-9589-275c67b8750a",
+      "name": "Check video",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1320,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "9d8282ef-5356-4b1c-929c-81a4b98edbe3",
+              "leftValue": "={{ $json.done }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1feb0980-c3d5-4e64-9b0a-0a77a1aac815",
+      "name": "Video ready?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1540,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Download the clip and store it on the reel-files branch so GitHub can fetch it.\nconst cfg = $('Config').first().json;\nconst j = $json;\nconst buf = await this.helpers.httpRequest({\n  method: 'GET', url: j.video_uri, headers: {'x-goog-api-key': cfg.GEMINI_API_KEY},\n  encoding: 'arraybuffer', returnFullResponse: false,\n});\nconst b64 = Buffer.from(buf).toString('base64');\nconst path = `tp-raw/${j.post_key}.mp4`;\nconst gh = {Authorization: `Bearer ${cfg.GITHUB_TOKEN}`, Accept: 'application/vnd.github+json', 'User-Agent': 'n8n-two-paths'};\nlet sha;\ntry {\n  const old = await this.helpers.httpRequest({method: 'GET', url: `https://api.github.com/repos/${cfg.GITHUB_REPO}/contents/${path}?ref=reel-files`, headers: gh, json: true});\n  sha = old.sha;\n} catch (e) { /* new file */ }\nawait this.helpers.httpRequest({\n  method: 'PUT', url: `https://api.github.com/repos/${cfg.GITHUB_REPO}/contents/${path}`, headers: gh, json: true,\n  body: {message: `raw clip ${j.post_key}`, content: b64, branch: 'reel-files', ...(sha ? {sha} : {})},\n});\nreturn {json: {...j, raw_url: `https://raw.githubusercontent.com/${cfg.GITHUB_REPO}/reel-files/${path}`, raw_bytes: buf.byteLength}};\n"
+      },
+      "id": "c6cc09ac-6d37-4b1c-b1ea-22ebe9c58090",
+      "name": "Save clip to GitHub",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Ask GitHub to add the outro and schedule the Reel on Facebook.\nconst cfg = $('Config').first().json;\nconst j = $json;\nawait new Promise(r => setTimeout(r, 15000)); // let the raw link become available\nawait this.helpers.httpRequest({\n  method: 'POST',\n  url: `https://api.github.com/repos/${cfg.GITHUB_REPO}/actions/workflows/two-paths-reel.yml/dispatches`,\n  headers: {Authorization: `Bearer ${cfg.GITHUB_TOKEN}`, Accept: 'application/vnd.github+json', 'User-Agent': 'n8n-two-paths'},\n  body: {ref: 'main', inputs: {raw_url: j.raw_url, summary1: j.summary1, summary2: j.summary2,\n         caption: j.caption, publish_at: j.publish_at, post_key: j.post_key, dry_run: String(cfg.DRY_RUN === true || cfg.DRY_RUN === 'true')}},\n  json: true,\n});\nreturn {json: {post_key: j.post_key, labels: j.labels, publish_at: j.publish_at, caption: j.caption,\n  check_here: `https://github.com/${cfg.GITHUB_REPO}/actions/workflows/two-paths-reel.yml`}};\n"
+      },
+      "id": "d98ba785-169f-4654-9898-dc6a3017b8cd",
+      "name": "Build + schedule on Facebook",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Two Paths Mindset - daily reels\n1. Open **Config**: paste your Gemini API key and GitHub token.\n2. Leave **DRY_RUN = true** for the first test (builds the reel but does not post). Run with **Test workflow**, then check GitHub > Actions > 'Two Paths Mindset - build and post one Reel'.\n3. Set **DRY_RUN = false** and switch the workflow **Active**.\nEach run makes 2 reels for tomorrow (New York 12:00 and 19:00).",
+        "height": 220,
+        "width": 520
+      },
+      "id": "3ae15540-fb29-4392-a2ae-ca3d5e97597d",
+      "name": "How to use",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        180,
+        20
+      ]
+    }
+  ],
+  "connections": {
+    "Every day 18:49": {
+      "main": [
+        [
+          {
+            "node": "Config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Config": {
+      "main": [
+        [
+          {
+            "node": "Pick 2 ideas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pick 2 ideas": {
+      "main": [
+        [
+          {
+            "node": "Make start image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Make start image": {
+      "main": [
+        [
+          {
+            "node": "Start video (Veo)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start video (Veo)": {
+      "main": [
+        [
+          {
+            "node": "Wait 30s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 30s": {
+      "main": [
+        [
+          {
+            "node": "Check video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check video": {
+      "main": [
+        [
+          {
+            "node": "Video ready?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Video ready?": {
+      "main": [
+        [
+          {
+            "node": "Save clip to GitHub",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait 30s",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save clip to GitHub": {
+      "main": [
+        [
+          {
+            "node": "Build + schedule on Facebook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "Europe/Belgrade",
+    "saveManualExecutions": true
+  },
+  "pinData": {},
+  "active": false
+}
