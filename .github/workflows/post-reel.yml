@@ -5,11 +5,11 @@ on:
   workflow_dispatch:
     inputs:
       page:
-        description: "Which page to post to: main = Unpopular Truths, news = The 50 State Wire, words = Words That Stay"
+        description: "Which page to post to: main = Unpopular Truths, news = The 50 State Wire, words = Words That Stay, twopaths = Two Paths Mindset"
         required: false
         type: choice
         default: main
-        options: [main, news, words]
+        options: [main, news, words, twopaths]
       video_url:
         description: "Public link to the finished MP4 (for example a Canva export link). Leave empty when giving an image"
         required: false
@@ -86,8 +86,8 @@ jobs:
       - name: Publish Reel
         timeout-minutes: 8
         env:
-          FB_PAGE_ID: ${{ inputs.page == 'words' && secrets.WORDS_THAT_STAY_PAGE_ID || (inputs.page == 'news' && secrets.NEWS_PAGE_ID || secrets.FB_PAGE_ID) }}
-          FB_PAGE_TOKEN: ${{ inputs.page == 'words' && '' || (inputs.page == 'news' && secrets.NEWS_PAGE_TOKEN || secrets.FB_PAGE_TOKEN) }}
+          FB_PAGE_ID: ${{ inputs.page == 'twopaths' && '' || (inputs.page == 'words' && secrets.WORDS_THAT_STAY_PAGE_ID || (inputs.page == 'news' && secrets.NEWS_PAGE_ID || secrets.FB_PAGE_ID)) }}
+          FB_PAGE_TOKEN: ${{ (inputs.page == 'words' || inputs.page == 'twopaths') && '' || (inputs.page == 'news' && secrets.NEWS_PAGE_TOKEN || secrets.FB_PAGE_TOKEN) }}
           FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
           VIDEO_URL: ${{ inputs.video_url }}
           IMAGE_URL: ${{ inputs.image_url }}
@@ -100,5 +100,13 @@ jobs:
         run: |
           if [ "${{ inputs.page }}" = "words" ] && [ -z "$FB_PAGE_ID" ]; then
             echo '::error::WORDS_THAT_STAY_PAGE_ID secret is missing'; exit 1
+          fi
+          if [ "${{ inputs.page }}" = "twopaths" ]; then
+            # Two Paths Mindset has no saved page id: find it by name among the pages the system key manages.
+            FB_PAGE_ID=$(curl -sS -G "https://graph.facebook.com/v23.0/me/accounts" -d "fields=name,id" -d "limit=100" \
+              -d "access_token=${FB_SYSTEM_TOKEN}" | jq -r '[.data[]? | select(.name | ascii_downcase | test("two paths? mindset"))][0].id // empty')
+            [ -n "$FB_PAGE_ID" ] || { echo '::error::Two Paths Mindset is not among the pages the system key can manage (assign the page to the system user in Meta Business Suite)'; exit 1; }
+            FB_PAGE_TOKEN=""; export FB_PAGE_ID FB_PAGE_TOKEN
+            echo "::notice::Two Paths Mindset page found"
           fi
           bash scripts/post_reel.sh

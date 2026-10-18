@@ -1,0 +1,24 @@
+name: Check Two Paths Mindset connection
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: List pages the system key manages and check Two Paths Mindset
+        env:
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
+        run: |
+          [ -n "$FB_SYSTEM_TOKEN" ] || { echo "::error::FB_SYSTEM_TOKEN secret is missing"; exit 1; }
+          res=$(curl -sS -G "https://graph.facebook.com/v23.0/me/accounts" -d "fields=name,id,tasks" -d "limit=100" -d "access_token=${FB_SYSTEM_TOKEN}")
+          if echo "$res" | jq -e '.error' >/dev/null; then echo "::error::$(echo "$res" | jq -r '.error.message')"; exit 1; fi
+          echo "::notice::pages: $(echo "$res" | jq -c '[.data[] | {name, id, tasks}]')"
+          id=$(echo "$res" | jq -r '[.data[] | select(.name | ascii_downcase | test("two paths? mindset"))][0].id // empty')
+          [ -n "$id" ] || { echo "::error::Two Paths Mindset is not assigned to the system user"; exit 1; }
+          echo "::notice::two-paths OK: page found"
