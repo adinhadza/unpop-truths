@@ -47,12 +47,12 @@ jobs:
           mkdir assets && cd assets
           git init -q
           git config user.name "longform-bot"; git config user.email "longform-bot@users.noreply.github.com"
-          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git fetch -q --depth 1 origin longform-assets
+          git remote add store "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+          git fetch -q --depth 1 store longform-assets
           git checkout -q -b longform-assets FETCH_HEAD
           mkdir -p "${{ inputs.out }}"
           cp ../out/*.jpg "${{ inputs.out }}/" 2>/dev/null || true
           git add -A
           git commit -q -m "pictures ${{ inputs.out }}" || { echo "nothing new"; exit 0; }
-          git push -q origin longform-assets 2>&1 | sed "s/^/::notice::push: /"
+          git push -q store HEAD:longform-assets 2>&1 | sed "s/^/::notice::push: /"
           test ${PIPESTATUS[0]} -eq 0
