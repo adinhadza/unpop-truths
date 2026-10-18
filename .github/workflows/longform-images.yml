@@ -42,7 +42,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
-          ls -la out
+          trap 'echo "::error::save failed at line $LINENO: $BASH_COMMAND"' ERR
+          echo "::notice::files: $(ls out | tr '\n' ' ')"
           mkdir assets && cd assets
           git init -q
           git config user.name "longform-bot"; git config user.email "longform-bot@users.noreply.github.com"
@@ -53,4 +54,5 @@ jobs:
           cp ../out/*.jpg "${{ inputs.out }}/" 2>/dev/null || true
           git add -A
           git commit -q -m "pictures ${{ inputs.out }}" || { echo "nothing new"; exit 0; }
-          git push -q origin longform-assets
+          git push -q origin longform-assets 2>&1 | sed "s/^/::notice::push: /"
+          test ${PIPESTATUS[0]} -eq 0
