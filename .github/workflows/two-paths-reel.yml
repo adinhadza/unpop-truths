@@ -1,0 +1,88 @@
+name: Two Paths Mindset - build and post one Reel
+run-name: "Two Paths Reel ${{ inputs.post_key }}"
+
+# Started by n8n (or by hand). Takes the raw 8 s AI clip, keeps the in-scene labels on screen,
+# adds the 2 s summary card, the 2 s emblem outro and the corner brand, then schedules it on
+# the Two Paths Mindset page with the system key.
+
+on:
+  workflow_dispatch:
+    inputs:
+      raw_url:
+        description: "Public link to the raw 8 s clip (MP4, 9:16)"
+        required: true
+        type: string
+      summary1:
+        description: "Summary line 1 (white)"
+        required: true
+        type: string
+      summary2:
+        description: "Summary line 2 (gold)"
+        required: true
+        type: string
+      caption:
+        description: "Facebook caption"
+        required: false
+        type: string
+        default: ""
+      publish_at:
+        description: "e.g. 2026-10-20T12:00:00-04:00 (15 min to 28 days ahead). Empty = publish now"
+        required: false
+        type: string
+        default: ""
+      post_key:
+        description: "Unique id, e.g. tp-2026-10-20-1"
+        required: true
+        type: string
+      dry_run:
+        description: "Build only, do not post"
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: two-paths-${{ inputs.post_key }}
+  cancel-in-progress: false
+
+jobs:
+  reel:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Tools
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg jq >/dev/null
+          pip install -q pillow numpy
+      - name: Build the 12 s Reel
+        env:
+          RAW_URL: ${{ inputs.raw_url }}
+          S1: ${{ inputs.summary1 }}
+          S2: ${{ inputs.summary2 }}
+        run: |
+          curl -sSL --fail --max-time 180 -o raw.mp4 "$RAW_URL" || { echo "::error::could not download the raw clip"; exit 1; }
+          d=$(ffprobe -v error -show_entries format=duration -of csv=p=0 raw.mp4)
+          echo "::notice::raw clip ${d}s"
+          python3 scripts/keep_labels.py raw.mp4 lab.mp4
+          bash scripts/build_tp_reel.sh lab.mp4 assets/two-paths/emblem.jpg "$S1" "$S2" reel.mp4
+          echo "::notice::built reel $(ffprobe -v error -show_entries format=duration -of csv=p=0 reel.mp4)s, $(stat -c %s reel.mp4) bytes"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.post_key }}
+          path: reel.mp4
+          retention-days: 14
+      - name: Post to Two Paths Mindset
+        if: ${{ !inputs.dry_run }}
+        env:
+          FB_SYSTEM_TOKEN: ${{ secrets.FB_SYSTEM_TOKEN }}
+          CAPTION: ${{ inputs.caption }}
+          PUBLISH_AT: ${{ inputs.publish_at }}
+        run: |
+          FB_PAGE_ID=$(curl -sS -G "https://graph.facebook.com/v23.0/me/accounts" -d "fields=name,id" -d "limit=100" \
+            -d "access_token=${FB_SYSTEM_TOKEN}" | jq -r '[.data[]? | select(.name | ascii_downcase | test("two paths? mindset"))][0].id // empty')
+          [ -n "$FB_PAGE_ID" ] || { echo '::error::Two Paths Mindset is not assigned to the system user'; exit 1; }
+          export FB_PAGE_ID FB_PAGE_TOKEN="" VIDEO_URL="file://$PWD/reel.mp4" MODE=upload MUSIC=none
+          bash scripts/post_reel.sh
