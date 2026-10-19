@@ -1,0 +1,7 @@
+{
+  "note": "Narrators alternate day by day. Each episode records its own pick in longform/epNN/voice.txt.",
+  "rotation": [
+    {"voice": "bm_daniel", "speed": 0.92},
+    {"voice": "am_michael", "speed": 0.92}
+  ]
+}
