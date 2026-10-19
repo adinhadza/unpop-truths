@@ -51,6 +51,7 @@ jobs:
           git fetch -q --depth 1 store longform-assets
           git checkout -q -b longform-assets FETCH_HEAD
           mkdir -p "${{ inputs.out }}"
+          ls ../out/*.jpg >/dev/null 2>&1 || { echo "::error::no pictures were made"; exit 1; }
           cp ../out/*.jpg "${{ inputs.out }}/"
           echo "::notice::saved to ${{ inputs.out }}: $(ls "${{ inputs.out }}" | wc -l) files"
           git add -A

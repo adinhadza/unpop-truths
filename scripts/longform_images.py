@@ -33,7 +33,8 @@ def pollinations(p, seed):
         return data
 
 def cloudflare(p, seed):
-    acc, tok = os.environ.get("CF_ACCOUNT_ID"), os.environ.get("CF_API_TOKEN")
+    acc, tok = (os.environ.get("CF_ACCOUNT_ID") or "").strip(), "".join((os.environ.get("CF_API_TOKEN") or "").split())
+    if tok.lower().startswith("bearer"): tok = tok[6:]
     if not (acc and tok):
         raise RuntimeError("no Cloudflare key")
     model = os.environ.get("CF_IMAGE_MODEL", "@cf/black-forest-labs/flux-2-klein-4b")
