@@ -1,0 +1,52 @@
+name: Long-form - voice samples
+run-name: "Voice samples"
+
+on:
+  push:
+    branches: [main]
+    paths: [longform/voice-tests.txt]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  samples:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Kokoro
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq espeak-ng ffmpeg >/dev/null
+          pip install -q "kokoro>=0.9.4" soundfile
+      - name: Speak the cold open in each voice
+        run: |
+          mkdir -p out
+          grep -v '^#' longform/voice-tests.txt | while read -r v sp; do
+            [ -z "$v" ] && continue
+            python3 scripts/longform_voice.py longform/ep01/scenes.json "tmp_$v" --voice "$v" --speed "${sp:-1.0}" \
+              --only 01,02,03,04,05 --joined "out/$v-$sp.wav" || echo "::warning::$v failed"
+          done
+          for f in out/*.wav; do ffmpeg -v error -y -i "$f" -c:a aac -b:a 160k "${f%.wav}.m4a" && rm "$f"; done
+          ls -la out
+      - name: Save to branch longform-assets (voice-samples/cozy)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          bad=0
+          for f in out/*; do
+            path="voice-samples/cozy/$(basename "$f")"
+            sha=$(curl -s -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$REPO/contents/$path?ref=longform-assets" | jq -r '.sha // empty')
+            base64 -w0 "$f" > b64.txt
+            jq -n --arg m "voice sample $path" --rawfile c b64.txt --arg s "$sha" \
+              '{message:$m, content:$c, branch:"longform-assets"} + (if $s=="" then {} else {sha:$s} end)' > body.json
+            for try in 1 2 3; do
+              code=$(curl -s -o resp.json -w "%{http_code}" -X PUT -H "Authorization: Bearer $GH_TOKEN" \
+                -H "Content-Type: application/json" "https://api.github.com/repos/$REPO/contents/$path" --data @body.json)
+              [ "$code" = 200 ] || [ "$code" = 201 ] && break; sleep $((try*3))
+            done
+            if [ "$code" = 200 ] || [ "$code" = 201 ]; then echo "::notice::saved $path"; else bad=1; echo "::error::$path HTTP $code"; fi
+          done
+          exit $bad

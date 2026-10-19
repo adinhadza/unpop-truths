@@ -1,0 +1,11 @@
+# Cozy male narrator samples: cold open (scenes 01-05), about 20 s each.
+# One "voice speed" per line. Pushing a change to this file makes the samples.
+am_onyx 0.92
+am_michael 0.92
+am_eric 0.92
+am_adam 0.92
+am_echo 0.92
+bm_fable 0.92
+bm_lewis 0.92
+bm_daniel 0.92
+am_fenrir 0.92
