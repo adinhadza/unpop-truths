@@ -1,7 +1,10 @@
 name: Long-form - make scene pictures
-run-name: "Pictures ${{ inputs.scenes }} ${{ inputs.only }}"
+run-name: "Pictures ${{ inputs.scenes || 'from image-request.txt' }} ${{ inputs.only }}"
 
 on:
+  push:
+    branches: [main]
+    paths: [longform/image-request.txt]
   workflow_dispatch:
     inputs:
       scenes:
@@ -31,16 +34,25 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+      - name: Read request
+        id: req
+        run: |
+          if [ -n "${{ inputs.scenes }}" ]; then
+            echo "scenes=${{ inputs.scenes }}" >> $GITHUB_OUTPUT; echo "out=${{ inputs.out }}" >> $GITHUB_OUTPUT; echo "only=${{ inputs.only }}" >> $GITHUB_OUTPUT
+          else
+            read -r sc ou on < <(grep -v '^#' longform/image-request.txt | grep . | head -1)
+            echo "scenes=$sc" >> $GITHUB_OUTPUT; echo "out=$ou" >> $GITHUB_OUTPUT; echo "only=$on" >> $GITHUB_OUTPUT
+          fi
       - name: Make pictures
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-        run: python3 scripts/longform_images.py "${{ inputs.scenes }}" out --only "${{ inputs.only }}" 2>&1 | tee img.log; grep -E "failed|ok via" img.log | tail -5 | sed "s/^/::notice::/"; test ${PIPESTATUS[0]} -eq 0
+        run: python3 scripts/longform_images.py "${{ steps.req.outputs.scenes }}" out --only "${{ steps.req.outputs.only }}" 2>&1 | tee img.log; grep -E "failed|ok via" img.log | tail -5 | sed "s/^/::notice::/"; test ${PIPESTATUS[0]} -eq 0
       - name: Save to branch longform-assets
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OUT: ${{ inputs.out }}
+          OUT: ${{ steps.req.outputs.out }}
           REPO: ${{ github.repository }}
         run: |
           echo "::notice::files: $(ls out | tr '\n' ' ')"

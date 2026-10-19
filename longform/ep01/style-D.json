@@ -1,0 +1,28 @@
+{
+ "style": "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting.",
+ "character": "The IT engineer is a small cute storybook cartoon young man with a big round head, short messy jet-black hair, round black glasses, simple dot eyes, rosy cheeks, a plain grey hoodie with no print, a navy blue lanyard with a white ID card and dark navy jeans. He appears only once in the picture.",
+ "suffix": "No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene.",
+ "scenes": [
+  {
+   "id": "D-05",
+   "narration": "And the only fix\u2026 had to be done by hand. One computer at a time.",
+   "picture": "The IT engineer kneeling in front of an endless row of PCs, holding a USB stick, exhausted",
+   "onscreen": "ONE BY ONE",
+   "has_character": true
+  },
+  {
+   "id": "D-06",
+   "narration": "This is the story of how a single file caused the biggest IT outage in history, and why it could happen again.",
+   "picture": "A tiny glowing file icon floating above a dark planet Earth covered in blue screens",
+   "onscreen": "",
+   "has_character": false
+  },
+  {
+   "id": "D-04",
+   "narration": "Emergency lines went silent.",
+   "picture": "A dark 911 call centre, operators staring at frozen blue screens, phones blinking",
+   "onscreen": "",
+   "has_character": false
+  }
+ ]
+}
