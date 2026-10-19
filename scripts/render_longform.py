@@ -3,14 +3,23 @@
 narration, soft crossfades, word-group captions, big on-screen numbers, quiet music, end card.
 
 usage: render_longform.py scenes.json IMG_DIR VOICE_DIR OUT.mp4 [--music track.m4a] [--brand "PAGE NAME"]
-       [--only 01,02,...] [--fast]
-IMG_DIR has <id>.jpg, VOICE_DIR has <id>.m4a|.wav (from longform_voice.py)."""
-import argparse, json, os, subprocess, tempfile, textwrap, shutil
+       [--endcard img] [--cta-at 15] [--only 01,02,...] [--fast]
+IMG_DIR has <id>.jpg, VOICE_DIR has <id>.m4a|.wav (from longform_voice.py).
+
+The zoom is drawn frame by frame with OpenCV at sub-pixel precision (ffmpeg's zoompan snaps to
+whole pixels, which made it shake). Needs: pip install opencv-python-headless numpy pillow
+--cta-at N inserts the "Like, share & follow" cut-scene at the first scene break from about N seconds
+(0 = off; skipped automatically with --only)."""
+import argparse, json, os, subprocess, tempfile, textwrap, shutil, sys
+import cv2, numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from cta_cutscene import make_cutscene
 
 ap = argparse.ArgumentParser()
 ap.add_argument("scenes"); ap.add_argument("img"); ap.add_argument("voice"); ap.add_argument("out")
 ap.add_argument("--music", default=""); ap.add_argument("--brand", default="")
 ap.add_argument("--endcard", default="", help="1920x1080 image used as the end card")
+ap.add_argument("--cta-at", type=float, default=15.0, help="seconds; 0 disables the follow cut-scene")
 ap.add_argument("--only", default=""); ap.add_argument("--fast", action="store_true")
 ap.add_argument("--fonts", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "fonts"))
 a = ap.parse_args()
@@ -53,8 +62,35 @@ def caption_chunks(text, n_words=6):
         chunks.append(" ".join(cur))
     return chunks
 
+# ---- smooth zoom-out ---------------------------------------------------------------------
+def smooth_zoom(img, frames, zstart, vf, out):
+    """Zoom from zstart to 1.0 over `frames`, centred. Each frame is one affine resample of the
+    original picture with float scale/offset, so the motion has no whole-pixel steps."""
+    src = cv2.imread(img, cv2.IMREAD_COLOR)
+    sh, sw = src.shape[:2]
+    cover = max(W / sw, H / sh)                 # fill 16:9 (1344x768 is a hair wider)
+    ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
+                           "-r", str(FPS), "-i", "-", "-vf", vf, "-frames:v", str(frames), "-c:v", "libx264",
+                           "-preset", "veryfast", "-crf", "16", "-r", str(FPS), out],
+                          stdin=subprocess.PIPE, stderr=subprocess.PIPE)
+    interp = cv2.INTER_LINEAR if a.fast else cv2.INTER_CUBIC
+    for f in range(frames):
+        p = f / max(1, frames - 1)
+        z = zstart ** (1 - p)                   # geometric: same visual speed from start to end
+        k = cover * z
+        M = np.float32([[k, 0, W / 2 - k * sw / 2], [0, k, H / 2 - k * sh / 2]])
+        fr = cv2.warpAffine(src, M, (W, H), flags=interp, borderMode=cv2.BORDER_REFLECT)
+        try:
+            ff.stdin.write(fr.tobytes())
+        except BrokenPipeError:
+            break
+    ff.stdin.close()
+    err = ff.stderr.read().decode()
+    if ff.wait():
+        raise SystemExit("ffmpeg failed on " + out + "\n" + err[-1500:])
+
 # ---- 1. one clip per scene -------------------------------------------------------------
-clips, durs, lead = [], [], 0.25
+clips, durs, voices, lead = [], [], [], 0.25
 for i, s in enumerate(scenes):
     sid = s["id"]
     v = voice_file(sid); vd = dur(v)
@@ -62,12 +98,8 @@ for i, s in enumerate(scenes):
     d = round(vd + (0.15 if hook else 0.45) + lead + XF, 3)   # audio plus breathing room plus overlap
     frames = int(d * FPS)
     img = os.path.join(a.img, sid + ".jpg")
-    big = 1.0 if a.fast else 2.0
     zstart = 1.18 if hook else 1.12
-    vf = [f"scale={int(W*big*zstart)}:{int(H*big*zstart)}:force_original_aspect_ratio=increase",
-          f"crop={int(W*big*zstart)}:{int(H*big*zstart)}",
-          f"zoompan=z='{zstart}-({zstart}-1)*on/{frames}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={frames}:s={W}x{H}:fps={FPS}",
-          "eq=saturation=1.05:contrast=1.03", "format=yuv420p"]
+    vf = ["eq=saturation=1.05:contrast=1.03"]
     # captions: chunks spread over the narration time, proportional to word count
     chunks = caption_chunks(s["narration"])
     total_w = sum(len(c.split()) for c in chunks)
@@ -87,20 +119,30 @@ for i, s in enumerate(scenes):
     if a.brand:
         vf.append(f"drawtext=fontfile={FB}:text='{esc(a.brand.upper())}':fontsize=26:fontcolor=white@0.85:borderw=2:"
                   f"bordercolor=black@0.6:x=w-text_w-30:y=28")
+    vf.append("format=yuv420p")
     out = os.path.join(tmp, f"v_{sid}.mp4")
-    run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-t", f"{d}", "-i", img,
-         "-vf", ",".join(vf), "-frames:v", str(frames), "-c:v", "libx264", "-preset", "veryfast" if a.fast else "medium",
-         "-crf", "20", "-r", str(FPS), out])
-    clips.append(out); durs.append(d)
+    smooth_zoom(img, frames, zstart, ",".join(vf), out)
+    clips.append(out); durs.append(d); voices.append(v)
     print(f"scene {sid}: {d:.1f}s", flush=True)
+
+# ---- 1b. "like, share & follow" cut-scene at the first scene break from ~--cta-at seconds ---
+#      (never earlier, so it lands at a sentence-group end like the end of the cold open)
+if a.cta_at > 0 and not only and len(clips) > 2:
+    t, k = 0.0, len(durs) - 2
+    for i, dd in enumerate(durs[:-1]):
+        t += dd - XF
+        if t >= a.cta_at:
+            k = i; break
+    cta = os.path.join(tmp, "cta.mp4")
+    cd = make_cutscene(cta)
+    clips.insert(k + 1, cta); durs.insert(k + 1, cd); voices.insert(k + 1, None)
+    print(f"cut-scene after scene {scenes[k]['id']} (~{sum(durs[:k+1]) - XF*(k+1):.1f}s)", flush=True)
 
 # ---- 2. end card --------------------------------------------------------------------------
 if a.endcard:
     ec = os.path.join(tmp, "end.mp4"); ed = 4.0
-    run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-t", f"{ed}", "-i", a.endcard, "-vf",
-         f"scale={W}:{H},zoompan=z='1.06-0.06*on/{int(ed*FPS)}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={int(ed*FPS)}:s={W}x{H}:fps={FPS},fade=t=in:d=0.5,format=yuv420p",
-         "-frames:v", str(int(ed*FPS)), "-c:v", "libx264", "-crf", "20", ec])
-    clips.append(ec); durs.append(ed)
+    smooth_zoom(a.endcard, int(ed*FPS), 1.06, "fade=t=in:d=0.5,format=yuv420p", ec)
+    clips.append(ec); durs.append(ed); voices.append(None)
 elif a.brand:
     ec = os.path.join(tmp, "end.mp4"); ed = 4.0
     t1 = os.path.join(tmp, "e1.txt"); open(t1, "w").write(a.brand.upper())
@@ -109,7 +151,7 @@ elif a.brand:
          "-vf", f"drawtext=fontfile={FB}:textfile={t1}:fontsize=96:fontcolor=0xFFC94A:x=(w-text_w)/2:y=h*0.40,"
                 f"drawtext=fontfile={FB}:textfile={t2}:fontsize=48:fontcolor=white:x=(w-text_w)/2:y=h*0.55,"
                 f"fade=t=in:d=0.5,format=yuv420p", "-c:v", "libx264", "-crf", "20", ec])
-    clips.append(ec); durs.append(ed)
+    clips.append(ec); durs.append(ed); voices.append(None)
 
 # ---- 3. join with crossfades --------------------------------------------------------------
 inputs, fc, prev, offset = [], [], "0:v", 0.0
@@ -128,14 +170,16 @@ else:
 total = dur(video)
 
 # ---- 4. narration track aligned to the scene starts ----------------------------------------
-ainputs, amix, start = [], [], 0.0
-for i, s in enumerate(scenes):
-    ainputs += ["-i", voice_file(s["id"])]
-    ms = int((start + lead) * 1000)
-    amix.append(f"[{i}:a]aresample=48000,adelay={ms}:all=1[a{i}]")
+ainputs, amix, start, na = [], [], 0.0, 0
+for i, vpath in enumerate(voices):
+    if vpath:
+        ainputs += ["-i", vpath]
+        ms = int((start + lead) * 1000)
+        amix.append(f"[{na}:a]aresample=48000,adelay={ms}:all=1[a{na}]")
+        na += 1
     start += durs[i] - XF
-labels = "".join(f"[a{i}]" for i in range(len(scenes)))
-amix.append(f"{labels}amix=inputs={len(scenes)}:normalize=0,apad,atrim=0:{total:.3f},loudnorm=I=-16:TP=-1.5[nar]")
+labels = "".join(f"[a{i}]" for i in range(na))
+amix.append(f"{labels}amix=inputs={na}:normalize=0,apad,atrim=0:{total:.3f},loudnorm=I=-16:TP=-1.5[nar]")
 narr = os.path.join(tmp, "narr.m4a")
 run(["ffmpeg", "-v", "error", "-y", *ainputs, "-filter_complex", ";".join(amix), "-map", "[nar]", "-c:a", "aac", "-b:a", "192k", narr])
 
