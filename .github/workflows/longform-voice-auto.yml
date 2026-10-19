@@ -29,7 +29,7 @@ jobs:
             ep=$(basename "$(dirname "$vt")"); read -r v sp < "$vt"
             python3 scripts/longform_voice.py "longform/$ep/scenes.json" "out/$ep/voice-$v" --voice "$v" --speed "${sp:-1.0}"
           done
-          find out -name '*.wav' | while read -r f; do ffmpeg -v error -y -i "$f" -c:a aac -b:a 160k "${f%.wav}.m4a" && rm "$f"; done
+          find out -name '*.wav' | while read -r f; do ffmpeg -nostdin -v error -y -i "$f" -c:a aac -b:a 160k "${f%.wav}.m4a" && rm "$f"; done
           echo "::notice::made $(find out -type f | wc -l) files"
       - name: Save to branch longform-assets
         env:
