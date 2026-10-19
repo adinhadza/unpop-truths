@@ -10,6 +10,7 @@ import argparse, json, os, subprocess, tempfile, textwrap, shutil
 ap = argparse.ArgumentParser()
 ap.add_argument("scenes"); ap.add_argument("img"); ap.add_argument("voice"); ap.add_argument("out")
 ap.add_argument("--music", default=""); ap.add_argument("--brand", default="")
+ap.add_argument("--endcard", default="", help="1920x1080 image used as the end card")
 ap.add_argument("--only", default=""); ap.add_argument("--fast", action="store_true")
 ap.add_argument("--fonts", default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "fonts"))
 a = ap.parse_args()
@@ -94,7 +95,13 @@ for i, s in enumerate(scenes):
     print(f"scene {sid}: {d:.1f}s", flush=True)
 
 # ---- 2. end card --------------------------------------------------------------------------
-if a.brand:
+if a.endcard:
+    ec = os.path.join(tmp, "end.mp4"); ed = 4.0
+    run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-t", f"{ed}", "-i", a.endcard, "-vf",
+         f"scale={W}:{H},zoompan=z='1.06-0.06*on/{int(ed*FPS)}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={int(ed*FPS)}:s={W}x{H}:fps={FPS},fade=t=in:d=0.5,format=yuv420p",
+         "-frames:v", str(int(ed*FPS)), "-c:v", "libx264", "-crf", "20", ec])
+    clips.append(ec); durs.append(ed)
+elif a.brand:
     ec = os.path.join(tmp, "end.mp4"); ed = 4.0
     t1 = os.path.join(tmp, "e1.txt"); open(t1, "w").write(a.brand.upper())
     t2 = os.path.join(tmp, "e2.txt"); open(t2, "w").write("Follow for the next story")
