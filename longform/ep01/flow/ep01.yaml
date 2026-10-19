@@ -1,0 +1,233 @@
+jobs:
+  - id: "01"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A huge wall of office monitors all showing a blank bright blue error screen, a dark room, dramatic No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "02"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A giant airport departures board made of rows of plain glowing red blocks with no writing, stranded travellers sitting on the floor No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "03"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A nurse writing on a paper clipboard under a blue-screened hospital computer No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "04"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A dark 911 call centre, operators staring at frozen blue screens, phones blinking No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "05"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The IT engineer kneeling in front of an endless row of PCs, holding a USB stick, exhausted The IT engineer is a small cute storybook cartoon young man with a big round head, short messy jet-black hair, round black glasses, simple dot eyes, rosy cheeks, a plain grey hoodie with no print, a navy blue lanyard with a white ID card and dark navy jeans. He appears only once in the picture. No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "06"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A tiny glowing file icon floating above a dark planet Earth covered in blue screens No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "07"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A sleek modern glass office tower at night with a red falcon-like silhouette glowing on the facade (no logo text) No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "08"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A stylized digital falcon guarding a laptop, red threat icons bouncing off a shield No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "09"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A map of the world with glowing connection lines to banks, planes, hospitals and stadiums No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "10"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A cutaway drawing of a computer like an onion, layer after layer, with a small glowing core at the very center No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "11"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A red beating heart made of circuit lines inside a computer case No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "12"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A conveyor of small glowing envelopes flying out from a server toward millions of tiny computers No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "13"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A calm office at night, computers glowing normally, coffee cup steaming No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "14"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A dark server room, a single clock on the wall at 4:09, one envelope leaving a server No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "15"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A small glowing document drifting through a data tunnel of light No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "16"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The same glowing document, a hairline crack of red light running across it No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "17"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A robot hand reaching into an empty box and the box exploding into red sparks No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "18"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A single office PC flashing to a bright blue error screen, an office worker in a white shirt leaning back in shock No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "19"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A loop of identical computers crashing in a circle, arrows going round and round No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "20"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A globe turning, Australia and Asia lighting up in blue, a city skyline in afternoon light with dark office windows No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "21"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A blue wave washing across a map of Europe at sunrise No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "22"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The New York skyline at dawn, a blue glow coming from every office window No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "23"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A packed airport hall, check-in desks with blue screens, agents writing boarding passes by hand No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "24"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A gate agent handing a handwritten boarding pass to a tired traveller No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "25"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A hospital corridor with doctors gathered around a paper chart, monitors blue behind them No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "26"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A dispatcher with a headset writing addresses on paper, a dark map screen behind her No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "27"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A supermarket queue at frozen card readers, and a TV studio with a black screen and confused presenters No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "28"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A grid of small scenes: trains, trading floor, delivery vans, TV studio, all with blue screens No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "29"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A crowd of people looking up at a giant blue screen in a city square, puzzled No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "30"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A war-room office at night, engineers pointing at red graphs on big screens No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "31"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A hand pressing a big red stop button, the clock on the wall at 5:27 No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "32"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A fresh laptop booting up normally with a calm green check mark No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "33"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A pile of crashed computers still glowing blue, a calendar page flipping No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "34"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A computer trying to grab a floating repair kit, but falling back into a blue screen before it reaches it No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "35"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The IT engineer in a dark office, lit only by blue screens, staring at hundreds of desks The IT engineer is a small cute storybook cartoon young man with a big round head, short messy jet-black hair, round black glasses, simple dot eyes, rosy cheeks, a plain grey hoodie with no print, a navy blue lanyard with a white ID card and dark navy jeans. He appears only once in the picture. No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "36"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A simple three-step diagram: power button, folder, trash can No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "37"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The IT engineer sitting at one PC with a keyboard, a line of hundreds of PCs behind him The IT engineer is a small cute storybook cartoon young man with a big round head, short messy jet-black hair, round black glasses, simple dot eyes, rosy cheeks, a plain grey hoodie with no print, a navy blue lanyard with a white ID card and dark navy jeans. He appears only once in the picture. No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "38"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A technician scrolling through an endlessly long printed paper list, a computer screen with a row of empty input boxes, frustrated No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "39"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A locked safe sitting inside another locked safe, a frustrated technician with a ring of keys No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "40"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A tired IT team eating pizza at 3 a.m. among stacks of laptops No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "41"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A giant pie chart with a thin blue slice, and a pile of millions of tiny computers next to it No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "42"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The thin blue slice of the pie lifting out and holding up an airport, a hospital and a bank No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "43"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A calendar with days crossed off, half the office lit back up, half still blue No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "44"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A crowded airport gate with long queues and a big departures board of plain red blocks, no logos, no writing No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "45"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. Two lawyers pulling on opposite ends of a long paper document in a courtroom No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "46"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A huge stack of gold coins collapsing like a tower No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "47"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A stock chart line diving sharply off a cliff No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "48"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A tiny gift card on a giant desk next to a mountain of crashed computers, no logos, no writing No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "49"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A man in a suit at a witness table, microphone, rows of lawmakers above him No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "50"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. Two puzzle pieces that almost fit, one with 20 notches and one with 21 No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "51"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A single giant arrow hitting every computer on Earth simultaneously, instead of a small trial group No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "52"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A staircase of small groups receiving updates one step at a time, green check marks No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "53"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A lone figure standing in front of a gigantic interconnected machine No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "54"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A vast web of strings connecting cities to just a few glowing hubs No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "55"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A single red spark racing along every string of the web at once No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "56"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. An ordinary office at dawn, an empty chair, one computer quietly downloading an update No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "57"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The IT engineer finally sitting down, sunrise outside, a mountain of fixed laptops beside him The IT engineer is a small cute storybook cartoon young man with a big round head, short messy jet-black hair, round black glasses, simple dot eyes, rosy cheeks, a plain grey hoodie with no print, a navy blue lanyard with a white ID card and dark navy jeans. He appears only once in the picture. No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "58"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A close-up of a laptop showing a loading circle, reflected in the eyes of a nervous user No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."

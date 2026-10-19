@@ -1,0 +1,13 @@
+jobs:
+  - id: "04"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A dark 911 call centre, operators staring at frozen blue screens, phones blinking No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "05"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. The IT engineer kneeling in front of an endless row of PCs, holding a USB stick, exhausted The IT engineer is a small cute storybook cartoon young man with a big round head, short messy jet-black hair, round black glasses, simple dot eyes, rosy cheeks, a plain grey hoodie with no print, a navy blue lanyard with a white ID card and dark navy jeans. He appears only once in the picture. No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
+  - id: "06"
+    type: image
+    ratio: "16:9"
+    prompt: "Horizontal 16:9 storybook illustration in a cozy hand-drawn 2D cartoon style, like a still from a gentle animated storybook film: soft slightly wobbly dark ink outlines, flat painted colour with soft brush shading and a light paper grain, muted dusk palette of slate blue, navy and grey-blue with warm amber and orange lamplight glowing in pools of light, a few tiny stars, calm quiet cozy mood, rich but simple detail, wide atmospheric composition with the subject small in a large setting. A tiny glowing file icon floating above a dark planet Earth covered in blue screens No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene."
