@@ -40,21 +40,19 @@ jobs:
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUT: ${{ inputs.out }}
+          REPO: ${{ github.repository }}
         run: |
-          set -e
-          trap 'echo "::error::save failed at line $LINENO: $BASH_COMMAND"' ERR
           echo "::notice::files: $(ls out | tr '\n' ' ')"
-          mkdir assets && cd assets
-          git init -q
-          git config user.name "longform-bot"; git config user.email "longform-bot@users.noreply.github.com"
-          git remote add store "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git fetch -q --depth 1 store longform-assets
-          git checkout -q -b longform-assets FETCH_HEAD
-          mkdir -p "${{ inputs.out }}"
-          ls ../out/*.jpg >/dev/null 2>&1 || { echo "::error::no pictures were made"; exit 1; }
-          cp ../out/*.jpg "${{ inputs.out }}/"
-          echo "::notice::saved to ${{ inputs.out }}: $(ls "${{ inputs.out }}" | wc -l) files"
-          git add -A
-          git commit -q -m "pictures ${{ inputs.out }}" || { echo "nothing new"; exit 0; }
-          git push -q store HEAD:longform-assets 2>&1 | sed "s/^/::notice::push: /"
-          test ${PIPESTATUS[0]} -eq 0
+          ls out/*.jpg >/dev/null 2>&1 || { echo "::error::no pictures were made"; exit 1; }
+          bad=0
+          for f in out/*.jpg; do
+            path="$OUT/$(basename "$f")"
+            sha=$(curl -s -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$REPO/contents/$path?ref=longform-assets" | jq -r '.sha // empty')
+            jq -n --arg m "pictures $path" --arg c "$(base64 -w0 "$f")" --arg s "$sha" \
+              '{message:$m, content:$c, branch:"longform-assets"} + (if $s=="" then {} else {sha:$s} end)' > body.json
+            code=$(curl -s -o resp.json -w "%{http_code}" -X PUT -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Content-Type: application/json" "https://api.github.com/repos/$REPO/contents/$path" --data @body.json)
+            if [ "$code" = 200 ] || [ "$code" = 201 ]; then echo "::notice::saved $path"; else bad=1; echo "::error::$path HTTP $code $(jq -r .message resp.json)"; fi
+          done
+          exit $bad
