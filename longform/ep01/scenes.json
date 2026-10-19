@@ -1,356 +1,414 @@
 {
  "title": "The Update That Broke the World",
  "style": "Horizontal 16:9 illustration in a clean flat 2D animated explainer cartoon style, bold clean outlines, simple shapes, muted palette of navy, cream, warm amber and electric blue, subtle paper grain, soft shadows, cinematic composition with the subject centered and space around the edges.",
- "character": "If a young IT engineer appears, he is always the same character: a tired young man in his twenties with short messy jet-black hair, thin black rectangular glasses, light skin, a plain mid-grey hoodie (#8A8F98) with no print, dark navy jeans, a navy blue lanyard (#1F3A6B) with a white ID card. Same face, hairstyle, glasses and clothes in every picture.",
- "suffix": "No text, no letters, no words, no numbers, no logos, no watermark, no captions, no speech bubbles. Only the people described, no extra characters in the foreground.",
+ "character": "The IT engineer looks exactly like this: a tired young man in his twenties with short messy jet-black hair, thin black rectangular glasses, light skin, a plain mid-grey hoodie (#8A8F98) with no print, dark navy jeans, a navy blue lanyard (#1F3A6B) with a white ID card. He appears only once in the picture.",
+ "suffix": "No text, no letters, no words, no numbers, no logos, no watermark, no captions, no signs with writing. Only the people described in the scene.",
  "scenes": [
   {
    "id": "01",
    "narration": "One update. Seventy-eight minutes. Eight and a half million computers… dead.",
    "picture": "A huge wall of office monitors all showing a blank bright blue error screen, a dark room, dramatic",
-   "onscreen": "8,500,000"
+   "onscreen": "8,500,000",
+   "has_character": false
   },
   {
    "id": "02",
    "narration": "Planes stopped flying.",
-   "picture": "A giant airport departures board full of red CANCELLED-style blocks, stranded travellers sitting on the floor",
-   "onscreen": ""
+   "picture": "A giant airport departures board made of rows of plain glowing red blocks with no writing, stranded travellers sitting on the floor",
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "03",
    "narration": "Hospitals went back to pen and paper.",
    "picture": "A nurse writing on a paper clipboard under a blue-screened hospital computer",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "04",
    "narration": "Emergency lines went silent.",
    "picture": "A dark 911 call centre, operators staring at frozen blue screens, phones blinking",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "05",
    "narration": "And the only fix… had to be done by hand. One computer at a time.",
-   "picture": "The IT guy kneeling in front of an endless row of PCs, holding a USB stick, exhausted",
-   "onscreen": "ONE BY ONE"
+   "picture": "The IT engineer kneeling in front of an endless row of PCs, holding a USB stick, exhausted",
+   "onscreen": "ONE BY ONE",
+   "has_character": true
   },
   {
    "id": "06",
    "narration": "This is the story of how a single file caused the biggest IT outage in history, and why it could happen again.",
    "picture": "A tiny glowing file icon floating above a dark planet Earth covered in blue screens",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "07",
    "narration": "To understand what happened, you first need to know a company most people had never heard of: CrowdStrike. It isn't a household name, but on that Friday it briefly became the most talked-about company on the planet.",
    "picture": "A sleek modern glass office tower at night with a red falcon-like silhouette glowing on the facade (no logo text)",
-   "onscreen": "CROWDSTRIKE"
+   "onscreen": "CROWDSTRIKE",
+   "has_character": false
   },
   {
    "id": "08",
    "narration": "CrowdStrike makes security software. Its main product, called Falcon, sits on computers and watches for hackers, viruses and ransomware. If something suspicious happens on a machine, Falcon is supposed to see it first and shut it down before any damage is done.",
    "picture": "A stylized digital falcon guarding a laptop, red threat icons bouncing off a shield",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "09",
    "narration": "Banks use it. Airlines use it. Hospitals, governments, TV stations and huge parts of the Fortune 500 use it. At the time, CrowdStrike was one of the biggest cybersecurity companies in the world, trusted by more than half of the Fortune 500.",
    "picture": "A map of the world with glowing connection lines to banks, planes, hospitals and stadiums",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "10",
    "narration": "And to stop modern attacks, Falcon doesn't live on the surface of Windows. It lives deep inside it, at the level called the kernel. That deep access is exactly what makes it powerful, because malware that hides in the kernel can only be caught from inside the kernel.",
-   "picture": "A cutaway drawing of a computer like an onion, with a glowing core labelled at the very center",
-   "onscreen": "THE KERNEL"
+   "picture": "A cutaway drawing of a computer like an onion, layer after layer, with a small glowing core at the very center",
+   "onscreen": "THE KERNEL",
+   "has_character": false
   },
   {
    "id": "11",
    "narration": "Think of the kernel as the heart of the operating system. Programs that run there have enormous power. And if they make a mistake, the whole computer goes down with them.",
    "picture": "A red beating heart made of circuit lines inside a computer case",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "12",
    "narration": "Hackers change their tricks every day, so CrowdStrike pushes small detection updates to its customers many times a day, automatically, without anyone clicking anything. Most of these are not full software updates. They are small instruction files that tell Falcon what new threats to look for.",
    "picture": "A conveyor of small glowing envelopes flying out from a server toward millions of tiny computers",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "13",
    "narration": "Usually, nobody notices. That was the whole point.",
    "picture": "A calm office at night, computers glowing normally, coffee cup steaming",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "14",
    "narration": "On Friday, July 19th, 2024, at 4:09 in the morning, universal time, one of those routine updates went out. In California it was still Thursday night. Most of CrowdStrike's own customers in America were asleep.",
    "picture": "A dark server room, a single clock on the wall at 4:09, one envelope leaving a server",
-   "onscreen": "04:09 UTC"
+   "onscreen": "04:09 UTC",
+   "has_character": false
   },
   {
    "id": "15",
    "narration": "It was a tiny configuration file, known internally as Channel File 291. It was meant to help Falcon spot a new kind of attack.",
-   "picture": "A small glowing document with the number 291 drifting through a data tunnel",
-   "onscreen": "FILE 291"
+   "picture": "A small glowing document drifting through a data tunnel of light",
+   "onscreen": "FILE 291",
+   "has_character": false
   },
   {
    "id": "16",
    "narration": "But inside that file was a hidden mistake.",
    "picture": "The same glowing document, a hairline crack of red light running across it",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "17",
    "narration": "Falcon's sensor tried to read a piece of data that simply wasn't there. In the kernel, that kind of error isn't a small glitch. It's fatal. Imagine a librarian told to fetch the twenty-first book from a shelf that only holds twenty. A normal program would just show an error. A kernel driver brings the whole building down.",
    "picture": "A robot hand reaching into an empty box and the box exploding into red sparks",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "18",
    "narration": "Every Windows computer that received the file crashed instantly into the Blue Screen of Death.",
-   "picture": "A single office PC flashing to a bright blue error screen, the worker leaning back in shock",
-   "onscreen": ""
+   "picture": "A single office PC flashing to a bright blue error screen, an office worker in a white shirt leaning back in shock",
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "19",
    "narration": "Then it restarted… loaded Falcon again… and crashed again. Over and over. Restarting didn't help, because the broken file was waiting for it every single time the computer came back on.",
    "picture": "A loop of identical computers crashing in a circle, arrows going round and round",
-   "onscreen": "CRASH LOOP"
+   "onscreen": "CRASH LOOP",
+   "has_character": false
   },
   {
    "id": "20",
    "narration": "Across Australia and Asia, where it was already Friday afternoon, offices went dark first. In Sydney and Melbourne, supermarket tills stopped working, TV news went off the air, and airline check-in desks froze in the middle of the busy Friday rush.",
    "picture": "A globe turning, Australia and Asia lighting up in blue, a city skyline in afternoon light with dark office windows",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "21",
    "narration": "Then the wave rolled west into Europe as people woke up and switched on their computers.",
    "picture": "A blue wave washing across a map of Europe at sunrise",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "22",
    "narration": "By the time America woke up, the damage was everywhere. And because it was a Friday in the middle of the summer travel season, millions of people were already on the move.",
    "picture": "The New York skyline at dawn, a blue glow coming from every office window",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "23",
    "narration": "Airports were hit hardest. Check-in systems, crew scheduling and boarding tools all ran on Windows machines that would not stay on. In the United States, several major airlines asked authorities to stop all of their flights from taking off at once.",
    "picture": "A packed airport hall, check-in desks with blue screens, agents writing boarding passes by hand",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "24",
    "narration": "Thousands of flights were cancelled around the world in a single day. Staff wrote boarding passes with markers.",
    "picture": "A gate agent handing a handwritten boarding pass to a tired traveller",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "25",
    "narration": "In hospitals, appointments were postponed and some surgeries were delayed as doctors lost access to their systems. Some hospitals cancelled non-urgent operations. Others switched to paper records, the way they worked decades ago.",
    "picture": "A hospital corridor with doctors gathered around a paper chart, monitors blue behind them",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "26",
    "narration": "In parts of the United States, emergency 911 systems went down, and dispatchers had to work around it.",
    "picture": "A dispatcher with a headset writing addresses on paper, a dark map screen behind her",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "27",
    "narration": "Banks and payment systems stumbled. Supermarket checkouts froze. A British news channel even went off the air live. Shoppers were told to pay in cash. Some couldn't pay at all.",
    "picture": "A supermarket queue at frozen card readers, and a TV studio with a black screen and confused presenters",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "28",
    "narration": "Train stations, stock traders, delivery companies, TV stations. A huge part of the modern world had quietly been running on the same software.",
    "picture": "A grid of small scenes: trains, trading floor, delivery vans, TV studio, all with blue screens",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "29",
    "narration": "And at that point, almost nobody knew why.",
    "picture": "A crowd of people looking up at a giant blue screen in a city square, puzzled",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "30",
    "narration": "Inside CrowdStrike, engineers quickly realized something was wrong with the new file. At first many people assumed it was a massive cyberattack. It wasn't. It was CrowdStrike's own update.",
    "picture": "A war-room office at night, engineers pointing at red graphs on big screens",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "31",
    "narration": "At 5:27, just seventy-eight minutes after it went out, they pulled the update back. CrowdStrike's chief executive went on television that morning and apologized publicly, saying it was a defect in a single content update, not a hack.",
    "picture": "A hand pressing a big red stop button, the clock on the wall at 5:27",
-   "onscreen": "05:27 · 78 MIN"
+   "onscreen": "05:27 · 78 MIN",
+   "has_character": false
   },
   {
    "id": "32",
    "narration": "Computers that were switched on after that were fine.",
    "picture": "A fresh laptop booting up normally with a calm green check mark",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "33",
    "narration": "But for the millions already caught in the crash loop, pulling the update changed nothing. For anyone whose computer had already crashed, the damage was done.",
    "picture": "A pile of crashed computers still glowing blue, a calendar page flipping",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "34",
    "narration": "They couldn't stay on long enough to download a fix. The poison was already inside.",
    "picture": "A computer trying to grab a floating repair kit, but falling back into a blue screen before it reaches it",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "35",
    "narration": "And this is where the real nightmare began.",
-   "picture": "The IT guy in a dark office, lit only by blue screens, staring at hundreds of desks",
-   "onscreen": ""
+   "picture": "The IT engineer in a dark office, lit only by blue screens, staring at hundreds of desks",
+   "onscreen": "",
+   "has_character": true
   },
   {
    "id": "36",
    "narration": "The official fix sounded simple. Start each computer in safe mode, find one bad file and delete it. In theory, that's a few minutes of work for one computer.",
    "picture": "A simple three-step diagram: power button, folder, trash can",
-   "onscreen": "3 STEPS"
+   "onscreen": "3 STEPS",
+   "has_character": false
   },
   {
    "id": "37",
    "narration": "But it had to be done in person, on each machine, by a human being. Now imagine doing it for ten thousand laptops spread across a hundred offices, while customers are shouting and flights are grounded.",
-   "picture": "The IT guy sitting at one PC with a keyboard, a line of hundreds of PCs behind him",
-   "onscreen": ""
+   "picture": "The IT engineer sitting at one PC with a keyboard, a line of hundreds of PCs behind him",
+   "onscreen": "",
+   "has_character": true
   },
   {
    "id": "38",
    "narration": "Many company laptops were also locked with encryption, so technicians first needed a long recovery key for every single one. Each key is forty-eight digits long, and typing it in one wrong number at a time on thousands of machines takes hours.",
-   "picture": "A screen asking for a long recovery key, a technician scrolling through a giant printed list of numbers",
-   "onscreen": "RECOVERY KEY"
+   "picture": "A technician scrolling through an endlessly long printed paper list, a computer screen with a row of empty input boxes, frustrated",
+   "onscreen": "RECOVERY KEY",
+   "has_character": false
   },
   {
    "id": "39",
    "narration": "In some companies, the computers that stored those recovery keys had crashed too.",
    "picture": "A locked safe sitting inside another locked safe, a frustrated technician with a ring of keys",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "40",
    "narration": "IT teams worked through the weekend. Some flew to remote offices. Others walked staff through the fix over the phone, line by line. Microsoft even released a special recovery tool to help companies fix machines faster, but every computer still needed a human hand.",
    "picture": "A tired IT team eating pizza at 3 a.m. among stacks of laptops",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "41",
    "narration": "Microsoft later estimated around eight and a half million Windows devices were affected, less than one percent of all Windows machines.",
    "picture": "A giant pie chart with a thin blue slice, and a pile of millions of tiny computers next to it",
-   "onscreen": "< 1% · 8.5M"
+   "onscreen": "< 1% · 8.5M",
+   "has_character": false
   },
   {
    "id": "42",
    "narration": "Less than one percent. But it was exactly the one percent the world depends on.",
    "picture": "The thin blue slice of the pie lifting out and holding up an airport, a hospital and a bank",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "43",
    "narration": "Most companies recovered within a few days. Some took much longer.",
    "picture": "A calendar with days crossed off, half the office lit back up, half still blue",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "44",
    "narration": "Delta Air Lines was hit the worst. Its crew-tracking system collapsed, and it cancelled around seven thousand flights over five days. For days, its planes and crews were in the wrong places, passengers slept in airports, and the US government opened an investigation into how the airline treated its customers.",
-   "picture": "A Delta-like airport gate (no logos) with long queues and a giant cancelled count on a board",
-   "onscreen": "~7,000 FLIGHTS"
+   "picture": "A crowded airport gate with long queues and a big departures board of plain red blocks, no logos, no writing",
+   "onscreen": "~7,000 FLIGHTS",
+   "has_character": false
   },
   {
    "id": "45",
    "narration": "Delta later said the chaos cost it about five hundred million dollars, and the airline and CrowdStrike ended up fighting each other in court.",
    "picture": "Two lawyers pulling on opposite ends of a long paper document in a courtroom",
-   "onscreen": "$500M"
+   "onscreen": "$500M",
+   "has_character": false
   },
   {
    "id": "46",
    "narration": "One insurance analysis estimated that the outage cost America's biggest companies around five point four billion dollars. That number doesn't include the time lost by millions of ordinary people stuck in airports, waiting rooms and checkout lines.",
    "picture": "A huge stack of gold coins collapsing like a tower",
-   "onscreen": "$5.4B"
+   "onscreen": "$5.4B",
+   "has_character": false
   },
   {
    "id": "47",
    "narration": "CrowdStrike's stock dropped about eleven percent that day.",
    "picture": "A stock chart line diving sharply off a cliff",
-   "onscreen": "-11%"
+   "onscreen": "-11%",
+   "has_character": false
   },
   {
    "id": "48",
    "narration": "And then came the apology… a ten-dollar food delivery gift card sent to some of its partners. Some of them reportedly didn't even work.",
-   "picture": "A tiny gift card on a giant desk next to a mountain of crashed computers, a sad trumpet emoji-like doodle (no logos)",
-   "onscreen": "$10"
+   "picture": "A tiny gift card on a giant desk next to a mountain of crashed computers, no logos, no writing",
+   "onscreen": "$10",
+   "has_character": false
   },
   {
    "id": "49",
    "narration": "Even a CrowdStrike executive was called before the US Congress to explain how this could happen.",
    "picture": "A man in a suit at a witness table, microphone, rows of lawmakers above him",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "50",
    "narration": "So how did one file get through? CrowdStrike's own report pointed to a mismatch: the sensor expected one number of data fields, but the update gave it another.",
    "picture": "Two puzzle pieces that almost fit, one with 20 notches and one with 21",
-   "onscreen": "20 vs 21"
+   "onscreen": "20 vs 21",
+   "has_character": false
   },
   {
    "id": "51",
    "narration": "Its testing tool missed the problem, and the update went out to everyone at once instead of a small test group first. In software, the golden rule is simple: test on a few computers first, then roll out to everyone. This time, the update went to everyone at the same moment.",
    "picture": "A single giant arrow hitting every computer on Earth simultaneously, instead of a small trial group",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "52",
    "narration": "Since then, CrowdStrike says it rolls out these updates in stages and lets customers control when they arrive.",
    "picture": "A staircase of small groups receiving updates one step at a time, green check marks",
-   "onscreen": "STAGED ROLLOUT"
+   "onscreen": "STAGED ROLLOUT",
+   "has_character": false
   },
   {
    "id": "53",
    "narration": "But the bigger lesson isn't about one company. It's about all of us.",
    "picture": "A lone figure standing in front of a gigantic interconnected machine",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "54",
    "narration": "Our airports, hospitals and banks now depend on a handful of software companies, running deep inside millions of machines, updating themselves silently every day. Experts call it a single point of failure: one weak link that can bring down a whole chain.",
    "picture": "A vast web of strings connecting cities to just a few glowing hubs",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "55",
    "narration": "That makes everything faster and safer, until one small mistake travels everywhere at the speed of the internet.",
    "picture": "A single red spark racing along every string of the web at once",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "56",
    "narration": "This time, it wasn't hackers. It wasn't a war. It was a routine update on a normal Friday morning.",
    "picture": "An ordinary office at dawn, an empty chair, one computer quietly downloading an update",
-   "onscreen": ""
+   "onscreen": "",
+   "has_character": false
   },
   {
    "id": "57",
    "narration": "It took seventy-eight minutes to stop the update… and days to clean up the mess.",
-   "picture": "The IT guy finally sitting down, sunrise outside, a mountain of fixed laptops beside him",
-   "onscreen": ""
+   "picture": "The IT engineer finally sitting down, sunrise outside, a mountain of fixed laptops beside him",
+   "onscreen": "",
+   "has_character": true
   },
   {
    "id": "58",
    "narration": "So the next time your computer says \"updating, please don't turn off\"… just remember what one tiny file once did to the entire world.",
    "picture": "A close-up of a laptop showing a loading circle, reflected in the eyes of a nervous user",
-   "onscreen": "FOLLOW"
+   "onscreen": "FOLLOW",
+   "has_character": false
   }
  ]
 }
