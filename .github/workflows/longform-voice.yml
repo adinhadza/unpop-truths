@@ -33,12 +33,21 @@ jobs:
       - name: Save to branch longform-assets
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OUT: ${{ inputs.out }}
+          REPO: ${{ github.repository }}
         run: |
-          set -e
-          mkdir assets && cd assets && git init -q
-          git config user.name "longform-bot"; git config user.email "longform-bot@users.noreply.github.com"
-          git remote add store "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git fetch -q --depth 1 store longform-assets && git checkout -q -b longform-assets FETCH_HEAD
-          mkdir -p "${{ inputs.out }}" && cp ../out/* "${{ inputs.out }}/"
-          git add -A && (git commit -q -m "voice ${{ inputs.out }}" || exit 0)
-          git push -q store HEAD:longform-assets
+          bad=0
+          for f in out/*; do
+            path="$OUT/$(basename "$f")"
+            sha=$(curl -s -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/repos/$REPO/contents/$path?ref=longform-assets" | jq -r '.sha // empty')
+            base64 -w0 "$f" > b64.txt
+            jq -n --arg m "voice $path" --rawfile c b64.txt --arg s "$sha" \
+              '{message:$m, content:$c, branch:"longform-assets"} + (if $s=="" then {} else {sha:$s} end)' > body.json
+            for try in 1 2 3; do
+              code=$(curl -s -o resp.json -w "%{http_code}" -X PUT -H "Authorization: Bearer $GH_TOKEN" \
+                -H "Content-Type: application/json" "https://api.github.com/repos/$REPO/contents/$path" --data @body.json)
+              [ "$code" = 200 ] || [ "$code" = 201 ] && break; sleep $((try*3))
+            done
+            if [ "$code" = 200 ] || [ "$code" = 201 ]; then echo "::notice::saved $path"; else bad=1; echo "::error::$path HTTP $code $(jq -r .message resp.json)"; fi
+          done
+          exit $bad
