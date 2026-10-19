@@ -62,11 +62,34 @@ def caption_chunks(text, n_words=6):
         chunks.append(" ".join(cur))
     return chunks
 
+# ---- trim a plain paper/white border some image models paint around the picture ----------
+def trim_border(im, tol=14, max_frac=0.12):
+    g = cv2.cvtColor(im, cv2.COLOR_BGR2GRAY).astype(np.int16)
+    h, w = g.shape
+    def plain(line, ref):
+        return np.abs(line - ref).mean() < tol and line.std() < tol
+    edges = {}
+    for side in ("top", "bottom", "left", "right"):
+        lim = int((h if side in ("top", "bottom") else w) * max_frac); n = 0
+        ref = {"top": g[0], "bottom": g[-1], "left": g[:, 0], "right": g[:, -1]}[side].mean()
+        if ref < 170:                              # only light paper/white borders, never dark sky
+            edges[side] = 0; continue
+        while n < lim:
+            line = {"top": g[n], "bottom": g[h - 1 - n], "left": g[:, n], "right": g[:, w - 1 - n]}[side]
+            if not plain(line, ref):
+                break
+            n += 1
+        edges[side] = n + (3 if n else 0)          # a few px more to lose the ink outline
+    t, b, l, r = edges["top"], edges["bottom"], edges["left"], edges["right"]
+    if sum(1 for v in (t, b, l, r) if v) < 3:     # a real frame goes round the picture
+        return im
+    return im[t:h - b, l:w - r]
+
 # ---- smooth zoom-out ---------------------------------------------------------------------
 def smooth_zoom(img, frames, zstart, vf, out):
     """Zoom from zstart to 1.0 over `frames`, centred. Each frame is one affine resample of the
     original picture with float scale/offset, so the motion has no whole-pixel steps."""
-    src = cv2.imread(img, cv2.IMREAD_COLOR)
+    src = trim_border(cv2.imread(img, cv2.IMREAD_COLOR))
     sh, sw = src.shape[:2]
     cover = max(W / sw, H / sh)                 # fill 16:9 (1344x768 is a hair wider)
     ff = subprocess.Popen(["ffmpeg", "-v", "error", "-y", "-f", "rawvideo", "-pix_fmt", "bgr24", "-s", f"{W}x{H}",
