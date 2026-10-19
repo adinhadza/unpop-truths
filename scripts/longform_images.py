@@ -4,7 +4,7 @@ Reads a scenes JSON ({"style": "...", "character": "...", "scenes": [{"id": "01"
 and saves one 16:9 picture per scene. Uses Pollinations (free, no key). If CF_ACCOUNT_ID and
 CF_API_TOKEN are set, Cloudflare Workers AI (free daily allowance) is used as a fallback.
 usage: longform_images.py scenes.json out_dir [--only 01,02] [--width 1344 --height 768]"""
-import argparse, json, os, sys, time, urllib.parse, urllib.request, base64
+import argparse, json, os, sys, time, urllib.parse, urllib.request, urllib.error, base64
 
 ap = argparse.ArgumentParser()
 ap.add_argument("scenes"); ap.add_argument("out")
@@ -36,12 +36,26 @@ def cloudflare(p, seed):
     acc, tok = os.environ.get("CF_ACCOUNT_ID"), os.environ.get("CF_API_TOKEN")
     if not (acc and tok):
         raise RuntimeError("no Cloudflare key")
+    model = os.environ.get("CF_IMAGE_MODEL", "@cf/black-forest-labs/flux-2-klein-4b")
+    fields = {"prompt": p[:2000], "width": str(a.width), "height": str(a.height), "seed": str(seed)}
+    boundary = "----lf%d" % seed
+    body = b"".join(f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n'.encode() for k, v in fields.items())
+    body += f"--{boundary}--\r\n".encode()
     req = urllib.request.Request(
-        f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/@cf/black-forest-labs/flux-1-schnell",
-        data=json.dumps({"prompt": p[:2000], "steps": 6, "seed": seed}).encode(),
-        headers={"Authorization": f"Bearer {tok}", "Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=120) as r:
-        return base64.b64decode(json.load(r)["result"]["image"])
+        f"https://api.cloudflare.com/client/v4/accounts/{acc}/ai/run/{model}", data=body,
+        headers={"Authorization": f"Bearer {tok}", "Content-Type": f"multipart/form-data; boundary={boundary}"})
+    try:
+        with urllib.request.urlopen(req, timeout=180) as r:
+            raw = r.read(); ctype = r.headers.get("Content-Type", "")
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"HTTP {e.code}: {e.read()[:300]!r}")
+    if ctype.startswith("image/"):
+        return raw
+    j = json.loads(raw)
+    img = (j.get("result") or {}).get("image") or j.get("image")
+    if not img:
+        raise RuntimeError("no image in reply: " + raw[:300].decode(errors="ignore"))
+    return base64.b64decode(img)
 
 fails = []
 for n, s in enumerate(job["scenes"]):
@@ -52,7 +66,7 @@ for n, s in enumerate(job["scenes"]):
     p = prompt_for(s); seed = int(s.get("seed", 1000 + n))
     ok = False
     for attempt in range(4):
-        for src in (pollinations, cloudflare):
+        for src in ((cloudflare,) if os.environ.get('CF_API_TOKEN') else (pollinations,)):
             try:
                 data = src(p, seed + attempt)
                 if len(data) < 20000:
@@ -66,6 +80,6 @@ for n, s in enumerate(job["scenes"]):
         time.sleep(15 * (attempt + 1))
     if not ok:
         fails.append(sid)
-    time.sleep(6)   # stay friendly with the free service
+    time.sleep(1 if os.environ.get('CF_API_TOKEN') else 6)
 print("failed:", fails)
 sys.exit(1 if fails else 0)

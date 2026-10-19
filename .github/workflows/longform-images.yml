@@ -35,7 +35,7 @@ jobs:
         env:
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-        run: python3 scripts/longform_images.py "${{ inputs.scenes }}" out --only "${{ inputs.only }}"
+        run: python3 scripts/longform_images.py "${{ inputs.scenes }}" out --only "${{ inputs.only }}" 2>&1 | tee img.log; grep -E "failed|ok via" img.log | tail -5 | sed "s/^/::notice::/"; test ${PIPESTATUS[0]} -eq 0
       - name: Save to branch longform-assets
         if: always()
         env:
@@ -51,7 +51,8 @@ jobs:
           git fetch -q --depth 1 store longform-assets
           git checkout -q -b longform-assets FETCH_HEAD
           mkdir -p "${{ inputs.out }}"
-          cp ../out/*.jpg "${{ inputs.out }}/" 2>/dev/null || true
+          cp ../out/*.jpg "${{ inputs.out }}/"
+          echo "::notice::saved to ${{ inputs.out }}: $(ls "${{ inputs.out }}" | wc -l) files"
           git add -A
           git commit -q -m "pictures ${{ inputs.out }}" || { echo "nothing new"; exit 0; }
           git push -q store HEAD:longform-assets 2>&1 | sed "s/^/::notice::push: /"
