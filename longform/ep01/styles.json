@@ -1,9 +1,21 @@
 {
-  "style": "",
-  "character": "",
-  "scenes": [
-    {"id": "style-A", "seed": 7, "picture": "Horizontal 16:9 illustration in a clean flat 2D animated explainer cartoon style, bold clean outlines, simple shapes, muted palette of navy, cream, warm gold and brick red, subtle paper grain. Henry Ford in 1914, a lean man with a narrow face, grey hair, dark three-piece suit and bowler hat, slamming a thick stack of dollar bills onto a wooden office desk, low camera angle, tall factory windows glowing warm orange behind him, smoke stacks outside."},
-    {"id": "style-B", "seed": 7, "picture": "Horizontal 16:9 illustration in a vintage hand-drawn graphic novel style, black ink linework, cross-hatching, halftone shading, sepia and amber palette with deep shadows, aged paper texture. Henry Ford in 1914, a lean man with a narrow face, grey hair, dark three-piece suit and bowler hat, slamming a thick stack of dollar bills onto a wooden office desk, low camera angle, tall factory windows glowing behind him, smoke stacks outside."},
-    {"id": "style-C", "seed": 7, "picture": "Horizontal 16:9 still from a stylized 3D animated family movie, soft rounded characters, warm cinematic lighting, rich colors, smooth matte materials, shallow depth of field. Henry Ford in 1914, a lean man with a narrow face, grey hair, dark three-piece suit and bowler hat, slamming a thick stack of dollar bills onto a wooden office desk, low camera angle, tall factory windows glowing warm orange behind him, smoke stacks outside."}
-  ]
+ "style": "",
+ "character": "",
+ "scenes": [
+  {
+   "id": "style-A",
+   "seed": 11,
+   "picture": "Horizontal 16:9 illustration, clean flat 2D animated explainer cartoon style, bold outlines, simple shapes, muted navy, cream, amber and electric blue palette, subtle paper grain. A dark server room, a single clock on the wall at 4:09, one envelope leaving a server, a tired young IT engineer with messy dark hair, glasses, grey hoodie and lanyard."
+  },
+  {
+   "id": "style-B",
+   "seed": 11,
+   "picture": "Horizontal 16:9 illustration, vintage hand-drawn graphic novel style, black ink linework, cross-hatching, halftone shading, limited palette of deep blue and amber, aged paper texture. A dark server room, a single clock on the wall at 4:09, one envelope leaving a server, a tired young IT engineer with messy dark hair, glasses, grey hoodie and lanyard."
+  },
+  {
+   "id": "style-C",
+   "seed": 11,
+   "picture": "Horizontal 16:9 still from a stylized 3D animated movie, soft rounded characters, cinematic blue and amber lighting, smooth matte materials, shallow depth of field. A dark server room, a single clock on the wall at 4:09, one envelope leaving a server, a tired young IT engineer with messy dark hair, glasses, grey hoodie and lanyard."
+  }
+ ]
 }
