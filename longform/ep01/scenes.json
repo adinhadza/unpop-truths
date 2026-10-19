@@ -1,8 +1,8 @@
 {
  "title": "The Update That Broke the World",
  "style": "Horizontal 16:9 illustration in a clean flat 2D animated explainer cartoon style, bold clean outlines, simple shapes, muted palette of navy, cream, warm amber and electric blue, subtle paper grain, soft shadows, cinematic composition with the subject centered and space around the edges.",
- "character": "If a young IT engineer appears, he is a tired young man with messy dark hair, glasses, a grey hoodie and a company lanyard.",
- "suffix": "No text, no letters, no words, no numbers, no logos, no watermark.",
+ "character": "If a young IT engineer appears, he is always the same character: a tired young man in his twenties with short messy jet-black hair, thin black rectangular glasses, light skin, a plain mid-grey hoodie (#8A8F98) with no print, dark navy jeans, a navy blue lanyard (#1F3A6B) with a white ID card. Same face, hairstyle, glasses and clothes in every picture.",
+ "suffix": "No text, no letters, no words, no numbers, no logos, no watermark, no captions, no speech bubbles. Only the people described, no extra characters in the foreground.",
  "scenes": [
   {
    "id": "01",
